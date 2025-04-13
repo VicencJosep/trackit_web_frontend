@@ -1,0 +1,88 @@
+.loginContainer {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+    color: #333; /* Asegura que el texto dentro del contenedor tenga un color fijo */
+}
+
+.loginContainer:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+}
+
+h1 {
+    color: #333; /* Asegura que el título "Login" tenga un color fijo */
+    font-size: 24px;
+    text-align: center;
+}
+
+.loginForm {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+label {
+    font-size: 14px;
+    color: #333; /* Asegura que las etiquetas tengan un color fijo */
+    font-weight: bold;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    color: #333; /* Asegura que el texto dentro de los inputs tenga un color fijo */
+}
+
+input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.submitButton {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+    background-color: #0056b3;
+}
+
+.submitButton:active {
+    background-color: #004080;
+}
+.registerText {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.registerLink {
+    color: #007bff;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.registerLink:hover {
+    color: #0056b3;
+}

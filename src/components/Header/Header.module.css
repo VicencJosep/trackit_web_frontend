@@ -1,0 +1,89 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(144, 238, 144, 0.85); /* verde claro con opacidad */
+    padding: 1rem 2rem;
+    color: white;
+    position: relative;
+    backdrop-filter: blur(8px); /* efecto cristalino */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    z-index: 100;
+    transition: background-color 0.3s ease;
+  }
+  
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .logo {
+    height: 48px;
+    width: 48px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid white;
+  }
+  
+  .title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    color: #60a5fa; /* azul claro */
+    padding-left: 700px;
+  }
+  
+  .nav {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    right: 2rem;
+    background-color: rgba(30, 58, 138, 0.9); /* azul oscuro con opacidad */
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+  }
+  
+  .navLink {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    margin: 0.5rem 0;
+    transition: color 0.2s ease;
+  }
+  
+  .navLink:hover {
+    color: #93c5fd;
+  }
+  
+  .menuButton {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+  
+  /* Menú horizontal en pantallas grandes */
+  @media (min-width: 768px) {
+    .nav {
+      display: flex !important;
+      position: static;
+      flex-direction: row;
+      background-color: transparent;
+      padding: 0;
+      box-shadow: none;
+    }
+  
+    .navLink {
+      margin: 0 1rem;
+    }
+  
+    .menuButton {
+      display: none;
+    }
+  }
+  
