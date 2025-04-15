@@ -4,7 +4,7 @@ import { User } from '../types/index';
 // Fetch all users
 export const fetchUsers = async (): Promise<User[]> => {
     try {
-        const response = await axios.get<User[]>('http://localhost:9000/api/Users');
+        const response = await axios.get<User[]>('http://localhost:4000/api/Users');
         return response.data;
     } catch (error) {
         console.error('Error fetching users:', error);
@@ -15,7 +15,7 @@ export const fetchUsers = async (): Promise<User[]> => {
 // Add a new user
 export const addUser = async (newUser: User): Promise<User> => {
     try {
-        const response = await axios.post<User>('http://localhost:9000/api/Users', newUser);
+        const response = await axios.post<User>('http://localhost:4000/api/Users', newUser);
         if (response.status !== 200 && response.status !== 201) {
             throw new Error('Failed to add user');
         }
@@ -29,7 +29,7 @@ export const addUser = async (newUser: User): Promise<User> => {
 // Update an existing user
 export const updateUser = async (updatedUser: User): Promise<User> => {
     try {
-        const response = await axios.put<User>(`http://localhost:9000/api/Users/${updatedUser._id}`, updatedUser);
+        const response = await axios.put<User>(`http://localhost:4000/api/Users/${updatedUser._id}`, updatedUser);
 
         if (response.status !== 200) {
             throw new Error('Failed to update user');
@@ -44,7 +44,7 @@ export const updateUser = async (updatedUser: User): Promise<User> => {
 // Log in a user
 export const LogIn = async (email: string, password: string): Promise<User> => {
     try {
-        const response = await axios.post<User>('http://localhost:9000/api/Users/login', { email, password });
+        const response = await axios.post<User>('http://localhost:4000/api/Users/login', { email, password });
         if (response.status !== 200) {
             throw new Error('Failed to log in');
         }

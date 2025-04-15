@@ -2,7 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Register.module.css';
 
-const Register: React.FC = () => {
+interface FormProps {
+    onRegister: (data: { name: string; email: string; password: string; phone: string }) => void;
+}
+
+const Register: React.FC<FormProps> = ({ onRegister }) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -28,7 +32,7 @@ const Register: React.FC = () => {
             alert('Please fill in all fields.');
             return;
         }
-
+        onRegister(formData); // Maneja el registro del usuario
         console.log('Registering user:', formData);
 
         // Aquí podrías hacer la llamada al backend para registrar el usuario
