@@ -1,0 +1,67 @@
+/* Warehouse.module.css */
+
+.container {
+    padding: 2rem;
+    background-color: #f4f7fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin: 2rem auto;
+    width: 90%;
+    max-width: 1200px;
+  }
+  
+  .title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+  
+  .packagesContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .packageCard {
+    background-color: #ffffff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 150px;
+  }
+  
+  .packageCard:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .packageTitle {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+  
+  .packageInfo {
+    font-size: 0.9rem;
+    color: #777;
+  }
+  
+  .packageItem {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  
+  .packageItem:hover {
+    color: #007bff;
+    text-decoration: underline;
+  }
+  

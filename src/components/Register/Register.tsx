@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Register.module.css';
+import { User } from '../../types'; // Asegúrate de tener la interfaz User definida en tu proyecto
 
 interface FormProps {
     onRegister: (data: { name: string; email: string; password: string; phone: string }) => void;
@@ -32,12 +33,12 @@ const Register: React.FC<FormProps> = ({ onRegister }) => {
             alert('Please fill in all fields.');
             return;
         }
+
         onRegister(formData); // Maneja el registro del usuario
         console.log('Registering user:', formData);
 
-        // Aquí podrías hacer la llamada al backend para registrar el usuario
-
-        navigate('/login'); // Redirige al login después del registro
+        // Redirige al usuario al formulario de Home y pasa el usuario como parámetro
+        navigate('/home', { state: { user: formData } });
     };
 
     return (

@@ -54,3 +54,16 @@ export const LogIn = async (email: string, password: string): Promise<User> => {
         throw error;
     }
 };
+
+export const GetUserPackets = async (userId: string): Promise<any[]> => {
+    try {
+        const response = await axios.get<any[]>(`http://localhost:4000/api/Users/${userId}/packets`);
+        if (response.status !== 200) {
+            throw new Error('Failed to fetch user packets');
+        }
+        return response.data; // Devuelve los paquetes del usuario
+    } catch (error) {
+        console.error('Error fetching user packets:', error);
+        throw error;
+    }
+};
