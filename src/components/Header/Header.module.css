@@ -2,88 +2,160 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(144, 238, 144, 0.85); /* verde claro con opacidad */
+    background-color: rgba(30, 41, 59, 0.9); /* Azul oscuro con opacidad */
     padding: 1rem 2rem;
     color: white;
-    position: relative;
-    backdrop-filter: blur(8px); /* efecto cristalino */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    position: sticky;
+    top: 0;
     z-index: 100;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px); /* Efecto cristalino */
     transition: background-color 0.3s ease;
-  }
-  
-  .brand {
+}
+
+.brand {
     display: flex;
     align-items: center;
     gap: 1rem;
-  }
-  
-  .logo {
+}
+
+.logo {
     height: 48px;
     width: 48px;
     object-fit: cover;
     border-radius: 50%;
     border: 2px solid white;
-  }
-  
-  .title {
+}
+
+.title {
     font-size: 1.8rem;
     font-weight: bold;
     letter-spacing: 1px;
-    color: #60a5fa; /* azul claro */
-    padding-left: 700px;
-  }
-  
-  .nav {
+    color: #60a5fa; /* Azul claro */
+}
+
+.highlight {
+    color: #38bdf8; /* Azul más claro */
+}
+
+.nav {
     display: none;
     flex-direction: column;
     position: absolute;
     top: 100%;
     right: 2rem;
-    background-color: rgba(30, 58, 138, 0.9); /* azul oscuro con opacidad */
+    background-color: rgba(30, 41, 59, 0.95); /* Azul oscuro */
     border-radius: 0.5rem;
     padding: 1rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(4px);
-  }
-  
-  .navLink {
+    transition: transform 0.3s ease;
+}
+
+.nav.open {
+    display: flex;
+}
+
+.navLink {
     color: white;
     text-decoration: none;
     font-weight: 500;
     margin: 0.5rem 0;
     transition: color 0.2s ease;
-  }
-  
-  .navLink:hover {
-    color: #93c5fd;
-  }
-  
-  .menuButton {
+}
+
+.navLink:hover {
+    color: #93c5fd; /* Azul claro al pasar el mouse */
+}
+
+.userMenu {
+    position: relative;
+}
+
+.userButton {
     background: none;
     border: none;
     color: white;
     cursor: pointer;
-  }
-  
-  /* Menú horizontal en pantallas grandes */
-  @media (min-width: 768px) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    padding: 0.5rem;
+    transition: background-color 0.3s ease;
+}
+
+.userButton:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.userDropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: rgba(30, 41, 59, 0.95); /* Azul oscuro */
+    border-radius: 0.5rem;
+    padding: 1rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(4px);
+    z-index: 200;
+}
+
+.dropdownItem {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    margin: 0.5rem 0;
+    display: block;
+    transition: color 0.2s ease;
+}
+
+.dropdownItem:hover {
+    color: #93c5fd; /* Azul claro al pasar el mouse */
+}
+
+.logoutButton {
+    background-color: #ef4444; /* Rojo */
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    text-align: center;
+}
+
+.logoutButton:hover {
+    background-color: #dc2626; /* Rojo más oscuro */
+}
+
+.menuButton {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+@media (min-width: 768px) {
     .nav {
-      display: flex !important;
-      position: static;
-      flex-direction: row;
-      background-color: transparent;
-      padding: 0;
-      box-shadow: none;
+        display: flex !important;
+        position: static;
+        flex-direction: row;
+        background-color: transparent;
+        padding: 0;
+        box-shadow: none;
     }
-  
+
     .navLink {
-      margin: 0 1rem;
+        margin: 0 1rem;
     }
-  
+
     .menuButton {
-      display: none;
+        display: none;
     }
-  }
-  
+}

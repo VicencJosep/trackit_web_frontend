@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Register.module.css';
+import { registerUser } from '../../services/auth.service';
 
-interface FormProps {
-    onRegister: (data: { name: string; email: string; password: string; phone: string }) => void;
-}
-
-const Register: React.FC<FormProps> = ({ onRegister }) => {
+const Register: React.FC = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -24,7 +21,7 @@ const Register: React.FC<FormProps> = ({ onRegister }) => {
         }));
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const { name, email, password, phone } = formData;
@@ -32,12 +29,16 @@ const Register: React.FC<FormProps> = ({ onRegister }) => {
             alert('Please fill in all fields.');
             return;
         }
-        onRegister(formData); // Maneja el registro del usuario
-        console.log('Registering user:', formData);
 
-        // Aquí podrías hacer la llamada al backend para registrar el usuario
-
-        navigate('/login'); // Redirige al login después del registro
+        try {
+            const newUser = await registerUser(formData);
+            console.log('User registered successfully:', newUser);
+            alert('Registration successful! You can now log in.');
+            navigate('/login'); // Redirect to login after successful registration
+        } catch (error) {
+            console.error('Error registering user:', error);
+            alert('Registration failed. Please try again.');
+        }
     };
 
     return (

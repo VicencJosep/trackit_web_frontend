@@ -12,7 +12,7 @@ export const fetchUsers = async (): Promise<User[]> => {
     }
 };
 
-// Add a new user
+/*
 export const addUser = async (newUser: User): Promise<User> => {
     try {
         const response = await axios.post<User>('http://localhost:4000/api/Users', newUser);
@@ -23,8 +23,9 @@ export const addUser = async (newUser: User): Promise<User> => {
     } catch (error) {
         console.error('Error adding user:', error);
         throw error; 
-    }
+    }Ñ
 };
+*/
 
 // Update an existing user
 export const updateUser = async (updatedUser: User): Promise<User> => {
@@ -41,16 +42,6 @@ export const updateUser = async (updatedUser: User): Promise<User> => {
     }
 };
 
-// Log in a user
-export const LogIn = async (email: string, password: string): Promise<User> => {
-    try {
-        const response = await axios.post<User>('http://localhost:4000/api/Users/login', { email, password });
-        if (response.status !== 200) {
-            throw new Error('Failed to log in');
-        }
-        return response.data; // Devuelve los datos del usuario
-    } catch (error) {
-        console.error('Error logging in:', error);
-        throw error;
-    }
-};
+
+
+

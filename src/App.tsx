@@ -4,21 +4,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import Login from './components/Login';
 import Header from './components/Header';
 import Register from './components/Register/Register';
-import { fetchUsers, LogIn, addUser } from './services/user.service';
+import Dashboard from './components/Dashboard/Dashboard';
+import { LogIn } from './services/auth.service';
 
 function App() {
-  // Maneja el registro de usuarios
-  const handleRegister = async (data: { name: string; email: string; password: string; phone: string }) => {
-    try {
-      const newUser = await addUser({ ...data, available: true, packets: [] });
-      console.log('User registered successfully:', newUser);
-      alert('Registration successful! You can now log in.');
-    } catch (error) {
-      console.error('Error registering user:', error);
-      alert('Registration failed. Please try again.');
-    }
-  };
-
   // Maneja el inicio de sesión
   const handleLogin = async (email: string, password: string) => {
     try {
@@ -37,8 +26,10 @@ function App() {
         <main>
           <Routes>
             <Route path="/" element={<Navigate to="/login" />} />
-            <Route path="/login" element={<Login onLogin={({ email, password }) => handleLogin(email, password)} />} />
-            <Route path="/register" element={<Register onRegister={handleRegister} />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            {/* Puedes agregar más rutas aquí según sea necesario */}
           </Routes>
         </main>
       </div>
