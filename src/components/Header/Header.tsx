@@ -1,21 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import styles from "./Header.module.css";
 import { User } from "lucide-react";
-import UserProfile from "../UserProfile"; // Importamos el componente UserProfile
+import UserProfile from "../UserProfile";
+import { fetchUserData } from "../../services/user.service";
+import { User as UserType } from "../../types/index"; // Importamos el tipo User
 
 const Header = () => {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [showProfile, setShowProfile] = useState(false); // Estado para mostrar el perfil
+  const [showProfile, setShowProfile] = useState(false);
+  const [userData, setUserData] = useState<UserType | null>(null); // Definimos el tipo del estado
   const location = useLocation();
 
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
-    window.location.href = "/login"; // Redirige al login después de cerrar sesión
+    window.location.href = "/login";
   };
 
-  // Ocultar el menú de usuario si estamos en /login o /register
+  const handleShowProfile = async () => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        const data = await fetchUserData(token); // Llamamos a la función para obtener los datos del usuario
+        setUserData(data); // Ahora TypeScript sabe que data es del tipo User
+        setShowProfile(true);
+        setUserMenuOpen(false);
+      } else {
+        console.error("No access token found");
+      }
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+
   const isAuthPage = location.pathname === "/login" || location.pathname === "/register";
 
   return (
@@ -37,13 +55,7 @@ const Header = () => {
           </button>
           {userMenuOpen && (
             <div className={styles.userDropdown}>
-              <button
-                onClick={() => {
-                  setShowProfile(true); // Mostrar el perfil al hacer clic
-                  setUserMenuOpen(false); // Cerrar el menú desplegable
-                }}
-                className={styles.dropdownItem}
-              >
+              <button onClick={handleShowProfile} className={styles.dropdownItem}>
                 Perfil
               </button>
               <a href="/settings" className={styles.dropdownItem}>
@@ -58,7 +70,12 @@ const Header = () => {
       )}
 
       {/* Mostrar el componente UserProfile si showProfile es true */}
-      {showProfile && <UserProfile />}
+      {showProfile && userData && (
+        <UserProfile
+          user={userData}
+          onClose={() => setShowProfile(false)} // Cerrar el perfil
+        />
+      )}
     </header>
   );
 };

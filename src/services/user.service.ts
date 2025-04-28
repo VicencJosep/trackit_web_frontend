@@ -12,20 +12,20 @@ export const fetchUsers = async (): Promise<User[]> => {
     }
 };
 
-/*
-export const addUser = async (newUser: User): Promise<User> => {
+// Fetch user data by token
+export const fetchUserData = async (token: string): Promise<User> => {
     try {
-        const response = await axios.post<User>('http://localhost:4000/api/Users', newUser);
-        if (response.status !== 200 && response.status !== 201) {
-            throw new Error('Failed to add user');
-        }
+        const response = await axios.get<User>('http://localhost:4000/api/Users/me', {
+            headers: {
+                Authorization: `Bearer ${token}`, // Enviamos el token en el encabezado
+            },
+        });
         return response.data;
     } catch (error) {
-        console.error('Error adding user:', error);
-        throw error; 
-    }Ñ
+        console.error('Error fetching user data:', error);
+        throw error;
+    }
 };
-*/
 
 // Update an existing user
 export const updateUser = async (updatedUser: User): Promise<User> => {
