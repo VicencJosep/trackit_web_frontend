@@ -1,27 +1,40 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // <-- Importa useNavigate
+import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
+import { LogIn } from '../../services/auth.service'; // Importa el servicio de login
+import { fetchUserData } from '../../services/user.service';
 
-interface FormProps {
-    onLogin: (credentials: { email: string; password: string }) => void;
-}
-
-const Login: React.FC<FormProps> = ({ onLogin }) => {
+const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const navigate = useNavigate(); // <-- Hook para redirección
+    const navigate = useNavigate();
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (!email || !password) {
             alert('Please fill in both email and password.');
             return;
         }
-        onLogin({ email, password });
+
+        try {
+            // Llama al servicio de login
+            const { accessToken, refreshToken } = await LogIn(email, password);
+            const data = await fetchUserData(accessToken); // Llama a la función para obtener los datos del usuario
+            // Almacena los tokens en localStorage
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+
+            alert('Login successful!');
+            navigate('/home', { state: { user: data } });
+
+        } catch (error) {
+            console.error('Login failed:', error);
+            alert('Invalid credentials. Please try again.');
+        }
     };
 
     const handleGoToRegister = () => {
-        navigate('/register'); // <-- Cambia según tu ruta para Register
+        navigate('/register');
     };
 
     return (

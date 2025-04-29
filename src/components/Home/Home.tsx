@@ -8,6 +8,7 @@ import { User } from '../../types';
 const Home: React.FC = () => {
   const location = useLocation();
   const user = location.state?.user as User | undefined;
+  console.log('User from location state:', user); // Verificamos el usuario recibido
 
   if (!user) {
     return <Navigate to="/login" replace />;

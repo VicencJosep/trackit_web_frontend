@@ -12,17 +12,18 @@ export const fetchUsers = async (): Promise<User[]> => {
     }
 };
 
-// Add a new user
-export const addUser = async (newUser: User): Promise<User> => {
+// Fetch user data by token
+export const fetchUserData = async (token: string): Promise<User> => {
     try {
-        const response = await axios.post<User>('http://localhost:4000/api/Users', newUser);
-        if (response.status !== 200 && response.status !== 201) {
-            throw new Error('Failed to add user');
-        }
+        const response = await axios.get<User>('http://localhost:4000/api/Users/me', {
+            headers: {
+                Authorization: `Bearer ${token}`, // Enviamos el token en el encabezado
+            },
+        });
         return response.data;
     } catch (error) {
-        console.error('Error adding user:', error);
-        throw error; 
+        console.error('Error fetching user data:', error);
+        throw error;
     }
 };
 
@@ -41,19 +42,6 @@ export const updateUser = async (updatedUser: User): Promise<User> => {
     }
 };
 
-// Log in a user
-export const LogIn = async (email: string, password: string): Promise<User> => {
-    try {
-        const response = await axios.post<User>('http://localhost:4000/api/Users/login', { email, password });
-        if (response.status !== 200) {
-            throw new Error('Failed to log in');
-        }
-        return response.data; // Devuelve los datos del usuario
-    } catch (error) {
-        console.error('Error logging in:', error);
-        throw error;
-    }
-};
 
 export const GetUserPackets = async (userId: string): Promise<any[]> => {
     try {
