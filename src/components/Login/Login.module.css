@@ -71,6 +71,7 @@ input:focus {
 .submitButton:active {
     background-color: #004080;
 }
+
 .registerText {
     margin-top: 20px;
     text-align: center;
@@ -85,4 +86,36 @@ input:focus {
 
 .registerLink:hover {
     color: #0056b3;
+}
+
+.googleLogin {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.googleButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #555555;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.googleButton:hover {
+    background-color: #f7f7f7;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.googleIcon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
 }

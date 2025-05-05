@@ -6,6 +6,8 @@ export interface User {
     phone: string;
     available: boolean;
     packets: string[];
+    birthDate: Date;
+    isProfileComplete: boolean;
 }
 
 export interface Packet{

@@ -1,40 +1,56 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
-import { LogIn } from '../../services/auth.service'; // Importa el servicio de login
-import { fetchUserData } from '../../services/user.service';
+import { LogIn } from '../../services/auth.service'; // Asumiendo que tienes un servicio para el login
+import { fetchUserData } from '../../services/user.service'; // Servicio para obtener los datos del usuario
 
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        if (!email || !password) {
-            alert('Please fill in both email and password.');
+        setErrorMessage('');
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setErrorMessage('Please enter a valid email address.');
             return;
         }
 
+        if (!email || !password) {
+            setErrorMessage('Please fill in both email and password.');
+            return;
+        }
+
+        setIsSubmitting(true);
+
         try {
-            // Llama al servicio de login
             const { accessToken, refreshToken } = await LogIn(email, password);
-            const data = await fetchUserData(accessToken); // Llama a la función para obtener los datos del usuario
-            // Almacena los tokens en localStorage
+            const data = await fetchUserData(accessToken);
+
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
 
-            alert('Login successful!');
-            navigate('/home', { state: { user: data } });
-
-        } catch (error) {
+            if (data.isProfileComplete === false) {
+                navigate('/complete-profile', { state: { user: data } });
+            } else {
+                navigate('/home', { state: { user: data } });
+            }
+        } catch (error: any) {
             console.error('Login failed:', error);
-            alert('Invalid credentials. Please try again.');
+            setErrorMessage(error?.response?.data?.message || 'Invalid credentials. Please try again.');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
-    const handleGoToRegister = () => {
-        navigate('/register');
+    const handleGoogleLogin = () => {
+        // Redirigir a Google para el login OAuth
+        window.location.href = 'http://localhost:4000/api/auth/google';
     };
 
     return (
@@ -63,13 +79,36 @@ const Login: React.FC = () => {
                         required
                     />
                 </div>
-                <button type="submit" className={styles.submitButton}>
-                    Login
+                {errorMessage && (
+                    <p className={styles.errorMessage} aria-live="polite">
+                        {errorMessage}
+                    </p>
+                )}
+                <button
+                    type="submit"
+                    className={styles.submitButton}
+                    disabled={isSubmitting}
+                >
+                    {isSubmitting ? 'Logging in...' : 'Login'}
                 </button>
             </form>
+            <div className={styles.googleLogin}>
+                <button
+                    onClick={handleGoogleLogin}
+                    className={styles.googleButton}
+                    disabled={isSubmitting}
+                >
+                    <img
+                        src="https://rotulosmatesanz.com/wp-content/uploads/2017/09/2000px-Google_G_Logo.svg_.png"
+                        alt="Google logo"
+                        className={styles.googleIcon}
+                    />
+                    {isSubmitting ? 'Signing in with Google...' : 'Sign in with Google'}
+                </button>
+            </div>
             <p className={styles.registerText}>
-                Don’t you have an account?{' '}
-                <span className={styles.registerLink} onClick={handleGoToRegister}>
+                Don't you have an account?{' '}
+                <span className={styles.registerLink} onClick={() => navigate('/register')}>
                     Create one!
                 </span>
             </p>

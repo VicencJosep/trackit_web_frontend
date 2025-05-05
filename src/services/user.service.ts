@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { User } from '../types/index';
+import api from '../api/axiosConfig';
 
 // Fetch all users
 export const fetchUsers = async (): Promise<User[]> => {
     try {
-        const response = await axios.get<User[]>('http://localhost:4000/api/Users');
+        const response = await api.get<User[]>('http://localhost:4000/api/Users');
         return response.data;
     } catch (error) {
         console.error('Error fetching users:', error);
@@ -15,7 +16,7 @@ export const fetchUsers = async (): Promise<User[]> => {
 // Fetch user data by token
 export const fetchUserData = async (token: string): Promise<User> => {
     try {
-        const response = await axios.get<User>('http://localhost:4000/api/Users/me', {
+        const response = await api.get<User>('http://localhost:4000/api/Users/me', {
             headers: {
                 Authorization: `Bearer ${token}`, // Enviamos el token en el encabezado
             },
@@ -30,7 +31,7 @@ export const fetchUserData = async (token: string): Promise<User> => {
 // Update an existing user
 export const updateUser = async (updatedUser: User): Promise<User> => {
     try {
-        const response = await axios.put<User>(`http://localhost:4000/api/Users/${updatedUser._id}`, updatedUser);
+        const response = await api.put<User>(`http://localhost:4000/api/Users/${updatedUser._id}`, updatedUser);
 
         if (response.status !== 200) {
             throw new Error('Failed to update user');
@@ -45,7 +46,7 @@ export const updateUser = async (updatedUser: User): Promise<User> => {
 
 export const GetUserPackets = async (userId: string): Promise<any[]> => {
     try {
-        const response = await axios.get<any[]>(`http://localhost:4000/api/Users/${userId}/packets`);
+        const response = await api.get<any[]>(`http://localhost:4000/api/Users/${userId}/packets`);
         if (response.status !== 200) {
             throw new Error('Failed to fetch user packets');
         }

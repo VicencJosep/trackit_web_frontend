@@ -7,6 +7,8 @@ import Register from './components/Register/Register';
 import Dashboard from './components/Dashboard/Dashboard';
 import { LogIn } from './services/auth.service';
 import Home from './components/Home/Home';
+import LoginCallback from './components/LoginCallback';
+import CompleteProfile from './components/CompleteProfile';
 
 function App() {
  
@@ -20,7 +22,10 @@ function App() {
             <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/home" element={<Home />} />            
+            <Route path="/home" element={<Home />} />      
+            <Route path="/login/callback" element={<LoginCallback />} /> 
+            <Route path="/complete-profile" element={<CompleteProfile />} />
+            
             {/* Puedes agregar más rutas aquí según sea necesario */}
           </Routes>
         </main>

@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { User } from '../types/index';
+import api from '../api/axiosConfig';
 // Log in a user
 export const LogIn = async (email: string, password: string): Promise<{ accessToken: string; refreshToken: string }> => {
     try {
-        const response = await axios.post('http://localhost:4000/api/auth/login', { email, password });
+        const response = await api.post('http://localhost:4000/api/auth/login', { email, password });
 
         if (response.status !== 200) {
             throw new Error('Failed to log in');
@@ -22,7 +23,7 @@ export const LogIn = async (email: string, password: string): Promise<{ accessTo
 // Register a new user
 export const registerUser = async (data: { name: string; email: string; password: string; phone: string }): Promise<User> => {
     try {
-        const response = await axios.post<User>('http://localhost:4000/api/auth/register', data);
+        const response = await api.post<User>('http://localhost:4000/api/auth/register', data);
         if (response.status !== 200 && response.status !== 201) {
             throw new Error('Failed to register user');
         }

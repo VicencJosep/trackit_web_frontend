@@ -9,6 +9,7 @@ const Register: React.FC = () => {
         email: '',
         password: '',
         phone: '',
+        birthdate: '',
     });
 
     const navigate = useNavigate();
@@ -24,8 +25,8 @@ const Register: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const { name, email, password, phone } = formData;
-        if (!name || !email || !password || !phone) {
+        const { name, email, password, phone, birthdate } = formData;
+        if (!name || !email || !password || !phone || !birthdate) {
             alert('Please fill in all fields.');
             return;
         }
@@ -34,7 +35,7 @@ const Register: React.FC = () => {
             const newUser = await registerUser(formData);
             console.log('User registered successfully:', newUser);
             alert('Registration successful! You can now log in.');
-            navigate('/login'); // Redirect to login after successful registration
+            navigate('/login');
         } catch (error) {
             console.error('Error registering user:', error);
             alert('Registration failed. Please try again.');
@@ -88,6 +89,18 @@ const Register: React.FC = () => {
                         id="phone"
                         name="phone"
                         value={formData.phone}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+
+                <div className={styles.formGroup}>
+                    <label htmlFor="birthdate">Birthdate:</label>
+                    <input
+                        type="date"
+                        id="birthdate"
+                        name="birthdate"
+                        value={formData.birthdate}
                         onChange={handleChange}
                         required
                     />
