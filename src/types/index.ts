@@ -5,7 +5,7 @@ export interface User {
     password: string;
     phone: string;
     available: boolean;
-    packets: string[];
+    packets: object[];
 }
 
 export interface Packet{
@@ -14,4 +14,5 @@ export interface Packet{
   description: string;
   status: string;
   seleccionado?: boolean;
+  ubicacion?: string;
 }

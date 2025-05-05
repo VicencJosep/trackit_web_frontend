@@ -10,3 +10,31 @@ h1 {
 h2 {
     color: #555;
 }
+.packetTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.packetTable th, .packetTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.packetTable th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.packetTable tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+}
+
+.mapContainer {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+}
