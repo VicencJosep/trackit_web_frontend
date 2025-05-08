@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { User } from '../types/index';
 import api from '../api/axiosConfig';
 

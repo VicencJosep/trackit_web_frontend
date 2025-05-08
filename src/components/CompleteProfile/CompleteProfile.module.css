@@ -52,3 +52,13 @@
 .button:hover {
   background-color: #0056b3;
 }
+
+.error {
+  color: #d8000c;
+  background-color: #ffd2d2;
+  border: 1px solid #d8000c;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 4px;
+  font-size: 14px;
+}
