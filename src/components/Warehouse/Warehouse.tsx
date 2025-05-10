@@ -52,7 +52,7 @@ const Warehouse: React.FC<WarehouseProps> = ({ user }) => {
               onClick={() => handlePackageClick(pkg)}
             >
               <h2 className={styles.packageTitle}>{pkg.name}</h2>
-              <p className={styles.packageInfo}>ID: {pkg.description}</p>
+              <p className={styles.packageInfo}>Descripción: {pkg.description}</p>
             </div>
           ))}
         </div>

@@ -8,6 +8,8 @@ import Home from './components/Home/Home';
 import LoginCallback from './components/LoginCallback';
 import CompleteProfile from './components/CompleteProfile';
 import Messages from './components/Messages';
+import DigitalAwareness from './components/DigitalAwareness/DigitalAwareness';
+import Store from './components/Store/Store';
 
 function App() {
  
@@ -24,6 +26,8 @@ function App() {
             <Route path="/home" element={<Home />} />      
             <Route path="/login/callback" element={<LoginCallback />} /> 
             <Route path='/messages' element={<Messages />} />
+            <Route path="/store" element={<Store />} />
+            <Route path="/digital-awareness" element={<DigitalAwareness />} />
             <Route path="/complete-profile" element={<CompleteProfile />} />
             
             {/* Puedes agregar más rutas aquí según sea necesario */}
