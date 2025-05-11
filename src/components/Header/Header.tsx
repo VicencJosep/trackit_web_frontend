@@ -5,7 +5,7 @@ import { User } from "lucide-react";
 import UserProfile from "../UserProfile";
 import { fetchUserData } from "../../services/user.service";
 import { User as UserType } from "../../types/index"; // Importamos el tipo User
-import SubHeader from "../SubHeader/SubHeader";
+
 
 const Header = () => {
   const navigate = useNavigate();
