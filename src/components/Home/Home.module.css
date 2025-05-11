@@ -1,4 +1,4 @@
-.homeContainer {
+.home-container {
   padding: 2rem;
   background-color: #f9f9f9;
   border-radius: 8px;
@@ -18,18 +18,10 @@
   box-sizing: border-box; /* Incluye padding y border en el ancho total */
 }
 
-.flexContainer {
-  display: flex;
-  gap: 2rem;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-
 .section {
   flex: 1; /* Permite que cada componente ocupe el mismo espacio disponible */
-  max-width: 47.9%; /* Limita el ancho máximo de cada componente al 47.9% */
+  max-width: 47.9%; /* Limita el ancho máximo de cada componente al 48% */
   box-sizing: border-box; /* Incluye padding y border en el ancho total */
-  
 }
 
 /* Media query para pantallas pequeñas */

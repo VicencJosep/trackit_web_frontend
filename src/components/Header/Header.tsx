@@ -73,7 +73,7 @@ const Header = () => {
         .then((data) => setUserData(data))
         .catch((err) => console.error("Error preloading user data:", err));
     }
-  }, []);
+  }, [userData]);
 
   return (
     <><header className={styles.header}>
