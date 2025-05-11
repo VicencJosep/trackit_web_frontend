@@ -5,19 +5,17 @@ import { User } from "lucide-react";
 import UserProfile from "../UserProfile";
 import { fetchUserData } from "../../services/user.service";
 import { User as UserType } from "../../types/index"; // Importamos el tipo User
-
+import SubHeader from "../SubHeader/SubHeader";
 const Header = () => {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [userData, setUserData] = useState<UserType | null>(null); // Definimos el tipo del estado
-  const [showSeparator, setShowSeparator] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     if (userData) {
       setShowProfile(true);
-      setUserMenuOpen(false);
-      setShowSeparator(true);
+      setUserMenuOpen(false);    
     }
   }, [userData]);
   const handleLogout = () => {
@@ -33,8 +31,7 @@ const Header = () => {
         const data = await fetchUserData(token); // Llamamos a la función para obtener los datos del usuario
         setUserData(data); // Ahora TypeScript sabe que data es del tipo User
         setShowProfile(true);
-        setUserMenuOpen(false);
-        setShowSeparator(true);
+        setUserMenuOpen(false);        
       } else {
         console.error("No access token found");
       }
@@ -85,7 +82,9 @@ const Header = () => {
           onClose={() => setShowProfile(false)} // Cerrar el perfil
         />
       )}
-    </header><div className={styles.separator}>
+    </header>
+    <SubHeader/>
+    <div className={styles.separator}>
         <div className={styles.titleContainer}>
           <h1 className={styles.titleFoto}>TRACK-IT:</h1>
           <h2 className={styles.subtitleFoto}>Mensajería que no pierde el rumbo</h2>

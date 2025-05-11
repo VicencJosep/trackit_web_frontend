@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 import Warehouse from '../Warehouse/Warehouse';
 import Delivery from '../Delivery/Delivery'; // Importamos el componente Delivery
-import './Home.module.css';
+import styles from './Home.module.css';
 import { User } from '../../types';
 
 const Home: React.FC = () => {
@@ -23,21 +23,16 @@ const Home: React.FC = () => {
   };
 
   return (
-    <div className="home-container">
-      <h1>Bienvenido, {user.name}</h1>
+    <div className={styles.homeContainer}>
       {/* <p>Correo: {user.email}</p> */}
-      
-      {/* Componente Warehouse */}
-      <div className="section">
-        <h2>Paquetes en Almacén</h2>
+      <div className={styles.sectionsContainer}>
+      <div className={styles.section}>
         <Warehouse user={warehouseUser} />
       </div>
-
-      {/* Componente Delivery */}
-      <div className="section">
-        <h2>Paquetes en Reparto</h2>
+      <div className={styles.section}>
         <Delivery user={warehouseUser} />
       </div>
+    </div>
     </div>
   );
 };

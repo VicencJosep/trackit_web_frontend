@@ -5,36 +5,35 @@
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 1200px;
-  margin: 2rem auto;
+  width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+  max-width: 1200px; /* Limita el ancho máximo en pantallas grandes */
+  margin: 2rem auto; /* Centra el contenedor vertical y horizontalmente */
+  box-sizing: border-box; /* Incluye padding y border en el ancho total */
 }
 
-h1 {
-  font-size: 2.5rem;
-  color: #333;
-  margin-bottom: 1rem;
-}
-
-p {
-  font-size: 1.2rem;
-  color: #666;
-  margin-bottom: 2rem;
+.sectionsContainer {
+  display: flex; /* Activa el modelo Flexbox */
+  justify-content: space-between; /* Espacia los elementos horizontalmente */
+  align-items: flex-start; /* Alinea los elementos al inicio verticalmente */
+  width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+  overflow-x: hidden; /* Evita barras de desplazamiento horizontales */
+  box-sizing: border-box; /* Incluye padding y border en el ancho total */
 }
 
 .section {
-  margin-bottom: 3rem;
+  flex: 1; /* Permite que cada componente ocupe el mismo espacio disponible */
+  max-width: 47.9%; /* Limita el ancho máximo de cada componente al 47.9% */
+  box-sizing: border-box; /* Incluye padding y border en el ancho total */
+  
 }
 
-h2 {
-  font-size: 1.8rem;
-  color: #2c3e50;
-  font-weight: bold;
-  margin-bottom: 1.5rem;
-  text-transform: uppercase;
-}
+/* Media query para pantallas pequeñas */
+@media (max-width: 768px) {
+  .sectionsContainer {
+    flex-direction: column; /* Cambia a diseño vertical */
+  }
 
-section h2 {
-  border-bottom: 2px solid #3498db;
-  padding-bottom: 0.5rem;
-  margin-bottom: 1.5rem;
+  .section {
+    max-width: 100%; /* Cada sección ocupa el 100% del ancho */
+  }
 }

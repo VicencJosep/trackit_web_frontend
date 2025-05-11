@@ -1,14 +1,14 @@
 /* Delivery.module.css */
-
 .container {
-    padding: 2rem;
-    background-color: #f4f7fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    margin: 2rem auto;
-    width: 90%;
-    max-width: 1200px;
-  }
+  padding: 2rem;
+  background-color: rgba(62, 129, 201, 0.6); /* Azul con 60% de opacidad */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin: 0 auto; /* Centra el contenedor verticalmente y horizontalmente */
+  width: calc(100% ); /* Resta el margen derecho del ancho total */
+  max-width: 100%; /* Limita el ancho máximo */
+  text-align: left; /* Asegura que el texto esté alineado a la izquierda */
+  overflow-y: auto;
+}
   
   .title {
     font-size: 2rem;

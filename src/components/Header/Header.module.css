@@ -29,7 +29,7 @@
   background-color: rgba(44, 62, 80, 0.6); /* Fondo semitransparente */
   padding: 20px; /* Espaciado interno */
   align-items: flex-start; /* Alinea los elementos al inicio (izquierda) */
-  width: 600px; /* Ajusta automáticamente el ancho al contenido */
+  width: 20rem; /* Ajusta automáticamente el ancho al contenido */
   height: auto; /* Ajusta automáticamente la altura al contenido */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Agrega una sombra para separar visualmente */
 }
