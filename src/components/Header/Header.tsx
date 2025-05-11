@@ -10,8 +10,16 @@ const Header = () => {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [userData, setUserData] = useState<UserType | null>(null); // Definimos el tipo del estado
+  const [showSeparator, setShowSeparator] = useState(false);
   const location = useLocation();
 
+  useEffect(() => {
+    if (userData) {
+      setShowProfile(true);
+      setUserMenuOpen(false);
+      setShowSeparator(true);
+    }
+  }, [userData]);
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
@@ -26,6 +34,7 @@ const Header = () => {
         setUserData(data); // Ahora TypeScript sabe que data es del tipo User
         setShowProfile(true);
         setUserMenuOpen(false);
+        setShowSeparator(true);
       } else {
         console.error("No access token found");
       }
@@ -37,7 +46,7 @@ const Header = () => {
   const isAuthPage = location.pathname === "/login" || location.pathname === "/register";
 
   return (
-    <header className={styles.header}>
+      <><header className={styles.header}>
       <div className={styles.brand}>
         <img src="/logoTrackIt.jpg" alt="Logo Track It" className={styles.logo} />
         <span className={styles.title}>
@@ -76,7 +85,12 @@ const Header = () => {
           onClose={() => setShowProfile(false)} // Cerrar el perfil
         />
       )}
-    </header>
+    </header><div className={styles.separator}>
+        <div className={styles.titleContainer}>
+          <h1 className={styles.titleFoto}>TRACK-IT:</h1>
+          <h2 className={styles.subtitleFoto}>Mensajería que no pierde el rumbo</h2>
+        </div>
+      </div></>
   );
 };
 

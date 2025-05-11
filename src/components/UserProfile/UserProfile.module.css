@@ -19,6 +19,7 @@
   max-width: 90%;
   padding: 20px;
   font-family: "Arial", sans-serif;
+  z-index: 1001;
 }
 
 .header {

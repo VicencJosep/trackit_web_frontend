@@ -25,7 +25,7 @@ const Home: React.FC = () => {
   return (
     <div className="home-container">
       <h1>Bienvenido, {user.name}</h1>
-      <p>Correo: {user.email}</p>
+      {/* <p>Correo: {user.email}</p> */}
       
       {/* Componente Warehouse */}
       <div className="section">

@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;700&display=swap');
+.separator {
+    margin: 0;
+    padding: 0;
+    background-image: url('../../assets/1721176263287.jpg'); /* Ruta de la imagen */
+    background-size: cover; /* Ajusta la imagen para cubrir todo el ancho del separador */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    height: 300px; /* Limita la altura del separador a 300px */
+    width: 100%; /* Asegura que ocupe todo el ancho de la pantalla */
+    position: relative; /* Posiciona el separador debajo del header */
+    z-index: 1000; /* Asegura que esté encima del contenido principal */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Agrega una sombra para separar visualmente */
+  }
+  .titleContainer {
+    position: relative; /* Cambia a relative para posicionarlo dentro del flujo normal */
+    top: 20px; /* Ajusta la distancia desde la parte superior */
+    left: 20px; /* Ajusta la distancia desde la izquierda */
+    z-index: 2; /* Asegura que esté encima de otros elementos */
+    display: flex;
+    flex-direction: column; /* Coloca el título y el subtítulo en columnas */
+    gap: 10px; /* Espacio entre el título y el subtítulo */
+    background-color: rgba(44, 62, 80, 0.6); /* Fondo semitransparente */
+    padding: 20px; /* Espaciado interno */
+    align-items: flex-start; /* Alinea los elementos al inicio (izquierda) */
+    width: auto; /* Ajusta automáticamente el ancho al contenido */
+    height: auto; /* Ajusta automáticamente la altura al contenido */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Agrega una sombra para separar visualmente */
+  }
+  
+  .titleFoto {
+    font-size: 2.5rem; /* Ajusta el tamaño del título */
+    font-family: 'Oswald', sans-serif; /* Aplica la fuente al título */
+    font-weight: 400; /* Peso medio para un estilo más fino */
+    letter-spacing: 1.5px; /* Espaciado entre letras */
+    color: #ffffff; /* Texto blanco para contraste */
+    text-align: left; /* Alinea el texto a la izquierda */
+    margin: 0; /* Elimina márgenes adicionales */
+  }
+  
+  .subtitleFoto {
+    font-size: 1.5rem; /* Ajusta el tamaño del subtítulo */
+    font-family: 'Playfair Display', sans-serif; /* Aplica la fuente al subtítulo */
+    font-weight: 300; /* Peso ligero para un estilo más fino */
+    letter-spacing: 1px; /* Espaciado entre letras */
+    color: #d1d1d1; /* Color gris claro para el subtítulo */
+    text-align: left; /* Alinea el texto a la izquierda */
+    margin: 0; /* Elimina márgenes adicionales */
+  }
