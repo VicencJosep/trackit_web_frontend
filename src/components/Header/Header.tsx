@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./Header.module.css";
 import { User } from "lucide-react";
 import UserProfile from "../UserProfile";
@@ -124,7 +124,17 @@ const Header = () => {
       {showProfile && userData && (
         <UserProfile user={userData} onClose={() => setShowProfile(false)} />
       )}
-    </header><SubHeader /><div className={styles.separator}>
+    </header>
+    <nav className={styles.subheader}>
+      <ul className={styles.navmenu}>
+        <li onClick={() =>preloadUserAndNavigate("/home") }>HOME</li>
+        <li onClick={() =>preloadUserAndNavigate("/store") }>STORE</li>
+        <li onClick={() =>preloadUserAndNavigate("/messages") }>CHAT</li>
+
+      </ul>
+    </nav>
+  
+    <div className={styles.separator}>
         <div className={styles.titleContainer}>
           <h1 className={styles.titleFoto}>TRACK-IT:</h1>
           <h2 className={styles.subtitleFoto}>Mensajería que no pierde el rumbo</h2>
