@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Header.module.css";
 import { User } from "lucide-react";
 import UserProfile from "../UserProfile";
@@ -127,8 +127,8 @@ const Header = () => {
     </header>
     <nav className={styles.subheader}>
       <ul className={styles.navmenu}>
-        <li onClick={() =>preloadUserAndNavigate("/home") }>HOME</li>
-        <li onClick={() =>preloadUserAndNavigate("/store") }>STORE</li>
+        <li onClick={() =>preloadUserAndNavigate("/home") }>INICIO</li>
+        <li onClick={() =>preloadUserAndNavigate("/store") }>TIENDA</li>
         <li onClick={() =>preloadUserAndNavigate("/messages") }>CHAT</li>
 
       </ul>

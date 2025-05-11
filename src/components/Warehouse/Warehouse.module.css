@@ -2,7 +2,8 @@
 
 .container {
   padding: 2rem;
-  background-color: rgba(202, 119, 47, 0.6); /* Azul con 60% de opacidad */
+  background-color: #fef9f4;
+  background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
   /* box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); */
   margin: 0 auto; /* Centra el contenedor verticalmente y horizontalmente */
   width: 100%; /* Ocupa el 90% del ancho del contenedor padre */
@@ -26,7 +27,7 @@
   }
   
   .packageCard {
-    background-color: #ffffff;
+    background-color: #b5aea6c4;
     padding: 1.5rem;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
