@@ -8,10 +8,12 @@ const Register: React.FC = () => {
         name: '',
         email: '',
         password: '',
+        confirmPassword: '',
         phone: '',
         birthdate: '',
     });
 
+    const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,34 +22,57 @@ const Register: React.FC = () => {
             ...prev,
             [name]: value,
         }));
+        setErrorMessage(''); // limpiar errores al escribir
+    };
+
+    const validatePhone = (phone: string) => {
+        const phoneRegex = /^[679]\d{8}$/; // España: 9 dígitos, empieza por 6, 7 o 9
+        return phoneRegex.test(phone);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        const { name, email, password, phone, birthdate } = formData;
-        if (!name || !email || !password || !phone || !birthdate) {
-            alert('Please fill in all fields.');
+        const { name, email, password, confirmPassword, phone, birthdate } = formData;
+
+        if (!name || !email || !password || !confirmPassword || !phone || !birthdate) {
+            setErrorMessage('Por favor, rellena todos los campos.');
+            return;
+        }
+
+        if (password.length < 6) {
+            setErrorMessage('La contraseña debe tener al menos 6 caracteres.');
+            return;
+        }
+
+        if (password !== confirmPassword) {
+            setErrorMessage('Las contraseñas no coinciden.');
+            return;
+        }
+
+        if (!validatePhone(phone)) {
+            setErrorMessage('El número de teléfono debe tener 9 dígitos y comenzar por 6, 7 o 9.');
             return;
         }
 
         try {
-            const newUser = await registerUser(formData);
-            console.log('User registered successfully:', newUser);
-            alert('Registration successful! You can now log in.');
+            await registerUser(formData);
+            alert('¡Registro exitoso! Ahora puedes iniciar sesión.');
             navigate('/login');
         } catch (error) {
             console.error('Error registering user:', error);
-            alert('Registration failed. Please try again.');
+            setErrorMessage('Fallo al registrar. Intenta nuevamente.');
         }
     };
 
     return (
         <div className={styles.registerContainer}>
-            <h1 className={styles.registerTitle}>Register</h1>
+            <h1 className={styles.registerTitle}>Registrarse</h1>
             <form onSubmit={handleSubmit} className={styles.registerForm}>
+                {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}
+
                 <div className={styles.formGroup}>
-                    <label htmlFor="name">Name:</label>
+                    <label htmlFor="name">Nombre:</label>
                     <input
                         type="text"
                         id="name"
@@ -71,7 +96,7 @@ const Register: React.FC = () => {
                 </div>
 
                 <div className={styles.formGroup}>
-                    <label htmlFor="password">Password:</label>
+                    <label htmlFor="password">Contraseña:</label>
                     <input
                         type="password"
                         id="password"
@@ -83,19 +108,32 @@ const Register: React.FC = () => {
                 </div>
 
                 <div className={styles.formGroup}>
-                    <label htmlFor="phone">Phone:</label>
+                    <label htmlFor="confirmPassword">Repetir contraseña:</label>
                     <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
+                        type="password"
+                        id="confirmPassword"
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
                         onChange={handleChange}
                         required
                     />
                 </div>
 
                 <div className={styles.formGroup}>
-                    <label htmlFor="birthdate">Birthdate:</label>
+                    <label htmlFor="phone">Teléfono:</label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                        pattern="[679][0-9]{8}"
+                        required
+                    />
+                </div>
+
+                <div className={styles.formGroup}>
+                    <label htmlFor="birthdate">Fecha de nacimiento:</label>
                     <input
                         type="date"
                         id="birthdate"
@@ -107,7 +145,7 @@ const Register: React.FC = () => {
                 </div>
 
                 <button type="submit" className={styles.submitButton}>
-                    Register
+                    Registrarse
                 </button>
             </form>
         </div>

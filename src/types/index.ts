@@ -11,9 +11,16 @@ export interface User {
 }
 
 export interface Packet{
-    _id: string;
-  name: string;
-  description: string;
-  status: string;
-  seleccionado?: boolean;
+    _id?: string;
+    name: string;
+    description: string;
+    status: string;
+    createdAt: Date; // Fecha de creación
+    deliveredAt?: Date; // Fecha de entrega (opcional)
+    size: number; // Tamaño del paquete
+    weight: number; // Peso del paquete
+    deliveryId?: string; // ID de la entrega (opcional)
+    origin?: string; // Origen del paquete (opcional)
+    destination?: string; // Destino del paquete (opcional)
+  
 }

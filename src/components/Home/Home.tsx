@@ -8,15 +8,14 @@ import { User } from '../../types';
 const Home: React.FC = () => {
   const location = useLocation();
   const user = location.state?.user as User | undefined;
-  console.log('User from location state:', user); // Verificamos el usuario recibido
+  console.log('User from location state:', user);
 
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  // Mapeamos el user de MongoDB al formato que Warehouse y Delivery esperan
   const warehouseUser = {
-    id: user._id || 'unknown-id', // Usamos _id de MongoDB como id, con un valor por defecto
+    id: user._id || 'unknown-id',
     name: user.name,
     email: user.email,
     phone: user.phone,
