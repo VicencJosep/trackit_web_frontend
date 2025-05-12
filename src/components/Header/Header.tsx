@@ -5,7 +5,7 @@ import { User } from "lucide-react";
 import UserProfile from "../UserProfile";
 import { fetchUserData } from "../../services/user.service";
 import { User as UserType } from "../../types/index"; // Importamos el tipo User
-
+import { Home, ShoppingCart, MessageSquare } from "lucide-react";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -14,12 +14,6 @@ const Header = () => {
   const [userData, setUserData] = useState<UserType | null>(null);
   const location = useLocation();
 
-  useEffect(() => {
-    if (userData) {
-      setShowProfile(true);
-      setUserMenuOpen(false);    
-    }
-  }, [userData]);
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
@@ -125,14 +119,26 @@ const Header = () => {
         <UserProfile user={userData} onClose={() => setShowProfile(false)} />
       )}
     </header>
-    <nav className={styles.subheader}>
-      <ul className={styles.navmenu}>
-        <li onClick={() =>preloadUserAndNavigate("/home") }>INICIO</li>
-        <li onClick={() =>preloadUserAndNavigate("/store") }>TIENDA</li>
-        <li onClick={() =>preloadUserAndNavigate("/messages") }>CHAT</li>
+    {!isAuthPage && (
+      <nav className={styles.subheader}>
+        <ul className={styles.navmenu}>
+          <li onClick={() => preloadUserAndNavigate("/home")}>
+            <Home size={18} style={{ marginRight: 8, verticalAlign: 'middle' }} />
+            INICIO
+          </li>
+          <li onClick={() => preloadUserAndNavigate("/store")}>
+            <ShoppingCart size={18} style={{ marginRight: 8, verticalAlign: 'middle' }} />
+            TIENDA
+          </li>
+          <li onClick={() => preloadUserAndNavigate("/messages")}>
+            <MessageSquare size={18} style={{ marginRight: 8, verticalAlign: 'middle' }} />
+            CHAT
+          </li>
+        </ul>
+      </nav>
+    )}
 
-      </ul>
-    </nav>
+  
   
     <div className={styles.separator}>
         <div className={styles.titleContainer}>
