@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { fetchContacts } from '../../services/message.service'; // Asegúrate de que el path sea correcto
-import { User } from '../../types';
+import { fetchContacts, fetchMessages } from '../../services/message.service'; // Asegúrate de que el path sea correcto
+import { Message, User } from '../../types';
 import styles from './ContactList.module.css'; // Adjust the path if necessary
+
 
 interface ContactListProps {
   currentUserId: string;
+  onMessagesFetched: (messages: Message[], contact: User) => void; // Cambia `any` por el tipo adecuado para los mensajes
 }
 
-const ContactList: React.FC<ContactListProps> = ({ currentUserId }) => {
+const ContactList: React.FC<ContactListProps> = ({ currentUserId, onMessagesFetched }) => {
   const [contacts, setContacts] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,9 +27,13 @@ const ContactList: React.FC<ContactListProps> = ({ currentUserId }) => {
 
     loadContacts();
   }, [currentUserId]);
-  const handleOpenChat = (contactId: string) => {
-    // Aquí puedes manejar la apertura del chat con el contacto seleccionado
-    console.log(`Abriendo chat con el contacto: ${contactId}`);
+  const handleOpenChat = async (contact: User) => {
+    if (contact._id) {
+      const data = await fetchMessages(currentUserId, contact._id);
+      onMessagesFetched(data, contact);
+    } else {
+      console.error('Contact ID is undefined');
+    }
   };
   if (loading) {
     return <div className={styles.loading}>Cargando contactos...</div>;
@@ -40,7 +46,7 @@ const ContactList: React.FC<ContactListProps> = ({ currentUserId }) => {
       </div>
       <ul className={styles.contactList}>
         {contacts.map((contact) => (
-          <li key={contact._id} className={styles.contactItem} onClick={() => contact._id && handleOpenChat(contact._id)}>
+          <li key={contact._id} className={styles.contactItem} onClick={() => contact._id && handleOpenChat(contact)}>
             <div className={styles.avatar}>{contact.name[0]}</div>
             <span className={styles.name}>{contact.name}</span>
           </li>
@@ -51,3 +57,4 @@ const ContactList: React.FC<ContactListProps> = ({ currentUserId }) => {
 };
 
 export default ContactList;
+

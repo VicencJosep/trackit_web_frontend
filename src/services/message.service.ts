@@ -10,3 +10,13 @@ export const fetchContacts = async (userId: string): Promise<User[]> => {
         throw error;
     }
 };
+
+export const fetchMessages = async (user1Id: string, user2Id: string): Promise<Message[]> => {
+    try {
+        const response = await api.get<Message[]>(`http://localhost:4000/api/Messages/${user1Id}/${user2Id}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        throw error;
+    }
+};
