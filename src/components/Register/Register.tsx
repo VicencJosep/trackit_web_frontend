@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './Register.module.css';
 import { registerUser } from '../../services/auth.service';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const Register: React.FC = () => {
     const [formData, setFormData] = useState({
@@ -57,8 +60,14 @@ const Register: React.FC = () => {
 
         try {
             await registerUser(formData);
-            alert('¡Registro exitoso! Ahora puedes iniciar sesión.');
-            navigate('/login');
+            console.log('Mostrando toast de éxito');
+            toast.success('¡Registro exitoso! Ahora puedes iniciar sesión.', {
+                position: "top-right",
+                autoClose: 3000,
+            });
+            setTimeout(() => {
+                navigate('/login');
+            }, 3000); // esperar lo mismo que autoClose
         } catch (error) {
             console.error('Error registering user:', error);
             setErrorMessage('Fallo al registrar. Intenta nuevamente.');
@@ -67,6 +76,7 @@ const Register: React.FC = () => {
 
     return (
         <div className={styles.registerContainer}>
+            <ToastContainer />
             <h1 className={styles.registerTitle}>Registrarse</h1>
             <form onSubmit={handleSubmit} className={styles.registerForm}>
                 {errorMessage && <div className={styles.errorMessage}>{errorMessage}</div>}

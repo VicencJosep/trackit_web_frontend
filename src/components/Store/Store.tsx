@@ -5,7 +5,9 @@ import { buyPacket } from "../../services/user.service";
 import { Packet } from "../../types"; // Importamos la interfaz Packet
 import { User } from "../../types"; // Importamos la interfaz User
 import { createPacket } from "../../services/user.service";
-
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 const packets: Packet[] = [
   {
     name: "Caja de Zapatillas Nike",
@@ -84,12 +86,21 @@ const Store: React.FC = () => {
     if (createdPacket._id && user.name) {
       console.log("ID del paquete creado:", createdPacket._id , "nomber del usuario:", user.name);
       await buyPacket(user.name, createdPacket._id);
-      alert(`Has comprado: ${packet.name}`);
-    } else {
-      alert("Error al asociar el paquete al usuario.");
+      toast.success(`Has comprado: ${packet.name}`, {
+          position: "top-right",
+          autoClose: 3000,
+      });
+    } else { 
+      toast.error("Error al asociar el paquete al usuario.", {
+          position: "top-right",
+          autoClose: 3000,
+      }); 
     }
   } catch (error) {
-    alert("Hubo un error al procesar tu compra.");
+      toast.error("Hubo un error al procesar tu compra.", {
+          position: "top-right",
+          autoClose: 3000,
+      }); 
     console.error("Error al comprar el paquete:", error);
   }
   };
@@ -97,6 +108,7 @@ const Store: React.FC = () => {
   return (
     <div>
       <div className={styles.container}>
+        <ToastContainer />
         <h1>Bienvenido a la Tienda, {user.name}</h1>
         <div className={styles.grid}>
           {packets.map((packet, index) => (
