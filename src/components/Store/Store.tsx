@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { useLocation, Navigate } from "react-router-dom";
 import styles from "./Store.module.css";
-import { buyPacket } from "../../services/user.service";
-import { Packet } from "../../types"; // Importamos la interfaz Packet
-import { User } from "../../types"; // Importamos la interfaz User
-import { createPacket } from "../../services/user.service";
+import { buyPacket, createPacket } from "../../services/user.service";
+import { Packet, User } from "../../types";
+import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
+
+// Función para convertir dirección a coordenadas usando Google Maps Geocoding API
+async function getCoordsFromAddress(address: string): Promise<{ lat: number; lng: number } | null> {
+  const apiKey = 'AIzaSyArB7sm8JJfG-AntpJpzaRSTmyJ1PF6b0Q'; // Pon tu API Key de Google Maps aquí
+  const response = await fetch(
+    `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`
+  );
+  const data = await response.json();
+  if (data.status === 'OK' && data.results.length > 0) {
+    const location = data.results[0].geometry.location;
+    return { lat: location.lat, lng: location.lng };
+  }
+  return null;
+}
 
 const packets: Packet[] = [
   {
@@ -30,23 +43,22 @@ const packets: Packet[] = [
   {
     name: "Balón Oficial FIFA",
     description: "Balón de fútbol profesional.",
-    status: "almacén",
+    status: "en reparto",
     createdAt: new Date("2025-02-15"),
     size: 20,
     weight: 0.4,
-    origin: "Sevilla",
-    destination: "Bilbao",
+    origin: "41.387019, 2.170047",
+    destination: "41.403629, 2.174356",
   },
   {
-    
     name: "Mochila deportiva",
     description: "Mochila ligera y resistente para entrenamiento.",
-    status: "almacén",
+    status: "en reparto",
     createdAt: new Date("2025-03-01"),
     size: 30,
     weight: 0.6,
-    origin: "Madrid",
-    destination: "Zaragoza",
+    origin: "41.379021, 2.140101",
+    destination: "41.414495, 2.152694",
   },
   {
     name: "Pack de Proteínas",
@@ -63,35 +75,78 @@ const packets: Packet[] = [
 const Store: React.FC = () => {
   const location = useLocation();
   const user = location.state?.user as User | undefined;
+  const [showAddressInput, setShowAddressInput] = useState(false);
+  const [address, setAddress] = useState('');
+  const [packetToBuy, setPacketToBuy] = useState<Packet | null>(null);
+  const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
+
+  // Usa SIEMPRE las mismas opciones en toda la app para evitar el error del loader
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: 'AIzaSyArB7sm8JJfG-AntpJpzaRSTmyJ1PF6b0Q',
+    libraries: ['places'],
+  });
 
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
+  // Cuando el usuario hace click en "Comprar"
+  const handleBuyClick = (packet: Packet) => {
+    setPacketToBuy(packet);
+    setShowAddressInput(true);
+  };
+
+  // Cuando el usuario selecciona una dirección sugerida
+  const onPlaceChanged = () => {
+    if (autocomplete) {
+      const place = autocomplete.getPlace();
+      setAddress(place.formatted_address || "");
+    }
+  };
+
+  // Cuando el usuario acepta la dirección
+  const handleAddressSubmit = async () => {
+    if (!address || !packetToBuy) return;
+    const coords = await getCoordsFromAddress(address);
+    if (!coords) {
+      alert('No se pudo encontrar la dirección.');
+      return;
+    }
+    // Guardamos el paquete con la dirección convertida a coordenadas
+    const packetWithCoords = {
+      ...packetToBuy,
+      destination: `${coords.lat}, ${coords.lng}`,
+    };
+    setShowAddressInput(false);
+    setAddress('');
+    setPacketToBuy(null);
+    await handleBuy(packetWithCoords);
+  };
+
+  // Lógica de compra (igual que antes)
   const handleBuy = async (packet: Packet) => {
     if (!user) {
       alert("Debes iniciar sesión para comprar un paquete.");
       return;
     }
-   try {
-    // Paso 1: Crear el paquete en la base de datos
-    const createdPacket = await createPacket(packet);
-    // Verificamos si el paquete fue creado correctamente
-    
+    try {
+      // Paso 1: Crear el paquete en la base de datos
+      const createdPacket = await createPacket(packet);
+      // Verificamos si el paquete fue creado correctamente
       console.log("Paquete creado:", createdPacket);
-    
-    // Paso 2: Asociarlo al usuario
-    if (createdPacket._id && user.name) {
-      console.log("ID del paquete creado:", createdPacket._id , "nomber del usuario:", user.name);
-      await buyPacket(user.name, createdPacket._id);
-      alert(`Has comprado: ${packet.name}`);
-    } else {
-      alert("Error al asociar el paquete al usuario.");
+
+      // Paso 2: Asociarlo al usuario
+      if (createdPacket._id && user.name) {
+        console.log("ID del paquete creado:", createdPacket._id, "nomber del usuario:", user.name);
+        await buyPacket(user.name, createdPacket._id);
+        alert(`Has comprado: ${packet.name}`);
+      } else {
+        alert("Error al asociar el paquete al usuario.");
+      }
+    } catch (error) {
+      alert("Hubo un error al procesar tu compra.");
+      console.error("Error al comprar el paquete:", error);
     }
-  } catch (error) {
-    alert("Hubo un error al procesar tu compra.");
-    console.error("Error al comprar el paquete:", error);
-  }
   };
 
   return (
@@ -120,7 +175,7 @@ const Store: React.FC = () => {
               </p>
               <button
                 className={styles.buyButton}
-                onClick={() => handleBuy(packet)}
+                onClick={() => handleBuyClick(packet)}
               >
                 Comprar
               </button>
@@ -128,6 +183,32 @@ const Store: React.FC = () => {
           ))}
         </div>
       </div>
+      {showAddressInput && isLoaded && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh',
+          background: 'rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center'
+        }}>
+          <div style={{ background: 'white', padding: 20, borderRadius: 8 }}>
+            <h3>Introduce tu dirección de origen</h3>
+            <Autocomplete
+              onLoad={ac => setAutocomplete(ac)}
+              onPlaceChanged={onPlaceChanged}
+            >
+              <input
+                type="text"
+                value={address}
+                onChange={e => setAddress(e.target.value)}
+                placeholder="Ej: Passeig de Gràcia, 1, Barcelona"
+                style={{ width: 300 }}
+              />
+            </Autocomplete>
+            <div style={{ marginTop: 10 }}>
+              <button onClick={handleAddressSubmit}>Aceptar</button>
+              <button onClick={() => setShowAddressInput(false)} style={{ marginLeft: 10 }}>Cancelar</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

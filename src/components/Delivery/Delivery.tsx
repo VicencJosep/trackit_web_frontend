@@ -1,31 +1,32 @@
 import React, { useEffect, useState } from 'react';
-import styles from './Delivery.module.css'; // Asegúrate de tener un archivo CSS para los estilos
-import { GetUserPackets } from '../../services/user.service'; // Importa la función para obtener los paquetes
-import { Packet } from '../../types'; // Importa la interfaz de los paquetes
+import styles from './Delivery.module.css';
+import { GetUserPackets } from '../../services/user.service';
+import { Packet } from '../../types';
 
 interface DeliveryProps {
   user: {
-    id: string; // id ahora es requerido por Delivery
+    id: string;
     name: string;
     email: string;
     phone: string;
   };
+  onSelectPacket?: (packetId: string) => void;
 }
 
-const Delivery: React.FC<DeliveryProps> = ({ user }) => {
+const Delivery: React.FC<DeliveryProps> = ({ user, onSelectPacket }) => {
   const [packages, setPackages] = useState<Packet[]>([]);
-  const [loading, setLoading] = useState(true); // Estado para manejar la carga
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getPackages = async () => {
       try {
-        const allPackages = await GetUserPackets(user.id); // Usa el ID del usuario si es necesario
+        const allPackages = await GetUserPackets(user.id);
         const deliveryPackages = allPackages.filter((pkg) => pkg.status === 'en reparto');
         setPackages(deliveryPackages);
       } catch (error) {
         console.error('Error fetching packages:', error);
       } finally {
-        setLoading(false); // Finaliza la carga
+        setLoading(false);
       }
     };
 
@@ -33,7 +34,9 @@ const Delivery: React.FC<DeliveryProps> = ({ user }) => {
   }, [user.id]);
 
   const handlePackageClick = (pkg: Packet) => {
-    alert(`Has seleccionado el paquete: ${pkg.name} (ID: ${pkg._id})`);
+    if (onSelectPacket && pkg._id) {
+      onSelectPacket(pkg._id);
+    }
   };
 
   return (
