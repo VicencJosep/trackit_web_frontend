@@ -35,7 +35,7 @@ const PackageMap: React.FC<PackageMapProps> = ({ userId, selectedPacketId }) => 
     }, [userId, selectedPacketId]);
 
     const { isLoaded } = useJsApiLoader({
-        googleMapsApiKey: 'AIzaSyArB7sm8JJfG-AntpJpzaRSTmyJ1PF6b0Q', // <-- PON AQUÍ TU API KEY DE GOOGLE MAPS
+        googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY || "", // <-- PON AQUÍ TU API KEY DE GOOGLE MAPS
          libraries: ['places'],
     });
 

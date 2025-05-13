@@ -7,7 +7,7 @@ import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 
 // Función para convertir dirección a coordenadas usando Google Maps Geocoding API
 async function getCoordsFromAddress(address: string): Promise<{ lat: number; lng: number } | null> {
-  const apiKey = 'AIzaSyArB7sm8JJfG-AntpJpzaRSTmyJ1PF6b0Q'; // Pon tu API Key de Google Maps aquí
+  const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || ""; // Pon tu API Key de Google Maps aquí
   const response = await fetch(
     `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${apiKey}`
   );
@@ -82,7 +82,7 @@ const Store: React.FC = () => {
 
   // Usa SIEMPRE las mismas opciones en toda la app para evitar el error del loader
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: 'AIzaSyArB7sm8JJfG-AntpJpzaRSTmyJ1PF6b0Q',
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY || "",
     libraries: ['places'],
   });
 
