@@ -1,12 +1,11 @@
 @import url("https://fonts.googleapis.com/css2?family=OpenDyslexic&display=swap");
 
-
 .container {
   padding: 2rem;
   max-width: 800px;
   margin: 0 auto;
-  background: #ffffff;
   border-radius: 16px;
+  background-color: #ffffff;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   font-family: sans-serif;
 }
@@ -14,8 +13,9 @@
 .title {
   font-size: 2rem;
   font-weight: bold;
-  margin-bottom: 1.5rem;
+  text-align: center;
   color: #2c3e50;
+  margin-bottom: 1.5rem;
 }
 
 .section {
@@ -28,120 +28,17 @@
   margin-bottom: 0.5rem;
 }
 
+.section p {
+  color: #555;
+  margin-bottom: 0.75rem;
+}
+
 .button {
   padding: 0.75rem 1.5rem;
-  background: #3498db;
-  color: #fff;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.button:hover {
-  background: #2980b9;
-}
-
-.button.active {
-  background: #2ecc71;
-}
-
-.fontControls {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 1.2rem;
-}
-
-.fontControls button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
-  background: #bdc3c7;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-}
-
-.fontControls button:hover {
-  background: #95a5a6;
-}
-
-.tipsList {
-  list-style: none;
-  padding-left: 0;
-}
-
-.tipsList li {
-  margin-bottom: 0.75rem;
-  font-size: 1rem;
-  color: #2c3e50;
-}
-
-/* Accesibilidad específica del componente */
-.dyslexic {
-  font-family: 'OpenDyslexic', sans-serif !important;
-}
-
-.underlineLinks a {
-  text-decoration: underline !important;
-}
-
-.readable {
-  line-height: 1.8 !important;
-  letter-spacing: 0.05em;
-  word-spacing: 0.15em;
-}
-.container {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  background-color: #f4f4f4;
-  border-radius: 8px;
-  width: 100%;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.languageSelector {
-  margin-bottom: 20px;
-}
-
-.languageSelector select {
-  padding: 8px;
-  font-size: 16px;
-  border-radius: 4px;
-}
-
-.title {
-  font-size: 2rem;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-.section {
-  margin-bottom: 30px;
-}
-
-h2 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 10px;
-  color: #2c3e50;
-}
-
-p {
-  font-size: 1rem;
-  color: #555;
-}
-
-.button {
-  padding: 10px 20px;
-  margin: 10px 0;
   background-color: #3498db;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -150,44 +47,27 @@ p {
   background-color: #2980b9;
 }
 
+.button.active {
+  background-color: #2ecc71;
+}
+
 .fontControls {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 1rem;
 }
 
 .fontControls button {
-  padding: 5px 10px;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
   background-color: #ecf0f1;
   border: 1px solid #bdc3c7;
-  border-radius: 5px;
+  border-radius: 6px;
   cursor: pointer;
 }
 
 .fontControls button:hover {
   background-color: #bdc3c7;
-}
-
-.active {
-  background-color: #2980b9;
-  color: white;
-}
-
-.tipsList {
-  list-style-type: disc;
-  padding-left: 20px;
-}
-
-.tipsList li {
-  font-size: 1rem;
-  color: #555;
-}
-/* Estilo para el selector de idioma */
-.languageSelectorContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-top: 1rem;
 }
 
 .languageSelector {
@@ -198,16 +78,51 @@ p {
   background-color: #ecf0f1;
   color: #2c3e50;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .languageSelector:hover {
   background-color: #bdc3c7;
-  color: #2c3e50;
 }
 
 .languageSelector:focus {
   outline: none;
   border-color: #3498db;
   box-shadow: 0 0 4px #3498db;
+}
+
+/* Estilos adicionales de accesibilidad */
+.readable {
+  line-height: 1.8 !important;
+  letter-spacing: 0.05em;
+  word-spacing: 0.15em;
+}
+
+.dyslexic {
+  font-family: 'OpenDyslexic', sans-serif !important;
+}
+
+/* Modo oscuro */
+body.dark {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+body.dark .container {
+  background-color: #1e1e1e;
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.05);
+}
+
+body.dark .section h2 {
+  color: #74b9ff;
+}
+
+body.dark .section p {
+  color: #ccc;
+}
+
+body.dark select,
+body.dark button {
+  background-color: #2c2c2c;
+  color: #f0f0f0;
+  border-color: #555;
 }

@@ -2,23 +2,45 @@ import styles from "./DigitalAwareness.module.css";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-const DigitalAwareness = () => {
+interface DigitalAwarenessProps {
+  darkMode: boolean;
+  setDarkMode: (value: boolean) => void;
+}
+
+const DigitalAwareness: React.FC<DigitalAwarenessProps> = ({ darkMode, setDarkMode }) => {
   const [highContrast, setHighContrast] = useState(false);
   const [fontSize, setFontSize] = useState(1);
-  const [darkMode, setDarkMode] = useState(false);
   const [readableText, setReadableText] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
   const { t, i18n } = useTranslation();
 
+  // Cargar preferencias desde localStorage al montar
   useEffect(() => {
+    setHighContrast(localStorage.getItem("highContrast") === "true");
+    setFontSize(parseFloat(localStorage.getItem("fontSize") || "1"));
+    setReadableText(localStorage.getItem("readableText") === "true");
+    setIsReady(true);
+  }, []);
+
+  // Aplicar estilos y guardar preferencias
+  useEffect(() => {
+    if (!isReady) return;
+
     document.body.style.filter = highContrast ? "contrast(1.5)" : "none";
     document.body.style.fontSize = `${fontSize}em`;
 
-    document.body.classList.remove("dark", styles.readable);
+    if (readableText) {
+      document.body.classList.add(styles.readable);
+    } else {
+      document.body.classList.remove(styles.readable);
+    }
 
-    if (darkMode) document.body.classList.add("dark");
-    if (readableText) document.body.classList.add(styles.readable);
-  }, [highContrast, fontSize, darkMode, readableText]);
+    // Guardar preferencias en localStorage
+    localStorage.setItem("highContrast", String(highContrast));
+    localStorage.setItem("fontSize", String(fontSize));
+    localStorage.setItem("readableText", String(readableText));
+  }, [highContrast, fontSize, readableText, isReady]);
 
   const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     i18n.changeLanguage(e.target.value);
@@ -82,16 +104,6 @@ const DigitalAwareness = () => {
           <option value="es">{String(t("language.spanish"))}</option>
           <option value="en">{String(t("language.english"))}</option>
         </select>
-      </div>
-
-      <div className={styles.section}>
-        <h2>{String(t("tips.title"))}</h2>
-        <ul className={styles.tipsList}>
-          <li>{String(t("tip1"))}</li>
-          <li>{String(t("tip2"))}</li>
-          <li>{String(t("tip3"))}</li>
-          <li>{String(t("tip4"))}</li>
-        </ul>
       </div>
     </div>
   );
