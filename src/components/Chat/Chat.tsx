@@ -4,6 +4,7 @@ import './Chat.css';
 import { io, Socket } from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
 import { User } from "../../types/index"; // Importamos el tipo User
+import ContactList from '../ContactList/ContactList';
 
 interface ChatMessage {
   room: string;
@@ -84,6 +85,7 @@ const Chat: React.FC = () => {
   };
 
   return (
+    <>{user._id && <ContactList currentUserId={user._id} />}
     <div className="chat-container">
       {!showChat ? (
         <div className="join-chat">
@@ -92,8 +94,7 @@ const Chat: React.FC = () => {
             type="text"
             placeholder="Sala..."
             value={room}
-            onChange={(e) => setRoom(e.target.value)}
-          />
+            onChange={(e) => setRoom(e.target.value)} />
           <button onClick={joinRoom}>Unirse a la Sala</button>
         </div>
       ) : (
@@ -121,13 +122,12 @@ const Chat: React.FC = () => {
               placeholder="Mensaje..."
               value={currentMessage}
               onChange={(e) => setCurrentMessage(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-            />
+              onKeyDown={(e) => e.key === 'Enter' && sendMessage()} />
             <button onClick={sendMessage}>Enviar</button>
           </div>
         </div>
       )}
-    </div>
+    </div></>
   );
 };
 

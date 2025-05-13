@@ -24,3 +24,12 @@ export interface Packet{
     destination?: string; // Destino del paquete (opcional)
   
 }
+
+export interface Message {
+    _id?: string;
+    senderId: string; // ID del remitente
+    rxId: string; // ID del destinatario
+    content: string; // Contenido del mensaje
+    timestamp: Date; // Fecha y hora de envío
+    acknowledged: boolean; // Estado de lectura
+}
