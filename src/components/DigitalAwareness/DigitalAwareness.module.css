@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=OpenDyslexic&display=swap");
 
+
 .container {
   padding: 2rem;
   max-width: 800px;
@@ -89,4 +90,124 @@
   line-height: 1.8 !important;
   letter-spacing: 0.05em;
   word-spacing: 0.15em;
+}
+.container {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.languageSelector {
+  margin-bottom: 20px;
+}
+
+.languageSelector select {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.section {
+  margin-bottom: 30px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+p {
+  font-size: 1rem;
+  color: #555;
+}
+
+.button {
+  padding: 10px 20px;
+  margin: 10px 0;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #2980b9;
+}
+
+.fontControls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.fontControls button {
+  padding: 5px 10px;
+  background-color: #ecf0f1;
+  border: 1px solid #bdc3c7;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.fontControls button:hover {
+  background-color: #bdc3c7;
+}
+
+.active {
+  background-color: #2980b9;
+  color: white;
+}
+
+.tipsList {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.tipsList li {
+  font-size: 1rem;
+  color: #555;
+}
+/* Estilo para el selector de idioma */
+.languageSelectorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.languageSelector {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #bdc3c7;
+  border-radius: 8px;
+  background-color: #ecf0f1;
+  color: #2c3e50;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.languageSelector:hover {
+  background-color: #bdc3c7;
+  color: #2c3e50;
+}
+
+.languageSelector:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 4px #3498db;
 }

@@ -1,44 +1,47 @@
 import styles from "./DigitalAwareness.module.css";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const DigitalAwareness = () => {
   const [highContrast, setHighContrast] = useState(false);
   const [fontSize, setFontSize] = useState(1);
   const [darkMode, setDarkMode] = useState(false);
-  const [dyslexicFont, setDyslexicFont] = useState(false);
-  const [underlineLinks, setUnderlineLinks] = useState(false);
   const [readableText, setReadableText] = useState(false);
+
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     document.body.style.filter = highContrast ? "contrast(1.5)" : "none";
     document.body.style.fontSize = `${fontSize}em`;
 
-    document.body.classList.remove("dark", styles.dyslexic, styles.underlineLinks, styles.readable);
+    document.body.classList.remove("dark", styles.readable);
 
     if (darkMode) document.body.classList.add("dark");
-    if (dyslexicFont) document.body.classList.add(styles.dyslexic);
-    if (underlineLinks) document.body.classList.add(styles.underlineLinks);
     if (readableText) document.body.classList.add(styles.readable);
-  }, [highContrast, fontSize, darkMode, dyslexicFont, underlineLinks, readableText]);
+  }, [highContrast, fontSize, darkMode, readableText]);
+
+  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    i18n.changeLanguage(e.target.value);
+  };
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Centro de Accesibilidad</h1>
+      <h1 className={styles.title}>{String(t("title"))}</h1>
 
       <div className={styles.section}>
-        <h2>🌈 Contraste Alto</h2>
-        <p>Activa un modo con mayor contraste para facilitar la lectura.</p>
+        <h2>{String(t("highContrast.title"))}</h2>
+        <p>{String(t("highContrast.desc"))}</p>
         <button
           className={`${styles.button} ${highContrast ? styles.active : ""}`}
           onClick={() => setHighContrast(!highContrast)}
         >
-          {highContrast ? "Desactivar Contraste Alto" : "Activar Contraste Alto"}
+          {highContrast ? String(t("highContrast.off")) : String(t("highContrast.on"))}
         </button>
       </div>
 
       <div className={styles.section}>
-        <h2>🔠 Tamaño de Fuente</h2>
-        <p>Ajusta el tamaño del texto para mejorar la visibilidad.</p>
+        <h2>{String(t("fontSize.title"))}</h2>
+        <p>{String(t("fontSize.desc"))}</p>
         <div className={styles.fontControls}>
           <button onClick={() => setFontSize((s) => Math.max(0.8, s - 0.1))}>A-</button>
           <span>{Math.round(fontSize * 100)}%</span>
@@ -47,56 +50,47 @@ const DigitalAwareness = () => {
       </div>
 
       <div className={styles.section}>
-        <h2>🌙 Tema Oscuro</h2>
-        <p>Reduce la fatiga ocular en ambientes oscuros.</p>
+        <h2>{String(t("darkMode.title"))}</h2>
+        <p>{String(t("darkMode.desc"))}</p>
         <button
           className={`${styles.button} ${darkMode ? styles.active : ""}`}
           onClick={() => setDarkMode(!darkMode)}
         >
-          {darkMode ? "Desactivar Tema Oscuro" : "Activar Tema Oscuro"}
+          {darkMode ? String(t("darkMode.off")) : String(t("darkMode.on"))}
         </button>
       </div>
 
       <div className={styles.section}>
-        <h2>🔡 Fuente Disléxica</h2>
-        <p>Mejora la lectura para personas con dislexia.</p>
-        <button
-          className={`${styles.button} ${dyslexicFont ? styles.active : ""}`}
-          onClick={() => setDyslexicFont(!dyslexicFont)}
-        >
-          {dyslexicFont ? "Desactivar Fuente Disléxica" : "Activar Fuente Disléxica"}
-        </button>
-      </div>
-
-      <div className={styles.section}>
-        <h2>🔗 Subrayar Enlaces</h2>
-        <p>Mejora la visibilidad de los enlaces.</p>
-        <button
-          className={`${styles.button} ${underlineLinks ? styles.active : ""}`}
-          onClick={() => setUnderlineLinks(!underlineLinks)}
-        >
-          {underlineLinks ? "Ocultar Subrayado" : "Subrayar Enlaces"}
-        </button>
-      </div>
-
-      <div className={styles.section}>
-        <h2>📖 Texto Legible</h2>
-        <p>Activa mayor interlineado y espaciado entre palabras.</p>
+        <h2>{String(t("readableText.title"))}</h2>
+        <p>{String(t("readableText.desc"))}</p>
         <button
           className={`${styles.button} ${readableText ? styles.active : ""}`}
           onClick={() => setReadableText(!readableText)}
         >
-          {readableText ? "Desactivar Texto Legible" : "Activar Texto Legible"}
+          {readableText ? String(t("readableText.off")) : String(t("readableText.on"))}
         </button>
       </div>
 
       <div className={styles.section}>
-        <h2>🧠 Tips de Bienestar Digital</h2>
+        <h2>{String(t("language.label"))}</h2>
+        <p>{String(t("language.desc"))}</p>
+        <select
+          className={styles.languageSelector}
+          onChange={handleLanguageChange}
+          value={i18n.language}
+        >
+          <option value="es">{String(t("language.spanish"))}</option>
+          <option value="en">{String(t("language.english"))}</option>
+        </select>
+      </div>
+
+      <div className={styles.section}>
+        <h2>{String(t("tips.title"))}</h2>
         <ul className={styles.tipsList}>
-          <li>🌤️ Haz pausas cada 20 minutos para descansar la vista.</li>
-          <li>📵 Establece horarios sin pantalla antes de dormir.</li>
-          <li>⏳ Limita el tiempo en apps que te generen ansiedad.</li>
-          <li>🌿 Usa el modo oscuro en entornos con poca luz.</li>
+          <li>{String(t("tip1"))}</li>
+          <li>{String(t("tip2"))}</li>
+          <li>{String(t("tip3"))}</li>
+          <li>{String(t("tip4"))}</li>
         </ul>
       </div>
     </div>

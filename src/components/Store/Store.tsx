@@ -5,6 +5,7 @@ import { buyPacket } from "../../services/user.service";
 import { Packet } from "../../types"; // Importamos la interfaz Packet
 import { User } from "../../types"; // Importamos la interfaz User
 import { createPacket } from "../../services/user.service";
+import { useTranslation } from "react-i18next";
 
 const packets: Packet[] = [
   {
@@ -61,6 +62,8 @@ const packets: Packet[] = [
 ];
 
 const Store: React.FC = () => {
+  const { t } = useTranslation();
+
   const location = useLocation();
   const user = location.state?.user as User | undefined;
 
@@ -97,7 +100,7 @@ const Store: React.FC = () => {
   return (
     <div>
       <div className={styles.container}>
-        <h1>Bienvenido a la Tienda, {user.name}</h1>
+        <h1>{String(t("store.title"))} {user.name}</h1> {/* Traducción */}
         <div className={styles.grid}>
           {packets.map((packet, index) => (
             <div key={index} className={styles.card}>
