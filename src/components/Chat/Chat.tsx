@@ -35,7 +35,8 @@ const Chat: React.FC = () => {
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
 
-    socketRef.current = io('http://localhost:3001', {
+    const SOCKET_SERVER_URL = process.env.REACT_APP_SOCKET_SERVER_URL || 'http://localhost:3001';
+    socketRef.current = io(SOCKET_SERVER_URL, {
       auth: {
         token,
       },
