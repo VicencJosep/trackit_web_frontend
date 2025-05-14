@@ -22,5 +22,6 @@ export interface Packet{
     deliveryId?: string; // ID de la entrega (opcional)
     origin?: string; // Origen del paquete (opcional)
     destination?: string; // Destino del paquete (opcional)
+    location?: string;
   
 }
