@@ -89,9 +89,8 @@ export const updateUser = async (userId: string, data: any) => {
 };
 
 export const deleteUser = async (userId: string) => {
-  const token = localStorage.getItem("accessToken");
-  const response = await api.delete(`/users/${userId}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-  return response.data;
+  return await api.put(`/users/${userId}/deactivate`);
 };
+
+
+

@@ -30,6 +30,7 @@ const ContactList: React.FC<ContactListProps> = ({ currentUserId, onMessagesFetc
   const handleOpenChat = async (contact: User) => {
     if (contact._id) {
       const data = await fetchMessages(currentUserId, contact._id);
+      console.log('Mensajes obtenidos:', data);
       onMessagesFetched(data, contact);
     } else {
       console.error('Contact ID is undefined');

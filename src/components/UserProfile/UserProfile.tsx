@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Mail, Phone, Calendar, XCircle } from "lucide-react";
+import { Mail, Phone, XCircle } from "lucide-react";
 import styles from "./UserProfile.module.css";
 import { User } from "../../types/index";
 import { updateUser, deleteUser } from "../../services/user.service";
@@ -12,7 +12,7 @@ interface UserProfileProps {
 
 const UserProfile: React.FC<UserProfileProps> = ({ user, onClose }) => {
   const [editing, setEditing] = useState(false);
-  const [formData, setFormData] = useState(user);
+  const [formData, setFormData] = useState<User>(user);
   const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,26 +20,42 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onClose }) => {
   };
 
   const handleEdit = async () => {
+    if (!formData._id) {
+      console.error("No se puede actualizar: ID de usuario no disponible");
+      return;
+    }
+
     try {
       console.log("Actualizando perfil del usuario:", formData);
-      const updatedUser = await updateUser(formData.id, formData); // Llama a la función updateUser
-      console.log("Perfil actualizado con éxito:", updatedUser);
-      setEditing(false); // Salir del modo de edición
-      onClose(); // Cierra el modal
+      await updateUser(formData._id, formData);
+      console.log("Perfil actualizado con éxito");
+
+      // Eliminar tokens y redirigir al login
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      navigate("/login");
     } catch (error) {
       console.error("Error al actualizar el perfil:", error);
     }
   };
 
   const handleDelete = async () => {
+    if (!user._id) {
+      console.error("No se puede eliminar: ID de usuario no disponible");
+      return;
+    }
+
     const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar tu cuenta?");
     if (confirmDelete) {
       try {
-        console.log("Eliminando cuenta del usuario:", user.id);
-        await deleteUser(user.id); // Llama a la función deleteUser
+        console.log("Eliminando cuenta del usuario:", user._id);
+        await deleteUser(user._id);
+
+        // Eliminar tokens, cerrar el perfil y redirigir al login
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
-        navigate("/login"); // Redirige al login
+        onClose(); // Cierra la pestaña del perfil
+        navigate("/login");
       } catch (error) {
         console.error("Error al eliminar la cuenta:", error);
       }
@@ -79,16 +95,6 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onClose }) => {
             <input
               name="phone"
               value={formData.phone}
-              onChange={handleChange}
-              disabled={!editing}
-            />
-          </label>
-          <label>
-            <Calendar size={16} /> <strong>Fecha de nacimiento:</strong>
-            <input
-              type="date"
-              name="birthdate"
-              value={formData.birthdate}
               onChange={handleChange}
               disabled={!editing}
             />
