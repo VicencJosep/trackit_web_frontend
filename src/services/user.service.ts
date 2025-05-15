@@ -29,19 +29,7 @@ export const fetchUserData = async (token: string): Promise<User> => {
 };
 
 // Update an existing user
-export const updateUser = async (updatedUser: User): Promise<User> => {
-    try {
-        const response = await api.put<User>(`http://localhost:4000/api/Users/${updatedUser._id}`, updatedUser);
 
-        if (response.status !== 200) {
-            throw new Error('Failed to update user');
-        }
-        return response.data;
-    } catch (error) {
-        console.error('Error updating user:', error);
-        throw error;
-    }
-};
 
 
 export const GetUserPackets = async (userId: string): Promise<any[]> => {
@@ -91,4 +79,19 @@ export const createPacket = async (packet: Packet): Promise<Packet> => {
         // Lanza el error para que pueda ser manejado por el código que llama a esta función
         throw error;
     }
+};
+export const updateUser = async (userId: string, data: any) => {
+  const token = localStorage.getItem("accessToken");
+  const response = await api.put(`/users/${userId}`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
+};
+
+export const deleteUser = async (userId: string) => {
+  const token = localStorage.getItem("accessToken");
+  const response = await api.delete(`/users/${userId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  return response.data;
 };

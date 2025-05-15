@@ -32,3 +32,4 @@ export const registerUser = async (data: { name: string; email: string; password
         throw error;
     }
 };
+
