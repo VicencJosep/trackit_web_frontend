@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import styles from "./CompleteProfile.module.css";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/axiosConfig";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const CompleteProfile = () => {
     const navigate = useNavigate();
@@ -9,7 +12,6 @@ const CompleteProfile = () => {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [phone, setPhone] = useState("");
     const [birthdate, setBirthdate] = useState("");
-    const [error, setError] = useState("");
 
     const validatePhone = (phone: string) => {
         const regex = /^[6789]\d{8}$/;
@@ -21,17 +23,26 @@ const CompleteProfile = () => {
 
         // Validaciones previas
         if (password.length < 6) {
-            setError("La contraseña debe tener al menos 6 caracteres.");
+            toast.error("La contraseña debe tener al menos 6 caracteres.", {
+                position: "top-right",
+                autoClose: 3000,
+            });
             return;
         }
 
         if (password !== confirmPassword) {
-            setError("Las contraseñas no coinciden.");
+            toast.error("Las contraseñas no coinciden.", {
+                position: "top-right",
+                autoClose: 3000,
+            });
             return;
         }
 
         if (!validatePhone(phone)) {
-            setError("El número de teléfono no es válido para España.");
+            toast.error("El número de teléfono no es válido para España.", {
+                position: "top-right",
+                autoClose: 3000,
+            });
             return;
         }
 
@@ -45,22 +56,31 @@ const CompleteProfile = () => {
             if (response.data.accessToken && response.data.refreshToken) {
                 localStorage.setItem("accessToken", response.data.accessToken);
                 localStorage.setItem("refreshToken", response.data.refreshToken);
+                toast.success("Perfil completado con éxito.", {
+                    position: "top-right",
+                    autoClose: 3000,
+                });
                 navigate("/home", { state: { user: response.data.user } });
             } else {
-                alert("Tokens de acceso no recibidos.");
+                toast.error("Tokens de acceso no recibidos.", {
+                    position: "top-right",
+                    autoClose: 3000,
+                });
             }
         } catch (error) {
             console.error("Error al completar el perfil:", error);
-            alert("Hubo un error al completar el perfil.");
+            toast.error("Hubo un error al completar el perfil.", {
+                position: "top-right",
+                autoClose: 3000,
+            });
         }
     };
 
     return (
         <div className={styles.container}>
+            <ToastContainer />
             <form onSubmit={handleSubmit}>
                 <h1 className={styles.title}>Completa tu perfil</h1>
-
-                {error && <p style={{ color: "red" }}>{error}</p>}
 
                 <div className={styles.formGroup}>
                     <label className={styles.label}>Contraseña:</label>

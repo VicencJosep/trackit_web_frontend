@@ -25,3 +25,13 @@ export interface Packet{
     location?: string;
   
 }
+
+export interface Message {
+    _id?: string;
+    senderId: string; // ID del remitente
+    rxId: string; // ID del destinatario
+    content?: string; // Contenido del mensaje
+    created: Date; // Fecha y hora de envío
+    acknowledged: boolean; // Estado de lectura
+    roomId: string; // ID de la sala de chat (opcional)
+}

@@ -16,8 +16,7 @@
     "axios": "^1.9.0",
     "i18next": "^21.6.16",
     "i18next-browser-languagedetector": "^6.1.2",
-        "leaflet": "^1.9.4",
-
+    "leaflet": "^1.9.4",
     "lucide-react": "^0.488.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",

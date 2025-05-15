@@ -4,7 +4,9 @@ import styles from "./Store.module.css";
 import { buyPacket, createPacket } from "../../services/user.service";
 import { Packet, User } from "../../types";
 import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css"; // Asegúrate de importar los estilos
+import { toast } from 'react-toastify';
 // Función para convertir dirección a coordenadas usando Google Maps Geocoding API
 async function getCoordsFromAddress(address: string): Promise<{ lat: number; lng: number } | null> {
   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || ""; // Pon tu API Key de Google Maps aquí
@@ -65,7 +67,7 @@ const packets: Packet[] = [
     description: "Suplementos deportivos para recuperación.",
     status: "almacén",
     createdAt: new Date("2025-03-20"),
-    size: 15,
+    size: 15, 
     weight: 2.5,
     origin: "Valencia",
     destination: "Granada",
@@ -106,10 +108,19 @@ const Store: React.FC = () => {
 
   // Cuando el usuario acepta la dirección
   const handleAddressSubmit = async () => {
-    if (!address || !packetToBuy) return;
+    if (!address || !packetToBuy) {
+      toast.error("Por favor, introduce una dirección válida.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
+      return;
+    }
     const coords = await getCoordsFromAddress(address);
     if (!coords) {
-      alert('No se pudo encontrar la dirección.');
+      toast.error("No se pudo encontrar la dirección.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
       return;
     }
     // Guardamos el paquete con la dirección convertida a coordenadas
@@ -126,7 +137,10 @@ const Store: React.FC = () => {
   // Lógica de compra (igual que antes)
   const handleBuy = async (packet: Packet) => {
     if (!user) {
-      alert("Debes iniciar sesión para comprar un paquete.");
+      toast.error("Debes iniciar sesión para comprar un paquete.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
       return;
     }
     try {
@@ -137,14 +151,23 @@ const Store: React.FC = () => {
 
       // Paso 2: Asociarlo al usuario
       if (createdPacket._id && user.name) {
-        console.log("ID del paquete creado:", createdPacket._id, "nomber del usuario:", user.name);
+        console.log("ID del paquete creado:", createdPacket._id, "nombre del usuario:", user.name);
         await buyPacket(user.name, createdPacket._id);
-        alert(`Has comprado: ${packet.name}`);
+        toast.success(`Has comprado: ${packet.name}`, {
+          position: "top-right",
+          autoClose: 3000,
+        });
       } else {
-        alert("Error al asociar el paquete al usuario.");
+        toast.error("Error al asociar el paquete al usuario.", {
+          position: "top-right",
+          autoClose: 3000,
+        });
       }
     } catch (error) {
-      alert("Hubo un error al procesar tu compra.");
+      toast.error("Hubo un error al procesar tu compra.", {
+        position: "top-right",
+        autoClose: 3000,
+      });
       console.error("Error al comprar el paquete:", error);
     }
   };
@@ -152,6 +175,7 @@ const Store: React.FC = () => {
   return (
     <div>
       <div className={styles.container}>
+        <ToastContainer />
         <h1>Bienvenido a la Tienda, {user.name}</h1>
         <div className={styles.grid}>
           {packets.map((packet, index) => (

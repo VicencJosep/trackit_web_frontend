@@ -3,36 +3,45 @@ import React, { useEffect, useRef, useState } from 'react';
 import './Chat.css';
 import { io, Socket } from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
-import { User } from "../../types/index"; // Importamos el tipo User
+import { Message, User } from "../../types/index"; // Importamos el tipo User
+import ContactList from '../ContactList/ContactList';
 
-interface ChatMessage {
-  room: string;
-  author: string;
-  message: string;
-  time: string;
-}
 
 const Chat: React.FC = () => {
   const location = useLocation();
   const user = location.state?.user as User; // Accede al usuario pasado por navigate
-  const [room, setRoom] = useState('sala1');
   const [currentMessage, setCurrentMessage] = useState('');
-  const [messageList, setMessageList] = useState<ChatMessage[]>([]);
+  const [messageList, setMessageList] = useState<Message[]>([]);
   const [showChat, setShowChat] = useState(false);
-
+  const [contact, setContact] = useState<User|null>(null);
   const socketRef = useRef<Socket | null>(null);
   const chatBodyRef = useRef<HTMLDivElement>(null);
+  const [roomId, setRoomId] = useState<string | null>(null);
+
+  const handleMessages = (newMessages: Message[], contact: User) => {
+    console.log('Mensajes recibidos:', newMessages);
+    setMessageList(newMessages);
+    setContact(contact);
+    setShowChat(true);
+
+    if (newMessages.length > 0) {
+      setRoomId(newMessages[0].roomId); // Usa `newMessages` directamente
+      socketRef.current?.emit('join_room', newMessages[0].roomId);
+    } else {
+      console.error('No se encontraron mensajes para establecer el roomId');
+    }
+  };
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
 
-    socketRef.current = io('http://localhost:3001', {
+    const SOCKET_SERVER_URL = process.env.REACT_APP_SOCKET_SERVER_URL || 'http://localhost:3001';
+    socketRef.current = io(SOCKET_SERVER_URL, {
       auth: {
         token,
       },
     });
-
-    socketRef.current.on('receive_message', (data: ChatMessage) => {
+    socketRef.current.on('receive_message', (data: Message) => {
       console.log('Mensaje recibido:', data);
       setMessageList(prev => [...prev, data]);
     });
@@ -41,12 +50,6 @@ const Chat: React.FC = () => {
       console.debug('Estado recibido:', data);
       if (data.status === 'unauthorized') {
         window.location.href = '/';
-      }
-      else if (data.status === 'joined') {
-        if(typeof(data.user) !== 'undefined'){
-          alert(`${data.user} ha entrado a la sala`);
-        }
-        //
       }
     });
 
@@ -61,22 +64,17 @@ const Chat: React.FC = () => {
     }
   }, [messageList]);
 
-  const joinRoom = () => {    
-    if (room) {
-      socketRef.current?.emit('join_room', room);
-      setShowChat(true);
-    }
-  };
-
   const sendMessage = async () => {
     if (currentMessage !== '') {
-      const messageData: ChatMessage = {
-        room,
-        author: user.name,
-        message: currentMessage,
-        time: new Date().toLocaleTimeString(),
-      };
-
+      const messageData: Message = {
+         senderId: user._id || '',
+         rxId: contact?._id || '',
+         content: currentMessage,
+         created: new Date(),
+         acknowledged: false,
+         roomId: roomId || '',
+     };
+      console.log('Enviando mensaje:', messageData);
       await socketRef.current?.emit('send_message', messageData);
       setMessageList(prev => [...prev, messageData]);
       setCurrentMessage('');
@@ -84,51 +82,49 @@ const Chat: React.FC = () => {
   };
 
   return (
-    <div className="chat-container">
-      {!showChat ? (
-        <div className="join-chat">
-          <h2>Bienvenid@ al Chat {user.name}</h2>
-          <input
-            type="text"
-            placeholder="Sala..."
-            value={room}
-            onChange={(e) => setRoom(e.target.value)}
-          />
-          <button onClick={joinRoom}>Unirse a la Sala</button>
-        </div>
-      ) : (
-        <div className="chat-box">
-          <div className="chat-header">Sala: {room}</div>
-          <div className="chat-body" ref={chatBodyRef}>
-            {messageList.map((msg, index) => (
-              <div
-                key={index}
-                className={`message ${msg.author === user.name ? 'own' : 'other'}`}
-              >
-                <div className="bubble">
-                  <p>{msg.message}</p>
-                  <div className="meta">
-                    <span>{msg.author}</span>
-                    <span>{msg.time}</span>
+    <div className="chat-layout">
+      {user._id && 
+        <ContactList currentUserId={user._id} onMessagesFetched={handleMessages}/>
+      }
+      <div className="chat-container">
+        {!showChat ? (
+          <div className="chat-placeholder">Selecciona un contacto</div>
+        ) : (
+          <div className="chat-box">
+            <div className="chat-header">💬 {contact?.name}</div>
+            <div className="chat-body" ref={chatBodyRef}>
+              {messageList.map((msg, index) => (
+                <div
+                  key={index}
+                  className={`message ${msg.senderId === user._id ? 'own' : 'other'}`}
+                >
+                  <div className="bubble">
+                    <p>{msg.content}</p>
+                    <div className="meta">
+                      <span>
+                          {msg.senderId === user._id ? user.name : contact?.name || 'Unknown'}
+                      </span>
+                      <span>{new Date(msg.created).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+            <div className="chat-footer">
+              <input
+                type="text"
+                placeholder="Escribe tu mensaje..."
+                value={currentMessage}
+                onChange={(e) => setCurrentMessage(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && sendMessage()} />
+              <button onClick={sendMessage}>Enviar</button>
+            </div>
           </div>
-          <div className="chat-footer">
-            <input
-              type="text"
-              placeholder="Mensaje..."
-              value={currentMessage}
-              onChange={(e) => setCurrentMessage(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-            />
-            <button onClick={sendMessage}>Enviar</button>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
+
 };
 
 export default Chat;
