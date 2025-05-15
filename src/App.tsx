@@ -1,23 +1,27 @@
-import React from 'react';
+
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
 import Header from './components/Header';
 import Register from './components/Register/Register';
-import Dashboard from './components/Dashboard/Dashboard';
-import { LogIn } from './services/auth.service';
+import Home from './components/Home/Home';
+import LoginCallback from './components/LoginCallback';
+import CompleteProfile from './components/CompleteProfile';
+import DigitalAwareness from './components/DigitalAwareness/DigitalAwareness';
+import Store from './components/Store/Store';
+import Chat from './components/Chat/Chat';
 
 function App() {
-  // Maneja el inicio de sesión
-  const handleLogin = async (email: string, password: string) => {
-    try {
-      const user = await LogIn(email, password);
-      console.log('User logged in:', user);
-    } catch (error) {
-      console.error('Login failed:', error);
-      alert('Login failed. Please check your credentials.');
+   const [darkMode, setDarkMode] = useState(false);
+   // Aplicar o quitar la clase `dark` en el <body>
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add('dark');
+    } else {
+      document.body.classList.remove('dark')  ;
     }
-  };
+  }, [darkMode]);
 
   return (
     <Router>
@@ -28,7 +32,16 @@ function App() {
             <Route path="/" element={<Navigate to="/login" />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/home" element={<Home />} />      
+            <Route path="/login/callback" element={<LoginCallback />} /> 
+            <Route path="/messages" element={<Chat />} />
+            <Route path="/store" element={<Store />} />
+              <Route
+              path="/digital-awareness"
+              element={<DigitalAwareness darkMode={darkMode} setDarkMode={setDarkMode} />}
+            />
+            <Route path="/complete-profile" element={<CompleteProfile />} />
+            
             {/* Puedes agregar más rutas aquí según sea necesario */}
           </Routes>
         </main>
@@ -38,4 +51,3 @@ function App() {
 }
 
 export default App;
-

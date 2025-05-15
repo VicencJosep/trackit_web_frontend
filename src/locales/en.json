@@ -1,0 +1,62 @@
+{
+    "language": {
+    "label": "Language",
+    "desc": "Select your preferred language.",
+    "spanish": "Spanish",
+    "english": "English"
+  },
+  "title": "Accessibility Center",
+  "highContrast": {
+    "title": "🌈 High Contrast",
+    "desc": "Enables higher contrast for easier reading.",
+    "on": "Enable High Contrast",
+    "off": "Disable High Contrast"
+  },
+  "fontSize": {
+    "title": "Font Size",
+    "desc": "Adjust the font size for easier reading."
+  },
+  "darkMode": {
+    "title": "🌙 Dark Mode",
+    "desc": "Enable dark mode to reduce eye strain.",
+    "on": "Enable Dark Mode",
+    "off": "Disable Dark Mode"
+  },
+  "dyslexicFont": {
+    "title": "Dyslexic Font",
+    "desc": "Enable a font designed for people with dyslexia.",
+    "on": "Enable Dyslexic Font",
+    "off": "Disable Dyslexic Font"
+  },
+  "underlineLinks": {
+    "title": "Underline Links",
+    "desc": "Underline all links to make them easier to identify.",
+    "on": "Enable Underline Links",
+    "off": "Disable Underline Links"
+  },
+  "readableText": {
+    "title": "Readable Text",
+    "desc": "Increase line and word spacing to improve readability.",
+    "on": "Enable Readable Text",
+    "off": "Disable Readable Text"
+  },
+  "tips": {
+    "title": "Accessibility Tips",
+    "tip1": "Use high contrast for easier reading.",
+    "tip2": "Adjust the font size to suit your needs.",
+    "tip3": "Enable dark mode in low-light environments.",
+    "tip4": "Underline links to identify them easily."
+  },
+  "header": {
+    "profile": "Profile",
+    "accessibility": "Accessibility",
+    "store": "Store",
+    "logout": "Logout",
+    "home": "Home",
+    "chat": "Chat"
+  },
+  "store": {
+    "title": "Welcome to the Store",
+    "description": "Browse and purchase items to enhance your experience."
+  }
+}

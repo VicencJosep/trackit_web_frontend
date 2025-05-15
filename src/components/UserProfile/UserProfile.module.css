@@ -13,12 +13,13 @@
 
 .profileCard {
   background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  width: 400px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  width: 500px;
   max-width: 90%;
-  padding: 20px;
+  padding: 30px;
   font-family: "Arial", sans-serif;
+  z-index: 1001;
 }
 
 .header {
@@ -26,12 +27,12 @@
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid #eaeaea;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
+  padding-bottom: 15px;
+  margin-bottom: 25px;
 }
 
 .header h2 {
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   color: #333;
 }
 
@@ -42,24 +43,66 @@
   color: #999;
   transition: color 0.3s ease;
 }
-
 .closeButton:hover {
   color: #333;
 }
 
-.body p {
-  margin: 10px 0;
+.body label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
   font-size: 1rem;
   color: #555;
-  display: flex;
-  align-items: center;
 }
 
-.body p strong {
-  margin-left: 8px;
-}
-
-.body p svg {
-  margin-right: 8px;
+.body label svg {
+  margin-bottom: 5px;
   color: #3498db;
+}
+
+.body input {
+  padding: 8px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin-top: 5px;
+}
+
+.body input:disabled {
+  background-color: #f5f5f5;
+  color: #888;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.editButton,
+.deleteButton {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.editButton {
+  background-color: #3498db;
+  color: white;
+}
+
+.editButton:hover {
+  background-color: #2980b9;
+}
+
+.deleteButton {
+  background-color: #e74c3c;
+  color: white;
+}
+
+.deleteButton:hover {
+  background-color: #c0392b;
 }

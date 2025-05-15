@@ -1,0 +1,62 @@
+{
+    "language": {
+    "label": "Idioma",
+    "desc": "Selecciona tu idioma preferido.",
+    "spanish": "Español",
+    "english": "Inglés"
+  },
+  "title": "Centro de Accesibilidad",
+  "highContrast": {
+    "title": "🌈 Contraste Alto",
+    "desc": "Activa un modo con mayor contraste para facilitar la lectura.",
+    "on": "Activar Contraste Alto",
+    "off": "Desactivar Contraste Alto"
+  },
+  "fontSize": {
+    "title": "Tamaño de Fuente",
+    "desc": "Ajusta el tamaño de la fuente para facilitar la lectura."
+  },
+  "darkMode": {
+    "title": "🌙 Modo Oscuro",
+    "desc": "Activa el modo oscuro para reducir la fatiga visual.",
+    "on": "Activar Modo Oscuro",
+    "off": "Desactivar Modo Oscuro"
+  },
+  "dyslexicFont": {
+    "title": "Fuente para Dislexia",
+    "desc": "Activa una fuente diseñada para personas con dislexia.",
+    "on": "Activar Fuente para Dislexia",
+    "off": "Desactivar Fuente para Dislexia"
+  },
+  "underlineLinks": {
+    "title": "Subrayar Enlaces",
+    "desc": "Subraya todos los enlaces para facilitar su identificación.",
+    "on": "Activar Subrayado de Enlaces",
+    "off": "Desactivar Subrayado de Enlaces"
+  },
+  "readableText": {
+    "title": "Texto Legible",
+    "desc": "Aumenta el espaciado entre líneas y palabras para mejorar la legibilidad.",
+    "on": "Activar Texto Legible",
+    "off": "Desactivar Texto Legible"
+  },
+  "tips": {
+    "title": "Consejos de Accesibilidad",
+    "tip1": "Usa un contraste alto para facilitar la lectura.",
+    "tip2": "Ajusta el tamaño de la fuente según tus necesidades.",
+    "tip3": "Activa el modo oscuro en entornos con poca luz.",
+    "tip4": "Subraya los enlaces para identificarlos fácilmente."
+  },
+  "header": {
+    "profile": "Perfil",
+    "accessibility": "Accesibilidad",
+    "store": "Tienda",
+    "logout": "Cerrar sesión",
+    "home": "Inicio",
+    "chat": "Chat"
+  },
+  "store": {
+    "title": "Bienvenido a la Tienda",
+    "description": "Explora y compra artículos para mejorar tu experiencia."
+  }
+}

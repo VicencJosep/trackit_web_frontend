@@ -1,0 +1,37 @@
+.home-container {
+  padding: 2rem;
+  background-color: #f0f4f8; /* Color de fondo claro y profesional */
+  border-radius: 12px; /* Bordes redondeados más modernos */
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* Sombra más suave y difusa */
+  width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+  max-width: 1200px; /* Limita el ancho máximo en pantallas grandes */
+  margin: 2rem auto; /* Centra el contenedor vertical y horizontalmente */
+  box-sizing: border-box; /* Incluye padding y border en el ancho total */
+}
+
+.sectionsContainer {
+  display: flex; /* Activa el modelo Flexbox */
+  justify-content: space-between; /* Espacia los elementos horizontalmente */
+  align-items: flex-start; /* Alinea los elementos al inicio verticalmente */
+  width: 100%; /* Asegura que el contenedor ocupe todo el ancho disponible */
+  overflow-x: hidden; /* Evita barras de desplazamiento horizontales */
+  box-sizing: border-box; /* Incluye padding y border en el ancho total */
+  gap: 1rem; /* Espacio entre secciones para mejor separación visual */
+}
+
+.section {
+  flex: 1; /* Permite que cada componente ocupe el mismo espacio disponible */
+  max-width: 47.9%; /* Limita el ancho máximo de cada componente al 48% */
+  box-sizing: border-box; /* Incluye padding y border en el ancho total */
+}
+
+/* Media query para pantallas pequeñas */
+@media (max-width: 768px) {
+  .sectionsContainer {
+    flex-direction: column; /* Cambia a diseño vertical */
+  }
+
+  .section {
+    max-width: 100%; /* Cada sección ocupa el 100% del ancho */
+  }
+}

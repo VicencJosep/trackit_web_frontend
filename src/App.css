@@ -4,11 +4,6 @@
   min-height: 100vh;
 }
 
-main {
-  padding: 2rem;
-  max-width: 800px;
-  margin: auto;
-}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -42,4 +37,13 @@ main {
   to {
     transform: rotate(360deg);
   }
+}
+
+body.dark {
+  background-color: #121212 !important;
+  color: #f0f0f0 !important;
+}
+
+body.dark a {
+  color: #81ecec;
 }
