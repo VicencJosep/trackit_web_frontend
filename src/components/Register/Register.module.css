@@ -74,3 +74,13 @@ input:focus {
 .submitButton:active {
     background-color: #003f88;
 }
+.errorMessage {
+    background-color: #ffe0e0;
+    color: #b00020;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(255, 0, 0, 0.1);
+}

@@ -1,10 +1,35 @@
+
+/* Reset global */
+body {
+    margin: 0;
+    padding: 0;
+}
+.body {
+    margin: 0;
+    padding: 0;
+    background-image: url('../../assets/PAQUETES-1024x576.png'); /* Ruta de la imagen */
+    background-size: cover; /* Ajusta la imagen para cubrir toda la pantalla */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+    height: 100vh; /* Asegura que el fondo cubra toda la altura de la pantalla */
+    width: 100vw; /* Asegura que el fondo cubra todo el ancho de la pantalla */
+    display: flex; /* Asegura que los elementos hijos se posicionen correctamente */
+    justify-content: flex-start; /* Centra horizontalmente el contenido */
+    align-items: center; /* Centra verticalmente el contenido */
+    overflow: hidden; /* Evita barras de desplazamiento */
+    position: fixed; /* Fija el fondo a la pantalla */
+    top: 70px;
+    left: 0;
+    z-index: 0; /* Asegura que el fondo esté detrás de otros elementos */
+}
 .loginContainer {
-    max-width: 400px;
-    margin: 0 auto;
+    width: 400px;
+    margin: 0 auto; /* Agrega un margen general */
+    margin-left: 200px; /* Ajusta el margen izquierdo para posicionarlo hacia la izquierda */
     padding: 20px;
     border: 1px solid #e0e0e0;
     border-radius: 8px;
-    background-color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semitransparente */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease, transform 0.3s ease;
     color: #333; /* Asegura que el texto dentro del contenedor tenga un color fijo */
@@ -71,6 +96,7 @@ input:focus {
 .submitButton:active {
     background-color: #004080;
 }
+
 .registerText {
     margin-top: 20px;
     text-align: center;
@@ -85,4 +111,36 @@ input:focus {
 
 .registerLink:hover {
     color: #0056b3;
+}
+
+.googleLogin {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.googleButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    border: 1px solid #dcdcdc;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #555555;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.googleButton:hover {
+    background-color: #f7f7f7;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.googleIcon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
 }

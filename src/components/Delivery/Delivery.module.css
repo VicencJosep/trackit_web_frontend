@@ -1,0 +1,70 @@
+.container {
+  padding: 2rem;
+  background: linear-gradient(to bottom right, #dae8f3, #cbdff0);
+  background-image: url('https://www.transparenttextures.com/patterns/brushed-alum.png');
+  border-radius: 12px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.03);
+  overflow-y: auto;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #2e3a45;
+  text-align: center;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.title::before {
+  content: "🚚";
+}
+
+.packagesContainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.packageCard {
+  background-color: #f0e1cf;
+  padding: 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.07);
+  transition: transform 0.3s, box-shadow 0.3s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.packageCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.15);
+}
+
+.packageTitle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #3c3c3c;
+  margin-bottom: 0.5rem;
+}
+
+.packageInfo {
+  font-size: 0.9rem;
+  color: #6c6c6c;
+}
+
+.packageItem {
+  font-size: 1rem;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.packageItem:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
