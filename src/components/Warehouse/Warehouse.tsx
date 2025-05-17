@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import styles from './Warehouse.module.css'; // Importa los estilos desde el archivo CSS
-import { GetUserPackets } from '../../services/user.service'; // Importa la función para obtener los paquetes
-import { Packet } from '../../types'; // Importa la interfaz de los paquetes
+import styles from './Warehouse.module.css';
+import { GetUserPackets } from '../../services/user.service';
+import { Packet } from '../../types';
+import { useTranslation } from "react-i18next"; // Añade esto
 
 interface WarehouseProps {
   user: {
-    id: string; // id ahora es requerido por Warehouse
+    id: string;
     name: string;
     email: string;
     phone: string;
@@ -14,7 +15,8 @@ interface WarehouseProps {
 
 const Warehouse: React.FC<WarehouseProps> = ({ user }) => {
   const [packages, setPackages] = useState<Packet[]>([]);
-  const [loading, setLoading] = useState(true); // Estado para manejar la carga
+  const [loading, setLoading] = useState(true);
+  const { t } = useTranslation(); // Añade esto
 
   useEffect(() => {
     const getPackages = async () => {
@@ -38,11 +40,11 @@ const Warehouse: React.FC<WarehouseProps> = ({ user }) => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Paquetes en Almacén</h1>
+      <h1 className={styles.title}>{String(t("warehouse.title"))}</h1>
       {loading ? (
-        <p>Cargando paquetes...</p>
+        <p>{String(t("warehouse.loading"))}</p>
       ) : packages.length === 0 ? (
-        <p>No tienes paquetes en el almacén.</p>
+        <p>{String(t("warehouse.empty"))}</p>
       ) : (
         <div className={styles.packagesContainer}>
           {packages.map((pkg) => (
@@ -52,7 +54,9 @@ const Warehouse: React.FC<WarehouseProps> = ({ user }) => {
               onClick={() => handlePackageClick(pkg)}
             >
               <h2 className={styles.packageTitle}>{pkg.name}</h2>
-              <p className={styles.packageInfo}>Descripción: {pkg.description}</p>
+              <p className={styles.packageInfo}>
+                {String(t("warehouse.description"))}: {pkg.description}
+              </p>
             </div>
           ))}
         </div>
@@ -62,4 +66,3 @@ const Warehouse: React.FC<WarehouseProps> = ({ user }) => {
 };
 
 export default Warehouse;
-

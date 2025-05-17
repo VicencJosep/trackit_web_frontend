@@ -1,9 +1,11 @@
 // src/api/axiosConfig.ts
 import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 
-// Creamos la instancia de Axios
+// Usa la variable de entorno para la URL base
+const BASE_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:4000';
+
 const api = axios.create({
-  baseURL: 'http://localhost:4000/api',
+  baseURL: `${BASE_URL}/api`,
   withCredentials: true, // opcional, depende de tu backend
 });
 
@@ -33,7 +35,8 @@ api.interceptors.response.use(
           throw new Error('No refresh token available');
         }
 
-        const res = await axios.post(`http://localhost:4000/api/auth/refresh`, { refreshToken });
+        // Usa la variable de entorno aquí también
+        const res = await axios.post(`${BASE_URL}/api/auth/refresh`, { refreshToken });
 
         const { accessToken } = res.data as { accessToken: string };
 

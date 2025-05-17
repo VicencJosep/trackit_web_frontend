@@ -7,7 +7,7 @@
   },
   "title": "Centro de Accesibilidad",
   "highContrast": {
-    "title": "🌈 Contraste Alto",
+    "title": "Modo daltónico",
     "desc": "Activa un modo con mayor contraste para facilitar la lectura.",
     "on": "Activar Contraste Alto",
     "off": "Desactivar Contraste Alto"
@@ -53,10 +53,39 @@
     "store": "Tienda",
     "logout": "Cerrar sesión",
     "home": "Inicio",
-    "chat": "Chat"
+    "chat": "Chat",
+     "subtitle": "Mensajería que no pierde el rumbo"
   },
   "store": {
     "title": "Bienvenido a la Tienda",
-    "description": "Explora y compra artículos para mejorar tu experiencia."
+    "description": "Explora y compra artículos para mejorar tu experiencia.",
+    "welcome": "Bienvenido a la Tienda, {{name}}",
+    "status": "Estado",
+    "status_almacén": "En almacén",
+    "status_en reparto": "En reparto",
+    "size": "Tamaño",
+    "weight": "Peso",
+    "origin": "Origen",
+    "buy": "Comprar",
+    "enterAddress": "Introduce tu dirección de destino",
+    "addressPlaceholder": "Ej: Passeig de Gràcia, 1, Barcelona",
+    "accept": "Aceptar",
+    "cancel": "Cancelar"
+  },
+   "delivery": {
+    "title": "Paquetes en Reparto",
+    "loading": "Cargando paquetes...",
+    "empty": "No tienes paquetes en reparto.",
+    "description": "Descripción"
+  },
+  "contactList": {
+    "title": "Contactos",
+    "loading": "Cargando contactos..."
+  },
+  "warehouse": {
+    "title": "Paquetes en Almacén",
+    "loading": "Cargando paquetes...",
+    "empty": "No tienes paquetes en el almacén.",
+    "description": "Descripción"
   }
 }
