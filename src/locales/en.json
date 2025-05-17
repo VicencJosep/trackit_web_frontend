@@ -7,7 +7,7 @@
   },
   "title": "Accessibility Center",
   "highContrast": {
-    "title": "🌈 High Contrast",
+    "title": "Daltonic mode",
     "desc": "Enables higher contrast for easier reading.",
     "on": "Enable High Contrast",
     "off": "Disable High Contrast"
@@ -53,10 +53,40 @@
     "store": "Store",
     "logout": "Logout",
     "home": "Home",
-    "chat": "Chat"
+    "chat": "Chat",
+    "subtitle": "Messaging that never loses its way"
   },
   "store": {
     "title": "Welcome to the Store",
-    "description": "Browse and purchase items to enhance your experience."
+    "description": "Browse and purchase items to enhance your experience.",
+    "welcome": "Welcome to the Store, {{name}}",
+    "status": "Status",
+    "status_almacén": "In warehouse",
+    "status_en reparto": "Out for delivery",
+    "size": "Size",
+    "weight": "Weight",
+    "origin": "Origin",
+    "buy": "Buy",
+    "enterAddress": "Enter your destination address",
+    "addressPlaceholder": "E.g.: Passeig de Gràcia, 1, Barcelona",
+    "accept": "Accept",
+    "cancel": "Cancel"
+  },
+   "delivery": {
+    "title": "Packages Out for Delivery",
+    "loading": "Loading packages...",
+    "empty": "You have no packages out for delivery.",
+    "description": "Description"
+  },
+   "contactList": {
+    "title": "Contacts",
+    "loading": "Loading contacts..."
+  },
+  "warehouse": {
+    "title": "Packages in Warehouse",
+    "loading": "Loading packages...",
+    "empty": "You have no packages in the warehouse.",
+    "description": "Description"
   }
+  
 }

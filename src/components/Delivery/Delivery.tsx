@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './Delivery.module.css';
 import { GetUserPackets } from '../../services/user.service';
 import { Packet } from '../../types';
+import { useTranslation } from "react-i18next";
 
 interface DeliveryProps {
   user: {
@@ -16,6 +17,7 @@ interface DeliveryProps {
 const Delivery: React.FC<DeliveryProps> = ({ user, onSelectPacket }) => {
   const [packages, setPackages] = useState<Packet[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const getPackages = async () => {
@@ -41,11 +43,11 @@ const Delivery: React.FC<DeliveryProps> = ({ user, onSelectPacket }) => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.title}>Paquetes en Reparto</h1>
+      <h1 className={styles.title}>{String(t("delivery.title"))}</h1>
       {loading ? (
-        <p>Cargando paquetes...</p>
+        <p>{String(t("delivery.loading"))}</p>
       ) : packages.length === 0 ? (
-        <p>No tienes paquetes en reparto.</p>
+        <p>{String(t("delivery.empty"))}</p>
       ) : (
         <div className={styles.packagesContainer}>
           {packages.map((pkg) => (
@@ -55,7 +57,9 @@ const Delivery: React.FC<DeliveryProps> = ({ user, onSelectPacket }) => {
               onClick={() => handlePackageClick(pkg)}
             >
               <h2 className={styles.packageTitle}>{pkg.name}</h2>
-              <p className={styles.packageInfo}>Descripción: {pkg.description}</p>
+              <p className={styles.packageInfo}>
+                {String(t("delivery.description"))}: {pkg.description}
+              </p>
             </div>
           ))}
         </div>

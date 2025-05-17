@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { fetchContacts, fetchMessages } from '../../services/message.service'; // Asegúrate de que el path sea correcto
+import { fetchContacts, fetchMessages } from '../../services/message.service';
 import { Message, User } from '../../types';
-import styles from './ContactList.module.css'; // Adjust the path if necessary
+import styles from './ContactList.module.css';
+import { useTranslation } from "react-i18next"; // Añade esto
 
 
 interface ContactListProps {
   currentUserId: string;
-  onMessagesFetched: (messages: Message[], contact: User) => void; // Cambia `any` por el tipo adecuado para los mensajes
+  onMessagesFetched: (messages: Message[], contact: User) => void;
 }
 
 const ContactList: React.FC<ContactListProps> = ({ currentUserId, onMessagesFetched }) => {
   const [contacts, setContacts] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation(); // Añade esto
 
   useEffect(() => {
     console.log('currentUserId:', currentUserId);
@@ -38,13 +40,13 @@ const ContactList: React.FC<ContactListProps> = ({ currentUserId, onMessagesFetc
     }
   };
   if (loading) {
-    return <div className={styles.loading}>Cargando contactos...</div>;
+    return <div className={styles.loading}>{String(t("contactList.loading"))}</div>;
   }
 
   return (
     <div className={styles.sidebar}>
       <div className={styles.header}>
-        <h2 className={styles.title}>Contactos</h2>
+        <h2 className={styles.title}>{String(t("contactList.title"))}</h2>
       </div>
       <ul className={styles.contactList}>
         {contacts.map((contact) => (

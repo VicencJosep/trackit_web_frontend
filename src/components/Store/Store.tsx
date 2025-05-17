@@ -7,6 +7,7 @@ import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css"; // Asegúrate de importar los estilos
 import { toast } from 'react-toastify';
+import { useTranslation } from "react-i18next";
 // Función para convertir dirección a coordenadas usando Google Maps Geocoding API
 async function getCoordsFromAddress(address: string): Promise<{ lat: number; lng: number } | null> {
   const apiKey = process.env.REACT_APP_GOOGLE_MAPS_API_KEY || ""; // Pon tu API Key de Google Maps aquí
@@ -30,7 +31,6 @@ const packets: Packet[] = [
     size: 35,
     weight: 1.2,
     origin: "Barcelona",
-    destination: "Madrid",
   },
   {
     name: "Equipación FC Barcelona",
@@ -40,7 +40,6 @@ const packets: Packet[] = [
     size: 25,
     weight: 0.8,
     origin: "Barcelona",
-    destination: "Valencia",
   },
   {
     name: "Balón Oficial FIFA",
@@ -50,7 +49,6 @@ const packets: Packet[] = [
     size: 20,
     weight: 0.4,
     origin: "41.387019, 2.170047",
-    destination: "41.403629, 2.174356",
   },
   {
     name: "Mochila deportiva",
@@ -60,7 +58,6 @@ const packets: Packet[] = [
     size: 30,
     weight: 0.6,
     origin: "41.379021, 2.140101",
-    destination: "41.414495, 2.152694",
   },
   {
     name: "Pack de Proteínas",
@@ -70,7 +67,6 @@ const packets: Packet[] = [
     size: 15, 
     weight: 2.5,
     origin: "Valencia",
-    destination: "Granada",
   },
 ];
 
@@ -81,7 +77,7 @@ const Store: React.FC = () => {
   const [address, setAddress] = useState('');
   const [packetToBuy, setPacketToBuy] = useState<Packet | null>(null);
   const [autocomplete, setAutocomplete] = useState<google.maps.places.Autocomplete | null>(null);
-
+  const { t } = useTranslation();
   // Usa SIEMPRE las mismas opciones en toda la app para evitar el error del loader
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY || "",
@@ -176,32 +172,29 @@ const Store: React.FC = () => {
     <div>
       <div className={styles.container}>
         <ToastContainer />
-        <h1>Bienvenido a la Tienda, {user.name}</h1>
+        <h1>{String(t("store.welcome", { name: user.name }))}</h1>
         <div className={styles.grid}>
           {packets.map((packet, index) => (
             <div key={index} className={styles.card}>
               <h2>{packet.name}</h2>
               <p>{packet.description}</p>
               <p>
-                <strong>Estado:</strong> {packet.status}
+                <strong>{String(t("store.status"))}:</strong> {String(t(`store.status_${packet.status}`))}
               </p>
               <p>
-                <strong>Tamaño:</strong> {packet.size} cm
+                <strong>{String(t("store.size"))}:</strong> {packet.size} cm
               </p>
               <p>
-                <strong>Peso:</strong> {packet.weight} kg
+                <strong>{String(t("store.weight"))}:</strong> {packet.weight} kg
               </p>
               <p>
-                <strong>Origen:</strong> {packet.origin}
-              </p>
-              <p>
-                <strong>Destino:</strong> {packet.destination}
+                <strong>{String(t("store.origin"))}:</strong> {packet.origin}
               </p>
               <button
                 className={styles.buyButton}
                 onClick={() => handleBuyClick(packet)}
               >
-                Comprar
+                {String(t("store.buy"))}
               </button>
             </div>
           ))}
@@ -213,7 +206,7 @@ const Store: React.FC = () => {
           background: 'rgba(0,0,0,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center'
         }}>
           <div style={{ background: 'white', padding: 20, borderRadius: 8 }}>
-            <h3>Introduce tu dirección de destino</h3>
+            <h3>{String(t("store.enterAddress"))}</h3>
             <Autocomplete
               onLoad={ac => setAutocomplete(ac)}
               onPlaceChanged={onPlaceChanged}
@@ -222,13 +215,14 @@ const Store: React.FC = () => {
                 type="text"
                 value={address}
                 onChange={e => setAddress(e.target.value)}
-                placeholder="Ej: Passeig de Gràcia, 1, Barcelona"
+                placeholder={String(t("store.addressPlaceholder"))}
                 style={{ width: 300 }}
               />
             </Autocomplete>
             <div style={{ marginTop: 10 }}>
               <button onClick={handleAddressSubmit}>Aceptar</button>
               <button onClick={() => setShowAddressInput(false)} style={{ marginLeft: 10 }}>Cancelar</button>
+              {String(t("store.cancel"))}
             </div>
           </div>
         </div>

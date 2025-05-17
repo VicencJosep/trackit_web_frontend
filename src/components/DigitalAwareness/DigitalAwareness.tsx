@@ -2,12 +2,7 @@ import styles from "./DigitalAwareness.module.css";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-interface DigitalAwarenessProps {
-  darkMode: boolean;
-  setDarkMode: (value: boolean) => void;
-}
-
-const DigitalAwareness: React.FC<DigitalAwarenessProps> = ({ darkMode, setDarkMode }) => {
+const DigitalAwareness: React.FC = () => {
   const [highContrast, setHighContrast] = useState(false);
   const [fontSize, setFontSize] = useState(1);
   const [readableText, setReadableText] = useState(false);
@@ -69,17 +64,6 @@ const DigitalAwareness: React.FC<DigitalAwarenessProps> = ({ darkMode, setDarkMo
           <span>{Math.round(fontSize * 100)}%</span>
           <button onClick={() => setFontSize((s) => Math.min(2, s + 0.1))}>A+</button>
         </div>
-      </div>
-
-      <div className={styles.section}>
-        <h2>{String(t("darkMode.title"))}</h2>
-        <p>{String(t("darkMode.desc"))}</p>
-        <button
-          className={`${styles.button} ${darkMode ? styles.active : ""}`}
-          onClick={() => setDarkMode(!darkMode)}
-        >
-          {darkMode ? String(t("darkMode.off")) : String(t("darkMode.on"))}
-        </button>
       </div>
 
       <div className={styles.section}>

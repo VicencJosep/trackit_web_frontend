@@ -38,7 +38,7 @@ function App() {
             <Route path="/store" element={<Store />} />
               <Route
               path="/digital-awareness"
-              element={<DigitalAwareness darkMode={darkMode} setDarkMode={setDarkMode} />}
+              element={<DigitalAwareness />}
             />
             <Route path="/complete-profile" element={<CompleteProfile />} />
             
