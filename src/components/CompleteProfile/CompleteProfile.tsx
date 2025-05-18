@@ -47,7 +47,7 @@ const CompleteProfile = () => {
         }
 
         try {
-            const response = await api.put("http://localhost:4000/api/auth/complete-profile", {
+            const response = await api.put("/auth/complete-profile", {
                 phone,
                 password,
                 birthdate,
