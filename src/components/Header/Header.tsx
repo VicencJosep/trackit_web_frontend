@@ -9,7 +9,12 @@ import { User as UserType } from "../../types/index"; // Importamos el tipo User
 import { Home, ShoppingCart, MessageSquare } from "lucide-react";
 import { useTranslation } from "react-i18next"; // Importamos el hook de traducción
 
-const Header = () => {
+
+type Props = {
+  disconnect: () => void;
+};
+
+const Header: React.FC<Props> = ({ disconnect }) => {
   const { t } = useTranslation(); // Inicializamos el hook de traducción
   const navigate = useNavigate();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
@@ -17,9 +22,10 @@ const Header = () => {
   const [userData, setUserData] = useState<UserType | null>(null);
   const location = useLocation();
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    await disconnect(); // Espera a que se complete la desconexión del socket
     window.location.href = "/login";
   };
 
