@@ -12,6 +12,7 @@ import DigitalAwareness from './components/DigitalAwareness/DigitalAwareness';
 import Store from './components/Store/Store';
 import Chat from './components/Chat/Chat';
 import { socket } from './socket';
+import DeliveryHome from './components/DeliveryHome';
 
 function App() {
    const [isConnected, setIsConnected] = useState(socket.connected);
@@ -62,6 +63,7 @@ function App() {
               element={<DigitalAwareness />}
             />
             <Route path="/complete-profile" element={<CompleteProfile />} />
+            <Route path="/delivery-home" element={<DeliveryHome />} />
             
             {/* Puedes agregar más rutas aquí según sea necesario */}
           </Routes>

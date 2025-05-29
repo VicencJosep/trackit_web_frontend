@@ -1,13 +1,16 @@
 export interface User {
-    id?: string;
-    name: string;
-    email: string;
-    password: string;
-    phone: string;
-    available: boolean;
-    packets: string[];
-    birthDate: Date;
-    isProfileComplete: boolean;
+  id?: string; // Optional ID for the user
+  name: string;
+  email: string;
+  password: string;
+  phone: string;
+  available: boolean;
+  packets: string[];
+  role: "admin" | "user" | "delivery";
+  birthdate: Date;
+  isProfileComplete: boolean;
+  deliveredPackets?: string[];
+  assignedPackets?: string[];
 }
 
 export interface Packet{

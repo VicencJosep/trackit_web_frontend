@@ -42,6 +42,38 @@ export const GetUserPackets = async (userId: string): Promise<any[]> => {
         throw error;
     }
 };
+export const GetAssignedPackets = async (userId: string): Promise<any[]> => {
+    try {
+        const response = await api.get<any[]>(`/Users/${userId}/assigned-packets`);
+        if (response.status !== 200) {
+            throw new Error('Failed to fetch user packets');
+        }
+        return response.data; // Devuelve los paquetes del usuario
+    } catch (error) {
+        console.error('Error fetching user packets:', error);
+        throw error;
+    }
+};
+
+export const GetOptimizedRoute = async (
+  userId: string,
+  startLocation?: string
+): Promise<Packet[]> => {
+  try {
+    const params = startLocation ? { startLocation } : {};
+    const response = await api.get<Packet[]>(
+      `/users/${userId}/optimized-route`,
+      { params }
+    );
+    if (response.status !== 200) {
+      throw new Error('Failed to fetch optimized route');
+    }
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching optimized route:', error);
+    throw error;
+  }
+};
 
 export const buyPacket = async (userName: string, packetId: string): Promise<void> => {
     try {

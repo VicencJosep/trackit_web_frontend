@@ -45,11 +45,12 @@ const Login: React.FC<Props> = ({ connect }) => {
             // después de guardar el token
             socket.auth = { token: accessToken };
             connect();
-
             if (data.isProfileComplete === false) {
                 navigate('/complete-profile', { state: { user: data } });
+                return;
             } else {
                 navigate('/home', { state: { user: data } });
+                return;
             }
         } catch (error: any) {
             console.error('Login failed:', error);

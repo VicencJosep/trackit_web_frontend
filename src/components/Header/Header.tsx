@@ -8,7 +8,7 @@ import { fetchUserData } from "../../services/user.service";
 import { User as UserType } from "../../types/index"; // Importamos el tipo User
 import { Home, ShoppingCart, MessageSquare } from "lucide-react";
 import { useTranslation } from "react-i18next"; // Importamos el hook de traducción
-
+import { Bike } from "lucide-react";
 
 type Props = {
   disconnect: () => void;
@@ -21,6 +21,7 @@ const Header: React.FC<Props> = ({ disconnect }) => {
   const [showProfile, setShowProfile] = useState(false);
   const [userData, setUserData] = useState<UserType | null>(null);
   const location = useLocation();
+  const [isDelivery, setIsDelivery] = useState(false);
 
   const handleLogout = async () => {
     localStorage.removeItem("accessToken");
@@ -73,11 +74,16 @@ const Header: React.FC<Props> = ({ disconnect }) => {
     const token = localStorage.getItem("accessToken");
     if (token && !userData) {
       fetchUserData(token)
-        .then((data) => setUserData(data))
+        .then((data) => {
+          setUserData(data);
+        })
         .catch((err) => console.error("Error preloading user data:", err));
     }
-  }, [userData]);
+  }, [userData, location.pathname]);
 
+  useEffect(() => {
+    setIsDelivery(userData?.role === "delivery");
+  }, [userData]);
   return (
     <><header className={styles.header}>
       <div
@@ -149,6 +155,13 @@ const Header: React.FC<Props> = ({ disconnect }) => {
                           {String(t("header.chat"))} {/* Traducción */}
 
           </li>
+          {isDelivery && (
+            <li onClick={() => preloadUserAndNavigate("/delivery-home")}>
+              <Bike size={18} style={{ marginRight: 8, verticalAlign: 'middle' }} />
+
+              {String(t("header.delivery"))} {/* Traducción */}
+            </li>
+          )}
         </ul>
       </nav>
     )}

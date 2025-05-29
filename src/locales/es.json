@@ -54,6 +54,7 @@
     "logout": "Cerrar sesión",
     "home": "Inicio",
     "chat": "Chat",
+    "delivery": "Info Reparto",
      "subtitle": "Mensajería que no pierde el rumbo"
   },
   "store": {
@@ -88,4 +89,5 @@
     "empty": "No tienes paquetes en el almacén.",
     "description": "Descripción"
   }
+  
 }

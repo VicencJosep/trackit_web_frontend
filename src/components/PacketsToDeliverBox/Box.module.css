@@ -1,0 +1,78 @@
+/* ...existing code... */
+
+.mainWrapper {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+  width: 100%;
+}
+
+/* Contenedor de la lista de paquetes asignados (izquierda) */
+.container {
+  flex: 1;
+  padding: 2rem;
+  background: linear-gradient(to bottom right, #f9f6f2, #f4efe8);
+  background-image: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+  border-radius: 12px;
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.03);
+  overflow-y: auto;
+  min-width: 320px;
+}
+
+/* Contenedor de la ruta optimizada (derecha) */
+.optimizedRouteSection {
+  flex: 1;
+  padding: 2rem;
+  background: linear-gradient(to bottom right, #eaf6fb, #f4fafd);
+  border-radius: 12px;
+  box-shadow: 0 0 8px rgba(52, 152, 219, 0.07);
+  min-width: 320px;
+  max-width: 600px;
+  margin-top: 0;
+}
+
+.optimizedRouteSection h2 {
+  font-size: 1.5rem;
+  color: #2980b9;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.routeList {
+  list-style: decimal inside;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.routeList li {
+  background-color: #e3f1fa;
+  border-radius: 10px;
+  padding: 1.2rem 1rem;
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.routeList li:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 4px 16px rgba(52, 152, 219, 0.18);
+}
+
+.routeList .packageTitle {
+  color: #2471a3;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.routeList .packageInfo {
+  color: #5d6d7e;
+  font-size: 0.95rem;
+}
+
+/* ...rest of your existing styles... */
