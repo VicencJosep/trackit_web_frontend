@@ -6,6 +6,7 @@ export interface User {
     phone: string;
     available: boolean;
     packets: string[];
+    deliveryQueue: string[]; // IDs de los paquetes en la cola de entregas
     birthDate: Date;
     isProfileComplete: boolean;
 }

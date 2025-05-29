@@ -11,7 +11,7 @@ import CompleteProfile from './components/CompleteProfile';
 import DigitalAwareness from './components/DigitalAwareness/DigitalAwareness';
 import Store from './components/Store/Store';
 import Chat from './components/Chat/Chat';
-
+import DeliveryQueue from './components/DeliveryQueue';
 function App() {
    const [darkMode, setDarkMode] = useState(false);
    // Aplicar o quitar la clase `dark` en el <body>
@@ -41,6 +41,7 @@ function App() {
               element={<DigitalAwareness />}
             />
             <Route path="/complete-profile" element={<CompleteProfile />} />
+            <Route path="/delivery-queue" element={<DeliveryQueue />} />
             
             {/* Puedes agregar más rutas aquí según sea necesario */}
           </Routes>

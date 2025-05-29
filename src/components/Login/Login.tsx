@@ -39,7 +39,7 @@ const Login: React.FC = () => {
             if (data.isProfileComplete === false) {
                 navigate('/complete-profile', { state: { user: data } });
             } else {
-                navigate('/home', { state: { user: data } });
+                navigate('/delivery-queue', { state: { user: data } });
             }
         } catch (error: any) {
             console.error('Login failed:', error);

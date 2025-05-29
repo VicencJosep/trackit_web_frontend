@@ -86,6 +86,33 @@ export const updateUser = async (userId: string, data: any) => {
   return response.data;
 };
 
+
+
 export const deleteUser = async (userId: string) => {
   return await api.put(`/users/${userId}/deactivate`);
+};
+
+export const getDeliveryQueue = async (userName: string): Promise<Packet[]> => {
+    try {
+        const response = await api.get<Packet[]>(`/users/${userName}/delivery-queue`);
+        if (response.status !== 200) {
+            throw new Error('Failed to fetch delivery queue');
+        }
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching delivery queue:', error);
+        throw error;
+    }
+};
+
+export const updateDeliveryQueue = async (userName: string, queue: string[]): Promise<void> => {
+    try {
+        const response = await api.put(`/users/${userName}/delivery-queue`, { queue });
+        if (response.status !== 200) {
+            throw new Error('Failed to update delivery queue');
+        }
+    } catch (error) {
+        console.error('Error updating delivery queue:', error);
+        throw error;
+    }
 };
