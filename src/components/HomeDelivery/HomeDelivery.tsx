@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 import { User, Packet } from '../../types';
 import { getAssignedPackets, fetchUserData } from '../../services/user.service';
-import WarehousePacketsList from '../PacketsList'; // Importa el componente
-import './HomeDelivery.module.css';
+import PacketsList from '../PacketsList';
+import styles from './HomeDelivery.module.css';
 
 const HomeDelivery: React.FC = () => {
   const location = useLocation();
@@ -14,7 +14,7 @@ const HomeDelivery: React.FC = () => {
   useEffect(() => {
     const loadUserAndPackets = async () => {
       try {
-         let currentUser = user;
+        let currentUser = user;
 
         if (!currentUser) {
           const token = localStorage.getItem('accessToken');
@@ -28,7 +28,6 @@ const HomeDelivery: React.FC = () => {
           const assignedPackets = await getAssignedPackets(currentUser.id);
           setPackets(assignedPackets);
         }
-
       } catch (error) {
         console.error('Error loading user or packets:', error);
       } finally {
@@ -39,21 +38,21 @@ const HomeDelivery: React.FC = () => {
     loadUserAndPackets();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div className={styles.loading}>Cargando...</div>;
   if (!user) return <Navigate to="/login" replace />;
 
   return (
-    <div className="homeDelivery-container">
-      <h1>Home Delivery</h1>
+    <div className={styles.homeDeliveryContainer}>
+      <h1 className={styles.title}>Home Delivery</h1>
 
-      <section className="packets-queue">
-        <h2>Paquetes en cola para repartir</h2>
+      <section className={styles.packetsQueue}>
+        <h2 className={styles.subtitle}>Paquetes en cola para repartir</h2>
         {packets.length === 0 ? (
-          <p>No hay paquetes asignados.</p>
+          <p className={styles.noPackets}>No hay paquetes asignados.</p>
         ) : (
-          <ul className="packets-list">
+          <ul className={styles.packetsList}>
             {packets.map((packet) => (
-              <li key={packet._id} className="packet-item">
+              <li key={packet._id} className={styles.packetItem}>
                 <strong>ID:</strong> {packet._id} <br />
                 <strong>Descripción:</strong> {packet.description || 'Sin descripción'}
               </li>
@@ -62,8 +61,8 @@ const HomeDelivery: React.FC = () => {
         )}
       </section>
 
-      <section className="warehouse-packets">
-        <WarehousePacketsList />
+      <section className={styles.warehousePackets}>
+        <PacketsList />
       </section>
     </div>
   );

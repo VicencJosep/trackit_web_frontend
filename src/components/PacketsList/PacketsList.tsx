@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { assignPacketToDelivery } from '../../services/user.service';
-import { getAllPackets } from '../../services/user.service';
-import styles from './WarehousePacketsList.module.css';
+import { assignPacketToDelivery, getAllPackets } from '../../services/user.service';
+import styles from './PacketsList.module.css';
 import { Packet } from '../../types';
 
 const PacketsList: React.FC = () => {
-    const [packets, setPackets] = useState<Packet[]>([]);
+  const [packets, setPackets] = useState<Packet[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const userId = localStorage.getItem('userId'); // o desde contexto si lo prefieres
@@ -14,10 +13,12 @@ const PacketsList: React.FC = () => {
     const fetchPackets = async () => {
       try {
         const allPackets = await getAllPackets();
-        const warehousePackets = allPackets.filter(p => p.status === 'warehouse');
-        setPackets(warehousePackets);
+        console.log('Paquetes recibidos:', allPackets); // Depuración
+
+        // Asegurarse de que siempre sea un array
+        setPackets(Array.isArray(allPackets) ? allPackets : []);
       } catch (err) {
-        setError('Error cargando los paquetes');
+        setError('Error cargando los paquetes.');
       } finally {
         setLoading(false);
       }
@@ -50,18 +51,16 @@ const PacketsList: React.FC = () => {
         <p>No hay paquetes disponibles en almacén.</p>
       ) : (
         <ul className={styles.list}>
-          {packets
-            .filter(packet => packet._id) // filtrar solo con _id definido
-            .map(packet => (
-              <li key={packet._id} className={styles.item}>
-                <span><strong>Dirección:</strong> {packet.origin}</span>
-                <button onClick={() => handleAssign(packet._id!)}>Añadir a la cola</button>
-              </li>
-            ))
-          }
+          {packets.map(packet => (
+            <li key={packet._id} className={styles.item}>
+              <span><strong>Dirección:</strong> {packet.origin}</span>
+              <button onClick={() => handleAssign(packet._id!)}>Añadir a la cola</button>
+            </li>
+          ))}
         </ul>
       )}
     </div>
   );
 };
-    export default PacketsList;
+
+export default PacketsList;

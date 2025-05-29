@@ -1,42 +1,70 @@
-.homeDelivery-container {
-  max-width: 800px;
+.homeDeliveryContainer {
+  max-width: 900px;
   margin: 2rem auto;
   padding: 1rem 2rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
+  background-color: #f7f9fc;
+  border-radius: 12px;
 }
 
-.packets-queue {
-  background-color: #f9f9f9;
+.title {
+  text-align: center;
+  font-size: 2rem;
+  color: #0d3b66;
+  margin-bottom: 1.5rem;
+}
+
+.packetsQueue {
+  background-color: #ffffff;
   border: 2px solid #007bff;
-  border-radius: 8px;
-  padding: 1rem 1.5rem;
-  box-shadow: 0 2px 6px rgb(0 123 255 / 0.2);
-  margin-top: 2rem;
+  border-radius: 10px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.1);
+  margin-bottom: 2rem;
 }
 
-.packets-queue h2 {
+.subtitle {
+  font-size: 1.5rem;
   margin-bottom: 1rem;
   color: #007bff;
+  text-align: center;
 }
 
-.packets-list {
+.noPackets {
+  text-align: center;
+  font-style: italic;
+  color: #777;
+}
+
+.packetsList {
   list-style-type: none;
   padding-left: 0;
   max-height: 300px;
   overflow-y: auto;
+  margin: 0;
 }
 
-.packet-item {
-  background: white;
-  padding: 0.75rem 1rem;
-  border-radius: 6px;
+.packetItem {
+  background: #f1f8ff;
+  padding: 1rem;
+  border-radius: 8px;
   margin-bottom: 0.75rem;
-  box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
   transition: background-color 0.2s ease;
   cursor: default;
 }
 
-.packet-item:hover {
-  background-color: #e6f0ff;
+.packetItem:hover {
+  background-color: #e0efff;
+}
+
+.warehousePackets {
+  margin-top: 2rem;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #555;
 }

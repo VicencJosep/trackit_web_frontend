@@ -11,8 +11,8 @@ const Login: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
-    
-    function parseJwt(token: string) {
+
+     function parseJwt(token: string) {
     try {
         const base64Url = token.split('.')[1];
         const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -28,33 +28,57 @@ const Login: React.FC = () => {
         return null;
     }
     }
+    
 
-    const handleSubmit = async () => {
-    try {
-        const { accessToken, refreshToken } = await LogIn(email, password);
-        const data = await fetchUserData(accessToken);
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setErrorMessage('');
 
-        localStorage.setItem('accessToken', accessToken);
-        localStorage.setItem('refreshToken', refreshToken);
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setErrorMessage('Please enter a valid email address.');
+            return;
+        }
 
-        const role = parseJwt(accessToken)?.role;
+        if (!email || !password) {
+            setErrorMessage('Please fill in both email and password.');
+            return;
+        }
 
-        if (data.isProfileComplete === false) {
-            navigate('/complete-profile', { state: { user: data } });
-        } else {
-            if (role === 'delivery') {
-                navigate('/homeDelivery', { state: { user: data } });
+        setIsSubmitting(true);
+
+        try {
+            const { accessToken, refreshToken } = await LogIn(email, password);
+            const data = await fetchUserData(accessToken);
+
+            localStorage.setItem('accessToken', accessToken);
+            localStorage.setItem('refreshToken', refreshToken);
+
+                const role = parseJwt(accessToken)?.role;
+                console .log('User role:', role);
+            
+                if (role === 'delivery') {
+                    navigate('/homeDelivery', { state: { user: data } });
+            }
+            else
+            {
+                if (data.isProfileComplete === false) {
+                navigate('/complete-profile', { state: { user: data } });
             } else {
                 navigate('/home', { state: { user: data } });
             }
+            }
+            
+
+
+            
+        } catch (error: any) {
+            console.error('Login failed:', error);
+            setErrorMessage(error?.response?.data?.message || 'Invalid credentials. Please try again.');
+        } finally {
+            setIsSubmitting(false);
         }
-    } catch (error: any) {
-        console.error('Login failed:', error);
-        setErrorMessage(error?.response?.data?.message || 'Invalid credentials. Please try again.');
-    } finally {
-        setIsSubmitting(false);
-    }
-};
+    };
 
     const handleGoogleLogin = () => {
         // Redirigir a Google para el login OAuth

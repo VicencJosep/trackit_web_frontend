@@ -13,16 +13,26 @@ export const fetchUsers = async (): Promise<User[]> => {
     }
 };
 export const getAllPackets = async (): Promise<Packet[]> => {
-    try {
-        const response = await api.get<Packet[]>('/packets');
-        if (response.status !== 200) {
-            throw new Error('Failed to fetch packets');
-        }
-        return response.data; // Devuelve todos los paquetes
-    } catch (error) {
-        console.error('Error fetching packets:', error);    
-        throw error;
+  try {
+    const token = localStorage.getItem('accessToken');
+
+    const response = await fetch('http://localhost:4000/api/packets', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Error al obtener los paquetes');
     }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching packets:', error);
+    throw error;
+  }
 };
 
 // Fetch user data by token
