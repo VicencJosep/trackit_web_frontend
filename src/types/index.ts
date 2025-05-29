@@ -6,8 +6,9 @@ export interface User {
     phone: string;
     available: boolean;
     packets: string[];
-    birthDate: Date;
+    birthdate: Date;
     isProfileComplete: boolean;
+    role?: string; // 'user' | 'admin' | 'delivery' | 'client'
 }
 
 export interface Packet{

@@ -5,11 +5,13 @@ import Delivery from '../Delivery/Delivery';
 import PackageMap from '../PackageMap'; // Importa desde index.ts
 import styles from './Home.module.css';
 import { User } from '../../types';
+import AdminTablesModal from '../AdminTablesModal/AdminTablesModal'; // Importa el modal de tablas
 
 const Home: React.FC = () => {
   const location = useLocation();
   const user = location.state?.user as User | undefined;
   const [selectedPacketId, setSelectedPacketId] = useState<string | null>(null);
+  const [showAdminTables, setShowAdminTables] = useState(false); 
 
   if (!user) {
     return <Navigate to="/login" replace />;
@@ -24,6 +26,19 @@ const Home: React.FC = () => {
 
   return (
     <div className={styles.homeContainer}>
+      {}
+      <button
+        className={styles.adminTablesButton}
+        onClick={() => setShowAdminTables(true)}
+        style={{ position: 'absolute', top: 20, left: 20, zIndex: 10 }}
+      >
+        Ver info de usuarios y paquetes
+      </button>
+
+      {showAdminTables && (
+  <AdminTablesModal onClose={() => setShowAdminTables(false)} />
+)}
+
       <div className={styles.sectionsContainer}>
         <div className={styles.section}>
           <Warehouse user={warehouseUser} />

@@ -7,6 +7,7 @@
   max-width: 1200px; /* Limita el ancho máximo en pantallas grandes */
   margin: 2rem auto; /* Centra el contenedor vertical y horizontalmente */
   box-sizing: border-box; /* Incluye padding y border en el ancho total */
+  
 }
 
 .sectionsContainer {
@@ -17,6 +18,24 @@
   overflow-x: hidden; /* Evita barras de desplazamiento horizontales */
   box-sizing: border-box; /* Incluye padding y border en el ancho total */
   gap: 1rem; /* Espacio entre secciones para mejor separación visual */
+}
+.adminTablesButton {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  padding: 10px 18px;
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.adminTablesButton:hover {
+  background-color: #125ea2;
 }
 
 .section {
