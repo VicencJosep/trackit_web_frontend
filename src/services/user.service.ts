@@ -12,6 +12,18 @@ export const fetchUsers = async (): Promise<User[]> => {
         throw error;
     }
 };
+export const getAllPackets = async (): Promise<Packet[]> => {
+    try {
+        const response = await api.get<Packet[]>('/packets');
+        if (response.status !== 200) {
+            throw new Error('Failed to fetch packets');
+        }
+        return response.data; // Devuelve todos los paquetes
+    } catch (error) {
+        console.error('Error fetching packets:', error);    
+        throw error;
+    }
+};
 
 // Fetch user data by token
 export const fetchUserData = async (token: string): Promise<User> => {
@@ -89,3 +101,34 @@ export const updateUser = async (userId: string, data: any) => {
 export const deleteUser = async (userId: string) => {
   return await api.put(`/users/${userId}/deactivate`);
 };
+
+
+export const getAssignedPackets = async (userId: string): Promise<Packet[]> => {
+  try {
+    const response = await api.get<Packet[]>(`/users/${userId}/assignedPackets`);
+    if (response.status !== 200) {
+      throw new Error('Failed to fetch assigned packets');
+    }
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching assigned packets:', error);
+    throw error;
+  }
+};
+export const assignPacketToDelivery = async (userId: string, packetId: string): Promise<void> => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    const response = await api.post(`/users/${userId}/assignedPackets`, 
+      { packetId }, 
+      { headers: { Authorization: `Bearer ${token}` } }
+    );
+
+    if (response.status !== 200) {
+      throw new Error('Error al asignar paquete al repartidor');
+    }
+  } catch (error) {
+    console.error('Error en assignPacketToDelivery:', error);
+    throw error;
+  }
+};
+

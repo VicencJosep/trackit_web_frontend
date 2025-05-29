@@ -1,13 +1,19 @@
 export interface User {
-    id?: string;
-    name: string;
-    email: string;
-    password: string;
-    phone: string;
-    available: boolean;
-    packets: string[];
-    birthDate: Date;
-    isProfileComplete: boolean;
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  phone: string;
+  available: boolean;
+  packets: string[];
+  birthDate: Date;
+  role?: string; // 'admin' | 'user' | 'delivery'
+  isProfileComplete: boolean;
+  deliveryProfile?: {
+    assignedPacket: string[];
+    deliveredPackets: string[];
+    vehicle: string;
+  };
 }
 
 export interface Packet{

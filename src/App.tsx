@@ -1,5 +1,3 @@
-
-import React, { useState, useEffect } from 'react';
 import './App.css';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Login from './components/Login';
@@ -11,17 +9,9 @@ import CompleteProfile from './components/CompleteProfile';
 import DigitalAwareness from './components/DigitalAwareness/DigitalAwareness';
 import Store from './components/Store/Store';
 import Chat from './components/Chat/Chat';
+import HomeDelivery from './components/HomeDelivery';
 
 function App() {
-   const [darkMode, setDarkMode] = useState(false);
-   // Aplicar o quitar la clase `dark` en el <body>
-  useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add('dark');
-    } else {
-      document.body.classList.remove('dark')  ;
-    }
-  }, [darkMode]);
 
   return (
     <Router>
@@ -35,6 +25,7 @@ function App() {
             <Route path="/home" element={<Home />} />      
             <Route path="/login/callback" element={<LoginCallback />} /> 
             <Route path="/messages" element={<Chat />} />
+            <Route path="/homeDelivery" element={<HomeDelivery />} />
             <Route path="/store" element={<Store />} />
               <Route
               path="/digital-awareness"

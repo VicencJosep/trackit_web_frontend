@@ -11,43 +11,50 @@ const Login: React.FC = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
+    
+    function parseJwt(token: string) {
+    try {
+        const base64Url = token.split('.')[1];
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        const jsonPayload = decodeURIComponent(
+        atob(base64)
+            .split('')
+            .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+            .join('')
+        );
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setErrorMessage('');
+        return JSON.parse(jsonPayload);
+    } catch (e) {
+        return null;
+    }
+    }
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            setErrorMessage('Please enter a valid email address.');
-            return;
-        }
+    const handleSubmit = async () => {
+    try {
+        const { accessToken, refreshToken } = await LogIn(email, password);
+        const data = await fetchUserData(accessToken);
 
-        if (!email || !password) {
-            setErrorMessage('Please fill in both email and password.');
-            return;
-        }
+        localStorage.setItem('accessToken', accessToken);
+        localStorage.setItem('refreshToken', refreshToken);
 
-        setIsSubmitting(true);
+        const role = parseJwt(accessToken)?.role;
 
-        try {
-            const { accessToken, refreshToken } = await LogIn(email, password);
-            const data = await fetchUserData(accessToken);
-
-            localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
-
-            if (data.isProfileComplete === false) {
-                navigate('/complete-profile', { state: { user: data } });
+        if (data.isProfileComplete === false) {
+            navigate('/complete-profile', { state: { user: data } });
+        } else {
+            if (role === 'delivery') {
+                navigate('/homeDelivery', { state: { user: data } });
             } else {
                 navigate('/home', { state: { user: data } });
             }
-        } catch (error: any) {
-            console.error('Login failed:', error);
-            setErrorMessage(error?.response?.data?.message || 'Invalid credentials. Please try again.');
-        } finally {
-            setIsSubmitting(false);
         }
-    };
+    } catch (error: any) {
+        console.error('Login failed:', error);
+        setErrorMessage(error?.response?.data?.message || 'Invalid credentials. Please try again.');
+    } finally {
+        setIsSubmitting(false);
+    }
+};
 
     const handleGoogleLogin = () => {
         // Redirigir a Google para el login OAuth
