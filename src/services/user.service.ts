@@ -27,13 +27,15 @@ export const getAllPackets = async (): Promise<Packet[]> => {
       throw new Error('Error al obtener los paquetes');
     }
 
-    const data = await response.json();
-    return data;
+    const json = await response.json();
+    return json.data; // ✅ aquí está la clave
   } catch (error) {
     console.error('Error fetching packets:', error);
     throw error;
   }
 };
+
+
 
 // Fetch user data by token
 export const fetchUserData = async (token: string): Promise<User> => {
@@ -128,9 +130,14 @@ export const getAssignedPackets = async (userId: string): Promise<Packet[]> => {
 export const assignPacketToDelivery = async (userId: string, packetId: string): Promise<void> => {
   try {
     const token = localStorage.getItem('accessToken');
-    const response = await api.post(`/users/${userId}/assignedPackets`, 
-      { packetId }, 
-      { headers: { Authorization: `Bearer ${token}` } }
+    const response = await api.post(
+      '/users/assign-packet',
+      { userId, packetId }, // 👈 Ambos en el cuerpo
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
 
     if (response.status !== 200) {
@@ -138,6 +145,26 @@ export const assignPacketToDelivery = async (userId: string, packetId: string): 
     }
   } catch (error) {
     console.error('Error en assignPacketToDelivery:', error);
+    throw error;
+  }
+};
+export const updatePacketStatus = async (packet: Packet): Promise<void> => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    // Hacer PUT a /packets/{id} con todos los datos
+    const response = await api.put(`/packets/${packet._id}`, packet, config);
+
+    if (response.status !== 200 && response.status !== 204) {
+      throw new Error('Error actualizando el paquete');
+    }
+  } catch (error) {
+    console.error('Error en updatePacketStatus:', error);
     throw error;
   }
 };

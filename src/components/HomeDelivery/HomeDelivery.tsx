@@ -50,14 +50,16 @@ const HomeDelivery: React.FC = () => {
         {packets.length === 0 ? (
           <p className={styles.noPackets}>No hay paquetes asignados.</p>
         ) : (
-          <ul className={styles.packetsList}>
-            {packets.map((packet) => (
-              <li key={packet._id} className={styles.packetItem}>
-                <strong>ID:</strong> {packet._id} <br />
-                <strong>Descripción:</strong> {packet.description || 'Sin descripción'}
-              </li>
-            ))}
-          </ul>
+         <ul className={styles.packetsList}>
+  {packets.map((packet) => (
+    <li key={packet._id} className={styles.packetItem}>
+      <strong>Nombre:</strong> {packet.name} <br />
+      <strong>Destino:</strong> {packet.destination ?? 'No especificado'}
+      <br />
+      <strong>Descripción:</strong> {packet.description || 'Sin descripción'}
+    </li>
+  ))}
+</ul>
         )}
       </section>
 
