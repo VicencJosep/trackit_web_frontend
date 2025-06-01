@@ -4,13 +4,14 @@ import { User, Packet } from '../../types';
 import { getAssignedPackets, fetchUserData } from '../../services/user.service';
 import PacketsList from '../PacketsList';
 import styles from './HomeDelivery.module.css';
+import PacketsToDeliverBox from '../PacketsToDeliverBox/PacketsToDeliverBox';
 
 const HomeDelivery: React.FC = () => {
   const location = useLocation();
   const [user, setUser] = useState<User | null>(location.state?.user ?? null);
   const [packets, setPackets] = useState<Packet[]>([]);
   const [loading, setLoading] = useState(true);
-
+ 
   useEffect(() => {
     const loadUserAndPackets = async () => {
       try {
@@ -66,6 +67,7 @@ const HomeDelivery: React.FC = () => {
       <section className={styles.warehousePackets}>
         <PacketsList />
       </section>
+      <PacketsToDeliverBox user={user} />
     </div>
   );
 };

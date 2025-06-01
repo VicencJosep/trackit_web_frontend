@@ -5,7 +5,7 @@ import { io, Socket } from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
 import { Message, User } from "../../types/index"; // Importamos el tipo User
 import ContactList from '../ContactList/ContactList';
-
+import { socket } from '../../socket';
 
 const Chat: React.FC = () => {
   const location = useLocation();
@@ -14,7 +14,6 @@ const Chat: React.FC = () => {
   const [messageList, setMessageList] = useState<Message[]>([]);
   const [showChat, setShowChat] = useState(false);
   const [contact, setContact] = useState<User|null>(null);
-  const socketRef = useRef<Socket | null>(null);
   const chatBodyRef = useRef<HTMLDivElement>(null);
   const [roomId, setRoomId] = useState<string | null>(null);
 
@@ -26,26 +25,20 @@ const Chat: React.FC = () => {
 
     if (newMessages.length > 0) {
       setRoomId(newMessages[0].roomId); // Usa `newMessages` directamente
-      socketRef.current?.emit('join_room', newMessages[0].roomId);
+      socket.emit('join_room', newMessages[0].roomId);
     } else {
       console.error('No se encontraron mensajes para establecer el roomId');
     }
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('accessToken');
-    const SOCKET_SERVER_URL = process.env.REACT_APP_SOCKET_SERVER_URL || 'http://localhost:3001';
-    socketRef.current = io(SOCKET_SERVER_URL, {
-      auth: {
-        token,
-      },
-    });
-    socketRef.current.on('receive_message', (data: Message) => {
+    
+    socket.on('receive_message', (data: Message) => {
       console.log('Mensaje recibido:', data);
       setMessageList(prev => [...prev, data]);
     });
 
-    socketRef.current.on('status', (data) => {
+    socket.on('status', (data) => {
       console.debug('Estado recibido:', data);
       if (data.status === 'unauthorized') {
         window.location.href = '/';
@@ -53,7 +46,8 @@ const Chat: React.FC = () => {
     });
 
     return () => {
-      socketRef.current?.disconnect();
+      console.log('Limpiando socket');
+      // socketRef.current?.disconnect();
     };
     
   }, []);
@@ -75,7 +69,7 @@ const Chat: React.FC = () => {
          roomId: roomId || '',
      };
       console.log('Enviando mensaje:', messageData);
-      await socketRef.current?.emit('send_message', messageData);
+      await socket.emit('send_message', messageData);
       setMessageList(prev => [...prev, messageData]);
       setCurrentMessage('');
     }

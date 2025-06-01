@@ -4,8 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import styles from './Login.module.css';
 import { LogIn } from '../../services/auth.service'; // Asumiendo que tienes un servicio para el login
 import { fetchUserData } from '../../services/user.service'; // Servicio para obtener los datos del usuario
+import { socket } from '../../socket';
 
-const Login: React.FC = () => {
+type Props = {
+  connect: () => void;
+};
+
+
+const Login: React.FC<Props> = ({ connect }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -53,6 +59,10 @@ const Login: React.FC = () => {
 
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('refreshToken', refreshToken);
+            // Establecer conexión por socket
+            // después de guardar el token
+            socket.auth = { token: accessToken };
+            connect();
 
                 const role = parseJwt(accessToken)?.role;
                 console .log('User role:', role);
@@ -64,6 +74,7 @@ const Login: React.FC = () => {
             {
                 if (data.isProfileComplete === false) {
                 navigate('/complete-profile', { state: { user: data } });
+                return;
             } else {
                 navigate('/home', { state: { user: data } });
             }
