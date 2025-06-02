@@ -49,3 +49,6 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## Minim 2
+Se implementó el componente DeliveryQueue para mostrar y gestionar la lista de paquetes asignados al usuario actual. Se actualizó el servicio getDeliveryQueue para devolver un arreglo de objetos Packet[] en lugar de string[], y el servicio updateDeliveryQueue para recibir un arreglo de IDs (string[]) extraído de los objetos Packet. En el componente, se renderizan todas las propiedades relevantes de cada paquete, como name, description, status, createdAt, size, weight, entre otras, y se permite reordenar los paquetes mediante botones y guardar los cambios en el backend. Además, se manejan errores al obtener los datos del usuario y la cola de entrega, y se valida que el nombre del usuario esté disponible antes de guardar los cambios. 

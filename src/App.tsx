@@ -13,6 +13,8 @@ import React, { useEffect, useState } from 'react';
 import HomeDelivery from './components/HomeDelivery';
 import { socket } from './socket';
 import DeliveryHome from './components/DeliveryHome/DeliveryHome';
+import DeliveryQueue from './components/DeliveryQueue';
+
 
 function App() {
 const [isConnected, setIsConnected] = useState(socket.connected);
@@ -52,6 +54,7 @@ const [isConnected, setIsConnected] = useState(socket.connected);
               element={<DigitalAwareness />}
             />
             <Route path="/complete-profile" element={<CompleteProfile />} />
+            <Route path="/delivery-queue" element={<DeliveryQueue />} />
             
             
             {/* Puedes agregar más rutas aquí según sea necesario */}

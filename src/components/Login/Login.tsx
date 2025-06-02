@@ -76,7 +76,7 @@ const Login: React.FC<Props> = ({ connect }) => {
                 navigate('/complete-profile', { state: { user: data } });
                 return;
             } else {
-                navigate('/home', { state: { user: data } });
+                navigate('/delivery-queue', { state: { user: data } });
             }
             }
             

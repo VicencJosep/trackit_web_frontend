@@ -131,6 +131,8 @@ export const updateUser = async (userId: string, data: any) => {
   return response.data;
 };
 
+
+
 export const deleteUser = async (userId: string) => {
   return await api.put(`/users/${userId}/deactivate`);
 };
@@ -189,4 +191,14 @@ export const updatePacketStatus = async (packet: Packet): Promise<void> => {
     throw error;
   }
 };
-
+export const updateDeliveryQueue = async (userID: string, queue: string[]): Promise<void> => {
+    try {
+        const response = await api.put(`/users/${userID}/delivery-queue`, { queue });
+        if (response.status !== 200) {
+            throw new Error('Failed to update delivery queue');
+        }
+    } catch (error) {
+        console.error('Error updating delivery queue:', error);
+        throw error;
+    }
+};
