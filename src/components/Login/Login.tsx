@@ -67,7 +67,7 @@ const Login: React.FC<Props> = ({ connect }) => {
                 const role = parseJwt(accessToken)?.role;
                 console .log('User role:', role);
             
-                if (role === 'delivery') {
+            if (role === 'delivery') {
                     navigate('/homeDelivery', { state: { user: data } });
             }
             else
@@ -76,7 +76,7 @@ const Login: React.FC<Props> = ({ connect }) => {
                 navigate('/complete-profile', { state: { user: data } });
                 return;
             } else {
-                navigate('/delivery-queue', { state: { user: data } });
+                navigate('/home', { state: { user: data } });
             }
             }
             

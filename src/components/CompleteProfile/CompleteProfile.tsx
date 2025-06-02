@@ -46,6 +46,16 @@ const CompleteProfile = () => {
             return;
         }
 
+        // Validación de fecha de nacimiento
+        const birthYear = Number(birthdate.split('-')[0]);
+        if (birthYear < 1900 || birthYear > 2024) {
+            toast.error("La fecha de nacimiento debe estar entre 1900 y 2024.", {
+                position: "top-right",
+                autoClose: 3000,
+            });
+            return;
+        }
+
         try {
             const response = await api.put("/auth/complete-profile", {
                 phone,

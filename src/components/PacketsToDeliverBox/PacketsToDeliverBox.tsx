@@ -23,8 +23,8 @@ const PacketsToDeliverBox: React.FC<PacketsToDeliverBoxProps> = ({ user }) => {
   useEffect(() => {
     const getPackages = async () => {
       try {
-        //const allPackages = await getAssignedPackets(user.id); // Usa el ID del usuario si es necesario    
-        //setPackages(allPackages);
+        const allPackages = await getAssignedPackets(user.id); // Usa el ID del usuario si es necesario    
+        setPackages(allPackages);
       } catch (error) {
         console.error('Error fetching packages:', error);
       } finally {
@@ -33,9 +33,9 @@ const PacketsToDeliverBox: React.FC<PacketsToDeliverBoxProps> = ({ user }) => {
     };
     const getOptimizedRoute = async () =>{
         try{
-            //const response = await GetOptimizedRoute(user.id, '41.27721, 1.99017');
+            const response = await GetOptimizedRoute(user.id, '41.27721, 1.99017');
 
-            //setOptimizedRoute(response);
+            setOptimizedRoute(response);
            
         }
         catch (error) {

@@ -43,6 +43,13 @@ const Register: React.FC = () => {
             return;
         }
 
+        // Validación de fecha de nacimiento
+        const birthYear = Number(birthdate.split('-')[0]);
+        if (birthYear < 1900 || birthYear > 2024) {
+            setErrorMessage('La fecha de nacimiento debe estar entre 1900 y 2024.');
+            return;
+        }
+
         if (password.length < 6) {
             setErrorMessage('La contraseña debe tener al menos 6 caracteres.');
             return;

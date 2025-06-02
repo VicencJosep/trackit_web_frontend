@@ -33,6 +33,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onClose }) => {
       // Eliminar tokens y redirigir al login
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
+      onClose(); // Cierra la pestaña del perfil
       navigate("/login");
     } catch (error) {
       console.error("Error al actualizar el perfil:", error);
