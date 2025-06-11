@@ -12,16 +12,38 @@ import Chat from './components/Chat/Chat';
 import React, { useEffect, useState } from 'react';
 import HomeDelivery from './components/HomeDelivery';
 import { socket } from './socket';
-import DeliveryHome from './components/DeliveryHome/DeliveryHome';
 
 
 function App() {
 const [isConnected, setIsConnected] = useState(socket.connected);
-  
+  function parseJwt(token: string) {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    );
+    return JSON.parse(jsonPayload);
+  } catch (e) {
+    return null;
+  }
+}
    // Gestion de la conexión del socket
    useEffect(() => {
+    socket.connect();
     function onConnect() {
       setIsConnected(true);
+      // Envía el email al servidor al conectarse
+      const token = localStorage.getItem("accessToken");
+      if (token) {
+        const payload = parseJwt(token);
+        if (payload && payload.email) {
+          socket.emit('email', payload.email);
+        }
+      }
     }
 
     function onDisconnect() {

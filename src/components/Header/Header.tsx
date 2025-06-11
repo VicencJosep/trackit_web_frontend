@@ -1,11 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Header.module.css";
 import { User, Home, ShoppingCart, MessageSquare, Bike, LogOut, Accessibility } from "lucide-react";
 import UserProfile from "../UserProfile";
 import { fetchUserData } from "../../services/user.service";
-import { User as UserType } from "../../types/index";
+import { Message, User as UserType } from "../../types/index";
 import { useTranslation } from "react-i18next";
+import { Bell } from "lucide-react";
+import { socket } from '../../socket';
 
 type Props = {
   disconnect: () => void;
@@ -15,7 +17,7 @@ const Header: React.FC<Props> = ({ disconnect }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-
+  const [notifications, setNotifications] = useState<string>('');
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [userData, setUserData] = useState<UserType | null>(null);
@@ -29,6 +31,7 @@ const Header: React.FC<Props> = ({ disconnect }) => {
   const handleLogout = async () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
+    socket.disconnect();
     await disconnect();
     window.location.href = "/login";
   };
@@ -62,6 +65,24 @@ const Header: React.FC<Props> = ({ disconnect }) => {
       console.error("Error navigating:", error);
     }
   };
+  useEffect(() => {
+    const handleNotification = (message: Message[]) => {
+      if (!Array.isArray(message) || message.length === 0) {
+        setNotifications("");
+      } else if (message.length === 1) {
+        setNotifications("Tienes 1 mensaje sin leer");
+      } else {
+        setNotifications(`Tienes ${message.length} mensajes sin leer`);
+      }
+    };    
+    socket.on("unseen_messages", handleNotification);
+    console.log("Recibido unseen_messages:");
+
+
+    return () => {
+      socket.off("unseen_messages", handleNotification);
+    };
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -91,33 +112,37 @@ const Header: React.FC<Props> = ({ disconnect }) => {
         </div>
 
         {!isAuthPage && (
-          <div className={styles.userMenu}>
-            <button
-              className={styles.userButton}
-              onClick={() => setUserMenuOpen(!userMenuOpen)}
-            >
-              <User size={24} />
-            </button>
-            {userMenuOpen && (
-              <div className={styles.userDropdown}>
-                <button onClick={handleShowProfile} className={styles.dropdownItem}>
-                  <User size={16} />
-                  {String(t("header.profile"))}
-                </button>
-                <button
-                  onClick={() => navigate("/digital-awareness")}
-                  className={styles.dropdownItem}
-                >
-                  <Accessibility size={16} />
-                  {String(t("header.accessibility"))}
-                </button>
-                <button onClick={handleLogout} className={styles.logoutButton}>
-                  <LogOut size={16} />
-                  {String(t("header.logout"))}
-                </button>
-              </div>
-            )}
+          <><div>
+             <Bell size={18} style={{ marginRight: 8 }} />
+             {notifications}
           </div>
+          <div className={styles.userMenu}>
+              <button
+                className={styles.userButton}
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
+              >
+                <User size={24} />
+              </button>
+              {userMenuOpen && (
+                <div className={styles.userDropdown}>
+                  <button onClick={handleShowProfile} className={styles.dropdownItem}>
+                    <User size={16} />
+                    {String(t("header.profile"))}
+                  </button>
+                  <button
+                    onClick={() => navigate("/digital-awareness")}
+                    className={styles.dropdownItem}
+                  >
+                    <Accessibility size={16} />
+                    {String(t("header.accessibility"))}
+                  </button>
+                  <button onClick={handleLogout} className={styles.logoutButton}>
+                    <LogOut size={16} />
+                    {String(t("header.logout"))}
+                  </button>
+                </div>
+              )}
+            </div></>
         )}
 
         {showProfile && userData && (

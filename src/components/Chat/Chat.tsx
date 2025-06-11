@@ -1,7 +1,6 @@
 // src/components/Chat/Chat.tsx
 import React, { useEffect, useRef, useState } from 'react';
 import './Chat.css';
-import { io, Socket } from 'socket.io-client';
 import { useLocation } from 'react-router-dom';
 import { Message, User } from "../../types/index"; // Importamos el tipo User
 import ContactList from '../ContactList/ContactList';
@@ -30,13 +29,19 @@ const Chat: React.FC = () => {
       console.error('No se encontraron mensajes para establecer el roomId');
     }
   };
+  useEffect(() => {
+    const handleReceiveMessage = (data: Message) => {      
+      setMessageList(prev => [...prev, data]);
+    };
+
+    socket.on('receive_message', handleReceiveMessage);
+
+    return () => {      
+      socket.off('receive_message', handleReceiveMessage); // 👈 Esta línea es clave
+    };
+  }, []);
 
   useEffect(() => {
-    
-    socket.on('receive_message', (data: Message) => {
-      console.log('Mensaje recibido:', data);
-      setMessageList(prev => [...prev, data]);
-    });
 
     socket.on('status', (data) => {
       console.debug('Estado recibido:', data);
@@ -57,7 +62,7 @@ const Chat: React.FC = () => {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
     }
   }, [messageList]);
-
+  
   const sendMessage = async () => {
     if (currentMessage !== '') {
       const messageData: Message = {
@@ -74,7 +79,15 @@ const Chat: React.FC = () => {
       setCurrentMessage('');
     }
   };
-
+  useEffect(() => {
+    return () => {
+      if (roomId) {
+        socket.emit('leave_room', roomId);
+      }
+      socket.off('receive_message');
+      // ...otros cleanups si los tienes
+    };
+  }, [roomId]);
   return (
     <div className="chat-layout">
       {user.id && 

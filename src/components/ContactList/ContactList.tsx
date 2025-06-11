@@ -3,7 +3,7 @@ import { fetchContacts, fetchMessages } from '../../services/message.service';
 import { Message, User } from '../../types';
 import styles from './ContactList.module.css';
 import { useTranslation } from "react-i18next"; // Añade esto
-
+import { socket } from '../../socket';
 
 interface ContactListProps {
   currentUserId: string;
@@ -33,7 +33,7 @@ const ContactList: React.FC<ContactListProps> = ({ currentUserId, onMessagesFetc
   const handleOpenChat = async (contact: User) => {
     if (contact.id) {
       const data = await fetchMessages(currentUserId, contact.id);
-      console.log('Mensajes obtenidos:', data);
+      socket.emit('messages_seen');  
       onMessagesFetched(data, contact);
     } else {
       console.error('Contact ID is undefined');

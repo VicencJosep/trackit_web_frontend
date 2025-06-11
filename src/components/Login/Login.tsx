@@ -58,14 +58,15 @@ const Login: React.FC<Props> = ({ connect }) => {
             const data = await fetchUserData(accessToken);
 
             localStorage.setItem('accessToken', accessToken);
-            localStorage.setItem('refreshToken', refreshToken);
+            localStorage.setItem('refreshToken', refreshToken);        
             // Establecer conexión por socket
             // después de guardar el token
+            socket.disconnect();
             socket.auth = { token: accessToken };
             connect();
 
                 const role = parseJwt(accessToken)?.role;
-                console .log('User role:', role);
+                console.log('User role:', role);
             
             if (role === 'delivery') {
                     navigate('/homeDelivery', { state: { user: data } });
