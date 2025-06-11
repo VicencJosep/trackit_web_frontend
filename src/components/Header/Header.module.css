@@ -166,7 +166,33 @@
   border-bottom: 1px solid #eee;
   background-color: #fff;
 }
+.notificationsDropdown {
+  position: absolute;
+  top: 40px;              /* Ajusta según el tamaño de la campana */
+  left: -120px;                /* Alineado con la campana, cambia a 'right: 0;' si lo prefieres */
+  background: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  z-index: 1000;
+  min-width: 220px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
+.notificationText {
+  color: #333;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.noNotifications {
+  color: #888;
+  font-size: 1rem;
+  font-style: italic;
+}
 .dropdownItem:hover {
   background: #f6f8fa;
 }

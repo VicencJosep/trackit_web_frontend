@@ -5,10 +5,12 @@ import { useLocation } from 'react-router-dom';
 import { Message, User } from "../../types/index"; // Importamos el tipo User
 import ContactList from '../ContactList/ContactList';
 import { socket } from '../../socket';
+import { fetchMessages } from '../../services/message.service';
 
 const Chat: React.FC = () => {
   const location = useLocation();
-  const user = location.state?.user as User; // Accede al usuario pasado por navigate
+  const user = location.state?.user as User; // Accede al usuario pasado por navigate  
+  const delivery = location.state?.contact as User; // Accede al contacto pasado por navigate
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState<Message[]>([]);
   const [showChat, setShowChat] = useState(false);
@@ -16,28 +18,52 @@ const Chat: React.FC = () => {
   const chatBodyRef = useRef<HTMLDivElement>(null);
   const [roomId, setRoomId] = useState<string | null>(null);
 
+
+
+  useEffect(() => {
+    const fetchAndSetMessages = async () => {
+      if (delivery) {
+        setContact(delivery);
+        setShowChat(true);   
+        const data = await fetchMessages(user.id || '', delivery._id || '');
+        setMessageList(data);   
+      }
+      else{
+        console.error('No se encontró el contacto de entrega en el estado de ubicación');
+      }
+    };
+    fetchAndSetMessages();
+  }, [delivery, user, roomId, messageList]);
+  useEffect(() => {
+    if (contact) {
+      console.log('Nuevo contact:', contact);
+    }
+  }, [contact]);
+  
   const handleMessages = (newMessages: Message[], contact: User) => {
     console.log('Mensajes recibidos:', newMessages);
     setMessageList(newMessages);
     setContact(contact);
     setShowChat(true);
 
-    if (newMessages.length > 0) {
-      setRoomId(newMessages[0].roomId); // Usa `newMessages` directamente
-      socket.emit('join_room', newMessages[0].roomId);
+  };
+  useEffect(() => {
+    if (messageList.length > 0) {
+      setRoomId(messageList[0].roomId); // Usa `newMessages` directamente      
     } else {
       console.error('No se encontraron mensajes para establecer el roomId');
     }
-  };
+  }, [messageList]);
   useEffect(() => {
-    const handleReceiveMessage = (data: Message) => {      
+    const handleReceiveMessage = (data: Message) => {
+      console.log('[Cliente] Mensaje recibido:', data);
       setMessageList(prev => [...prev, data]);
     };
 
     socket.on('receive_message', handleReceiveMessage);
 
-    return () => {      
-      socket.off('receive_message', handleReceiveMessage); // 👈 Esta línea es clave
+    return () => {
+      socket.off('receive_message', handleReceiveMessage);
     };
   }, []);
 
@@ -67,7 +93,7 @@ const Chat: React.FC = () => {
     if (currentMessage !== '') {
       const messageData: Message = {
          senderId: user.id || '',
-         rxId: contact?.id || '',
+         rxId: contact?.id || contact?._id || '',
          content: currentMessage,
          created: new Date(),
          acknowledged: false,
@@ -80,12 +106,16 @@ const Chat: React.FC = () => {
     }
   };
   useEffect(() => {
+    if (roomId) {
+      socket.emit('join_room', roomId);
+      console.log('Unido a la sala:', roomId);
+    }
+
     return () => {
       if (roomId) {
         socket.emit('leave_room', roomId);
+        console.log('Salió de la sala:', roomId);
       }
-      socket.off('receive_message');
-      // ...otros cleanups si los tienes
     };
   }, [roomId]);
   return (

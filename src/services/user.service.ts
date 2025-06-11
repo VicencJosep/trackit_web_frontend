@@ -136,7 +136,18 @@ export const updateUser = async (userId: string, data: any) => {
 export const deleteUser = async (userId: string) => {
   return await api.put(`/users/${userId}/deactivate`);
 };
-
+export const getUserById = async (userId: string): Promise<User> => {
+  try {
+    const response = await api.get<User>(`/users/${userId}`);
+    if (response.status !== 200) {
+      throw new Error('Error getting user');
+    }
+    return response.data;
+  } catch (error) {
+    console.error('Error getting user by ID:', error);
+    throw error;
+  }
+};
 
 export const getAssignedPackets = async (userId: string): Promise<Packet[]> => {
   try {

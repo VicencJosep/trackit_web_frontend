@@ -38,3 +38,18 @@ export const acknowledgeMessage = async (messageId: string): Promise<Message> =>
         throw error;
     }
 };
+export const startConversation = async (
+  user1Id: string,
+  user2Id: string
+): Promise<Message> => {
+  try {
+    const response = await api.post<Message>('/messages/start', { user1Id, user2Id });
+    if (response.status !== 201) {
+      throw new Error('Error starting conversation');
+    }
+    return response.data;
+  } catch (error) {
+    console.error('Error starting conversation:', error);
+    throw error;
+  }
+};

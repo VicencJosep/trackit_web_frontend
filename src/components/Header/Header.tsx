@@ -17,12 +17,12 @@ const Header: React.FC<Props> = ({ disconnect }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const [notifications, setNotifications] = useState<string>('');
+  const [messageNotifications, setMessageNotifications] = useState<string>('');
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [userData, setUserData] = useState<UserType | null>(null);
   const [isDelivery, setIsDelivery] = useState(false);
-
+  const [notifMenuOpen, setNotifMenuOpen] = useState(false);
   const isAuthPage =
     location.pathname === "/login" ||
     location.pathname === "/register" ||
@@ -49,7 +49,11 @@ const Header: React.FC<Props> = ({ disconnect }) => {
       console.error("Error fetching user data:", error);
     }
   };
-
+  const handleNotifyMessageClick = () => {
+    setMessageNotifications("");
+     preloadUserAndNavigate("/messages");
+     setNotifMenuOpen(false);
+  };
   const preloadUserAndNavigate = async (path: string) => {
     try {
       let user = userData;
@@ -68,11 +72,11 @@ const Header: React.FC<Props> = ({ disconnect }) => {
   useEffect(() => {
     const handleNotification = (message: Message[]) => {
       if (!Array.isArray(message) || message.length === 0) {
-        setNotifications("");
+        setMessageNotifications("");
       } else if (message.length === 1) {
-        setNotifications("Tienes 1 mensaje sin leer");
+        setMessageNotifications("Tienes 1 mensaje sin leer");
       } else {
-        setNotifications(`Tienes ${message.length} mensajes sin leer`);
+        setMessageNotifications(`Tienes ${message.length} mensajes sin leer`);
       }
     };    
     socket.on("unseen_messages", handleNotification);
@@ -112,9 +116,17 @@ const Header: React.FC<Props> = ({ disconnect }) => {
         </div>
 
         {!isAuthPage && (
-          <><div>
-             <Bell size={18} style={{ marginRight: 8 }} />
-             {notifications}
+          <><div style={{ position: "relative", display: "inline-block" }}>
+            <Bell size={18} style={{ marginRight: 8 }} onClick={() => setNotifMenuOpen(!notifMenuOpen)} />
+            {notifMenuOpen && (
+              <div className={styles.notificationsDropdown} onClick={handleNotifyMessageClick}>
+                {messageNotifications ? (
+                  <span className={styles.notificationText}>{messageNotifications}</span>
+                ) : (
+                  <span className={styles.noNotifications}>{String(t("No Notifications"))}</span>
+                )}
+              </div>
+            )}
           </div>
           <div className={styles.userMenu}>
               <button

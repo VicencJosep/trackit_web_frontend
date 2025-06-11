@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Delivery.module.css';
-import { GetUserPackets } from '../../services/user.service';
-import { Packet } from '../../types';
+import { getUserById, GetUserPackets } from '../../services/user.service';
 import { useTranslation } from "react-i18next";
-
+import { startConversation } from '../../services/message.service';
+import { Packet,  } from "../../types/index";
+import { useNavigate } from "react-router-dom";
+import { fetchUserData } from "../../services/user.service";
 interface DeliveryProps {
   user: {
     id: string;
@@ -18,8 +20,8 @@ const Delivery: React.FC<DeliveryProps> = ({ user, onSelectPacket }) => {
   const [packages, setPackages] = useState<Packet[]>([]);
   const [selectedPacketId, setSelectedPacketId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const { t } = useTranslation();
-
+  const { t } = useTranslation();  
+  const navigate = useNavigate();
   useEffect(() => {
     const getPackages = async () => {
       try {
@@ -44,12 +46,21 @@ const Delivery: React.FC<DeliveryProps> = ({ user, onSelectPacket }) => {
       onSelectPacket(pkg._id);
     }
   };
-  const handleChatClick = (packet: Packet) => {
+const handleChatClick = async (packet: Packet) => {
+  if (packet.deliveryId) {
+    startConversation(user.id, packet.deliveryId);    
     console.log("Iniciar chat con repartidor del paquete:", user.id);
     console.log("deliveryId del repartidor:", packet.deliveryId);
+     const token = localStorage.getItem("accessToken");
+     if (!token) return;
+     user = await fetchUserData(token);   
+     const contact = await getUserById(packet.deliveryId); 
+     navigate("/messages", { state: { user, contact: contact } });    
 
-  // Aquí podrías abrir un modal, redirigir, o iniciar un chat
-  
+    // Aquí podrías abrir un modal, redirigir, o iniciar un chat
+  } else {
+    console.error("deliveryId is undefined for this packet.");
+  }
 };
 
 
