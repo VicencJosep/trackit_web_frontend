@@ -16,6 +16,7 @@ interface DeliveryProps {
 
 const Delivery: React.FC<DeliveryProps> = ({ user, onSelectPacket }) => {
   const [packages, setPackages] = useState<Packet[]>([]);
+  const [selectedPacketId, setSelectedPacketId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
 
@@ -36,10 +37,21 @@ const Delivery: React.FC<DeliveryProps> = ({ user, onSelectPacket }) => {
   }, [user.id]);
 
   const handlePackageClick = (pkg: Packet) => {
+  if (pkg._id) {
+    setSelectedPacketId(pkg._id);
+  }
     if (onSelectPacket && pkg._id) {
       onSelectPacket(pkg._id);
     }
   };
+  const handleChatClick = (packet: Packet) => {
+    console.log("Iniciar chat con repartidor del paquete:", user.id);
+    console.log("deliveryId del repartidor:", packet.deliveryId);
+
+  // Aquí podrías abrir un modal, redirigir, o iniciar un chat
+  
+};
+
 
   return (
     <div className={styles.container}>
@@ -60,6 +72,17 @@ const Delivery: React.FC<DeliveryProps> = ({ user, onSelectPacket }) => {
               <p className={styles.packageInfo}>
                 {String(t("delivery.description"))}: {pkg.description}
               </p>
+              {selectedPacketId === pkg._id && (
+                <button className={styles.chatButton}
+                  
+               onClick={(e) => {
+               e.stopPropagation();
+                   if (pkg._id) {handleChatClick(pkg);}
+                  } }
+     >
+                  💬 {String(t("delivery.contactCourier", "Hablar con repartidor"))}
+                </button>
+              )}
             </div>
           ))}
         </div>

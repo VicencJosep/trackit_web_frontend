@@ -58,13 +58,19 @@
   color: #6c6c6c;
 }
 
-.packageItem {
+.chatButton {
+  margin-top: 1rem;
+  background-color: #4caf50;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
   font-size: 1rem;
-  margin-bottom: 10px;
+  font-weight: bold;
   cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.packageItem:hover {
-  color: #0056b3;
-  text-decoration: underline;
+.chatButton:hover {
+  background-color: #45a049;
 }
