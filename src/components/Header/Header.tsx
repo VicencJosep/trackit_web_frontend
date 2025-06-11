@@ -18,11 +18,13 @@ const Header: React.FC<Props> = ({ disconnect }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [messageNotifications, setMessageNotifications] = useState<string>('');
+  const [assignedPacketNotif, setAssignedPacketNotif] = useState<string>('');
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
   const [userData, setUserData] = useState<UserType | null>(null);
   const [isDelivery, setIsDelivery] = useState(false);
   const [notifMenuOpen, setNotifMenuOpen] = useState(false);
+  const [generalNotifications, setGeneralNotifications] = useState<string>('');
   const isAuthPage =
     location.pathname === "/login" ||
     location.pathname === "/register" ||
@@ -49,10 +51,16 @@ const Header: React.FC<Props> = ({ disconnect }) => {
       console.error("Error fetching user data:", error);
     }
   };
-  const handleNotifyMessageClick = () => {
-    setMessageNotifications("");
-     preloadUserAndNavigate("/messages");
-     setNotifMenuOpen(false);
+  const handleNotifyClick = (message: string) => {
+    if( message === 'Messages') {
+      setMessageNotifications("");
+      preloadUserAndNavigate("/messages");
+      setNotifMenuOpen(false);
+    }
+    else if (message === 'Packets') {
+      setAssignedPacketNotif("");      
+      setNotifMenuOpen(false);
+    }
   };
   const preloadUserAndNavigate = async (path: string) => {
     try {
@@ -70,23 +78,45 @@ const Header: React.FC<Props> = ({ disconnect }) => {
     }
   };
   useEffect(() => {
+    socket.onAny((event, ...args) => {
+      console.log('[Socket Evento Recibido]:', event, args);
+
+    });
+  }, []);
+
+  useEffect(() => {
+    // Handler para mensajes no leídos
     const handleNotification = (message: Message[]) => {
+      console.log("Asignando messageNotification");
+      setGeneralNotifications("Tienes notificaciones nuevas");
       if (!Array.isArray(message) || message.length === 0) {
         setMessageNotifications("");
+
       } else if (message.length === 1) {
         setMessageNotifications("Tienes 1 mensaje sin leer");
       } else {
         setMessageNotifications(`Tienes ${message.length} mensajes sin leer`);
       }
-    };    
-    socket.on("unseen_messages", handleNotification);
-    console.log("Recibido unseen_messages:");
+    };
 
+    // Handler para paquetes asignados
+    const handleAssignedPacket = () => {
+      console.log("Asignando packetNotification");
+      setAssignedPacketNotif("Tienes un nuevo paquete en reparto");
+      setGeneralNotifications("Tienes notificaciones nuevas");
+    };
+    socket.on("unseen_messages", handleNotification);
+    socket.on("packet_assigned", handleAssignedPacket);
+
+    // Opcional: logs para depuración
+    console.log("Listeners de unseen_messages y assigned_packet montados");
 
     return () => {
       socket.off("unseen_messages", handleNotification);
+      socket.off("packet_assigned", handleAssignedPacket);
     };
   }, []);
+
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -117,16 +147,29 @@ const Header: React.FC<Props> = ({ disconnect }) => {
 
         {!isAuthPage && (
           <><div style={{ position: "relative", display: "inline-block" }}>
-            <Bell size={18} style={{ marginRight: 8 }} onClick={() => setNotifMenuOpen(!notifMenuOpen)} />
+            <Bell size={18} style={{ marginRight: 8 }} onClick={() => {setNotifMenuOpen(!notifMenuOpen); setGeneralNotifications("");} }/>
+            {generalNotifications && (
+              <span className={styles.notificationBadge}>{generalNotifications}</span>
+            )}
             {notifMenuOpen && (
-              <div className={styles.notificationsDropdown} onClick={handleNotifyMessageClick}>
-                {messageNotifications ? (
-                  <span className={styles.notificationText}>{messageNotifications}</span>
-                ) : (
-                  <span className={styles.noNotifications}>{String(t("No Notifications"))}</span>
+              <div className={styles.notificationsDropdownContainer}>
+                {messageNotifications && (
+                  <div className={styles.notificationsDropdown} onClick={() => handleNotifyClick('Messages')}>
+                    <span className={styles.notificationText}>{messageNotifications}</span>
+                  </div>
+                )}
+                {assignedPacketNotif && (
+                  <div className={styles.notificationsDropdown} onClick={() => handleNotifyClick('Packets')}>
+                    <span className={styles.notificationText}>{assignedPacketNotif}</span>
+                  </div>
+                )}
+                {!messageNotifications && !assignedPacketNotif && (
+                  <div className={styles.notificationsDropdown}>
+                    <span className={styles.noNotifications}>{String(t("No Notifications"))}</span>
+                  </div>
                 )}
               </div>
-            )}
+            )}    
           </div>
           <div className={styles.userMenu}>
               <button

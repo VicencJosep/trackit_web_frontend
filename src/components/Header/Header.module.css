@@ -166,10 +166,7 @@
   border-bottom: 1px solid #eee;
   background-color: #fff;
 }
-.notificationsDropdown {
-  position: absolute;
-  top: 40px;              /* Ajusta según el tamaño de la campana */
-  left: -120px;                /* Alineado con la campana, cambia a 'right: 0;' si lo prefieres */
+.notificationsDropdown {    
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -180,6 +177,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.notificationsDropdownContainer {
+  position: absolute;
+  top: 40px; /* Ajusta según el tamaño de la campana */
+  left: -120px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 1000;
 }
 
 .notificationText {

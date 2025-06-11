@@ -5,6 +5,9 @@ import { getAssignedPackets, fetchUserData, updateDeliveryQueue } from '../../se
 import PacketsList from '../PacketsList';
 import styles from './HomeDelivery.module.css';
 import PacketsToDeliverBox from '../PacketsToDeliverBox/PacketsToDeliverBox';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 
 const HomeDelivery: React.FC = () => {
   const location = useLocation();
@@ -39,7 +42,7 @@ const HomeDelivery: React.FC = () => {
     };
 
     loadUserAndPackets();
-  }, []);
+  }, [user]);
 
   const handleReorder = (startIndex: number, endIndex: number) => {
     const updatedQueue = [...packets];
@@ -50,18 +53,27 @@ const HomeDelivery: React.FC = () => {
 
   const handleSaveOrder = async () => {
     if (!user) {
-      alert('User not found.');
+      toast.error('User not found.', {
+          position: "top-right",
+          autoClose: 3000,
+      });         
       return;
     }
 
     try {
       const queueIds = packets.map((packet) => packet._id || '');
       await updateDeliveryQueue(user.id, queueIds);
-      alert('¡Orden de paquetes actualizado con éxito!');
+      toast.success('¡Orden de paquetes actualizado con éxito!', {
+          position: "top-right",
+          autoClose: 3000,
+      });      
       setIsEditingOrder(false);
     } catch (error) {
       console.error('Error updating delivery queue:', error);
-      alert('Error al actualizar el orden de paquetes.');
+      toast.error('Error al actualizar el orden de paquetes.', {
+          position: "top-right",
+          autoClose: 3000,
+      });         
     }
   };
 
@@ -70,6 +82,7 @@ const HomeDelivery: React.FC = () => {
 
   return (
     <div className={styles.homeDeliveryContainer}>
+      <ToastContainer />
       <h1 className={styles.title}>Home Delivery</h1>
 
       <section 

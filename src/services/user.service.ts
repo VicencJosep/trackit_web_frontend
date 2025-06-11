@@ -213,3 +213,16 @@ export const updateDeliveryQueue = async (userID: string, queue: string[]): Prom
         throw error;
     }
 };
+
+export const getUserByPacketId = async (packetId: string): Promise<User> => {
+  try {
+    const response = await api.get<User>(`/packets/${packetId}/user`);
+    if (response.status !== 200) {
+      throw new Error('Error getting user');
+    }
+    return response.data;
+  } catch (error) {
+    console.error('Error getting user by ID:', error);
+    throw error;
+  }
+};

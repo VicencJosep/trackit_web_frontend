@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import {
   assignPacketToDelivery,
   getAllPackets,
+  getUserByPacketId,
   updatePacketStatus
 } from '../../services/user.service';
 import styles from './PacketsList.module.css';
-import { Packet } from '../../types';
+import { Packet, User } from '../../types';
+import { socket } from '../../socket';
 
 function parseJwt(token: string) {
   try {
@@ -74,6 +76,8 @@ const PacketsList: React.FC = () => {
 
       // Actualizar status a "en reparto"
       await updatePacketStatus({ ...packetToUpdate, status: 'en reparto',deliveryId: userId });
+      const client: User = await getUserByPacketId(packetId); // Asegurarse de que el usuario se actualice correctamente
+      socket.emit('packetAssigned', packetToUpdate, client); // Notificar al servidor
 
       // Eliminar de la lista los que se han asignado
       setPackets(prev => prev.filter(p => p._id !== packetId));

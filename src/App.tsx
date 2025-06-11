@@ -40,8 +40,8 @@ const [isConnected, setIsConnected] = useState(socket.connected);
       const token = localStorage.getItem("accessToken");
       if (token) {
         const payload = parseJwt(token);
-        if (payload && payload.email) {
-          socket.emit('email', payload.email);
+        if (payload && payload.email) {          
+          socket.emit('email', payload.email, payload.role);
         }
       }
     }
