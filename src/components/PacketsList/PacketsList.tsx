@@ -27,7 +27,11 @@ function parseJwt(token: string) {
   }
 }
 
-const PacketsList: React.FC = () => {
+interface PacketsListProps {
+  onPacketAdded?: () => void; // Nueva prop para actualizar la lista en HomeDelivery
+}
+
+const PacketsList: React.FC<PacketsListProps> = ({ onPacketAdded }) => {
   const [packets, setPackets] = useState<Packet[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -81,6 +85,10 @@ const PacketsList: React.FC = () => {
 
       // Eliminar de la lista los que se han asignado
       setPackets(prev => prev.filter(p => p._id !== packetId));
+
+      if (onPacketAdded) {
+        onPacketAdded(); // Llama a la función para actualizar la lista en HomeDelivery
+      }
     } catch (err) {
       setError('Error asignando paquete.');
     }
@@ -91,7 +99,6 @@ const PacketsList: React.FC = () => {
 
   return (
     <div className={styles.container}>
-      <h2>Paquetes en almacén</h2>
       {packets.length === 0 ? (
         <p>No hay paquetes disponibles en almacén.</p>
       ) : (

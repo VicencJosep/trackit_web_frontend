@@ -15,6 +15,7 @@ export interface User {
     deliveredPackets: string[];
     vehicle: string;
   };
+  location?: string; // Ubicación del usuario (opcional)
 }
 
 export interface Packet{
