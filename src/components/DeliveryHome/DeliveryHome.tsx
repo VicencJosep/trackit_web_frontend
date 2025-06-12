@@ -16,6 +16,7 @@ const Home: React.FC = () => {
     name: user.name,
     email: user.email,
     phone: user.phone,
+    location: user.location || 'unknown-location',
   };
 
   return (

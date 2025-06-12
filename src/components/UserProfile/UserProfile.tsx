@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Mail, Phone, XCircle } from "lucide-react";
+import { Mail, Phone, XCircle, MapPin } from "lucide-react"; // Añadido MapPin para el icono de ubicación
 import styles from "./UserProfile.module.css";
 import { User } from "../../types/index";
 import { updateUser, deleteUser } from "../../services/user.service";
@@ -98,6 +98,16 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onClose }) => {
               value={formData.phone}
               onChange={handleChange}
               disabled={!editing}
+            />
+          </label>
+          <label>
+            <MapPin size={16} /> <strong>Ubicación:</strong> {/* Nueva sección para ubicación */}
+            <input
+              name="location"
+              value={formData.location || ""}
+              onChange={handleChange}
+              disabled={!editing}
+              placeholder="Introduce tu ubicación"
             />
           </label>
         </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Box.module.css';
-import { getAssignedPackets, GetOptimizedRoute } from '../../services/user.service';
+import { getAssignedPackets, GetOptimizedRoute, updateDeliveryQueue } from '../../services/user.service';
 import { Packet } from '../../types';
 import { useTranslation } from "react-i18next"; // Añade esto
 
@@ -11,44 +11,38 @@ interface PacketsToDeliverBoxProps {
     name: string;
     email: string;
     phone: string;
+    location: string; // Ubicación del usuario
   };
+  onPacketAdded?: () => void; // Nueva prop para actualizar la lista en HomeDelivery
 }
 
-const PacketsToDeliverBox: React.FC<PacketsToDeliverBoxProps> = ({ user }) => {
+const PacketsToDeliverBox: React.FC<PacketsToDeliverBoxProps> = ({ user, onPacketAdded }) => {
   const [packages, setPackages] = useState<Packet[]>([]);
   const [optimizedRoute, setOptimizedRoute] = useState<Packet[]>([]); // Cambia el tipo según tu necesidad
   const [loading, setLoading] = useState(true);
   const { t } = useTranslation(); // Añade esto
 
   useEffect(() => {
-    const getPackages = async () => {
+    const fetchData = async () => {
+      setLoading(true); // Iniciar la carga
       try {
-        const allPackages = await getAssignedPackets(user.id); // Usa el ID del usuario si es necesario    
+        const [allPackages, optimizedRouteResponse] = await Promise.all([
+          getAssignedPackets(user.id),
+          GetOptimizedRoute(user.id, user.location),
+        ]);
         setPackages(allPackages);
+        setOptimizedRoute(optimizedRouteResponse);
       } catch (error) {
-        console.error('Error fetching packages:', error);
+        console.error('Error fetching data:', error);
       } finally {
         setLoading(false); // Finaliza la carga
       }
     };
-    const getOptimizedRoute = async () =>{
-        try{
-            const response = await GetOptimizedRoute(user.id, '41.27721, 1.99017');
 
-            setOptimizedRoute(response);
-           
-        }
-        catch (error) {
-            console.error('Error fetching optimized route:', error);
-
-        }
-        finally {
-            setLoading(false); // Finaliza la carga
-        }
-    };
-    getPackages();
-    getOptimizedRoute();
-  }, [user.id, optimizedRoute]); // Añade optimizedRoute.length para evitar bucles infinitos
+    if (user.id) {
+      fetchData(); // Ejecutar solo si user.id está definido
+    }
+  }, [user.id]); // Solo depende de user.id
 
   const handlePackageClick = (pkg: Packet) => {
     alert(`Has seleccionado el paquete: ${pkg.name} (ID: ${pkg._id})`);
@@ -60,7 +54,7 @@ const PacketsToDeliverBox: React.FC<PacketsToDeliverBoxProps> = ({ user }) => {
     <div className={styles.optimizedRouteSection} style={{ flex: 1 }}>
       {(!loading && optimizedRoute.length > 0) && (
         <>
-          <h2 style={{ marginTop: 32 }}>Ruta Optimizada</h2>
+          {/* Se elimina el título redundante */}
           <ol className={styles.routeList}>
             {optimizedRoute.map((pkg, idx) => (
               <li
