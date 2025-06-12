@@ -8,6 +8,7 @@ import styles from "./HomeDelivery.module.css";
 import PacketsToDeliverBox from "../PacketsToDeliverBox/PacketsToDeliverBox";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import RouteMap from "../MapaRepartidor/RouteMap";
 
 const REACT_APP_GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
@@ -366,6 +367,17 @@ const HomeDelivery: React.FC = () => {
               location: user.location ?? "",
             }}
             onPacketAdded={refreshPackets}
+          />
+        </div>
+        {/* Mapa de la ruta optimizada */}
+        <div style={{ marginTop: 32 }}>
+          <RouteMap
+            userLocation={user.location ?? ""}
+            packets={optimizedRoute.length > 0 ? optimizedRoute : packets}
+            onRouteInfo={(distance, duration) => {
+              setTotalDistance(distance);
+              setEstimatedTime(duration);
+            }}
           />
         </div>
       </section>
