@@ -58,13 +58,65 @@
   color: #6c6c6c;
 }
 
-.packageItem {
-  font-size: 1rem;
-  margin-bottom: 10px;
+/* --- Modal de edición centrado --- */
+.editModal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff8f0;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  width: 400px;
+  max-width: 90%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.editModal input {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.closeButton {
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
+  font-size: 1.4rem;
+  background: none;
+  border: none;
+  color: #333;
   cursor: pointer;
 }
 
-.packageItem:hover {
-  color: #0056b3;
-  text-decoration: underline;
+.closeButton:hover {
+  color: #000;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.buttonGroup button {
+  flex: 1;
+  padding: 0.6rem;
+  border: none;
+  border-radius: 6px;
+  background-color: #4e4b47;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.buttonGroup button:hover {
+  background-color: #333;
 }
