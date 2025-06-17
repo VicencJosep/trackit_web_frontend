@@ -92,17 +92,28 @@ const Chat: React.FC = () => {
   const sendMessage = async () => {
     if (currentMessage !== '') {
       const messageData: Message = {
-         senderId: user.id || '',
-         rxId: contact?.id || contact?._id || '',
-         content: currentMessage,
-         created: new Date(),
-         acknowledged: false,
-         roomId: roomId || '',
-     };
-      console.log('Enviando mensaje:', messageData);
-      await socket.emit('send_message', messageData);
-      setMessageList(prev => [...prev, messageData]);
-      setCurrentMessage('');
+        senderId: user.id || '',
+        rxId: contact?.id || contact?._id || '',
+        content: currentMessage,
+        created: new Date(),
+        acknowledged: false,
+        roomId: roomId || '',
+      };
+
+      console.log('Enviando mensaje al servidor:', messageData);
+
+      try {
+        // Emitir el mensaje al servidor
+        await socket.emit('send_message', messageData);
+
+        // Actualizar la lista de mensajes localmente
+        setMessageList((prev) => [...prev, messageData]);
+
+        // Limpiar el campo de entrada
+        setCurrentMessage('');
+      } catch (error) {
+        console.error('Error al enviar el mensaje:', error);
+      }
     }
   };
   useEffect(() => {
