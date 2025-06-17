@@ -36,6 +36,7 @@ const Header: React.FC<Props> = ({ disconnect }) => {
   const [generalNotifications, setGeneralNotifications] = useState<string>('');
   const [showDeliveryList, setShowDeliveryList] = useState(false);
   const [deliveryUsers, setDeliveryUsers] = useState<UserType[]>([]);
+  const [deliveredNotif, setDeliveredNotif] = useState<string>('');
   const isAuthPage =
     location.pathname === '/login' ||
     location.pathname === '/register' ||
@@ -127,8 +128,13 @@ const Header: React.FC<Props> = ({ disconnect }) => {
       setAssignedPacketNotif('Tienes un nuevo paquete en reparto');
       setGeneralNotifications('Tienes notificaciones nuevas');
     };
+    const handleDeliveredNotification = () => {
+      setDeliveredNotif('Un paquete ha sido entregado');
+      setGeneralNotifications('Tienes notificaciones nuevas');
+    };
     socket.on('unseen_messages', handleNotification);
     socket.on('packet_assigned', handleAssignedPacket);
+    socket.on('packet_delivered', handleDeliveredNotification);
 
     return () => {
       socket.off('unseen_messages', handleNotification);
@@ -195,7 +201,15 @@ const Header: React.FC<Props> = ({ disconnect }) => {
                       <span className={styles.notificationText}>{assignedPacketNotif}</span>
                     </div>
                   )}
-                  {!messageNotifications && !assignedPacketNotif && (
+                  {deliveredNotif && (
+                    <div
+                      className={styles.notificationsDropdown}
+                      onClick={() => handleNotifyClick('Packets')}
+                    >
+                      <span className={styles.notificationText}>{deliveredNotif}</span>
+                    </div>
+                  )}
+                  {!messageNotifications && !assignedPacketNotif && !deliveredNotif && (
                     <div className={styles.notificationsDropdown}>
                       <span className={styles.noNotifications}>
                         {String(t('No Notifications'))}

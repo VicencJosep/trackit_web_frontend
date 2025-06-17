@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { updatePacketStatus, markPacketAsDelivered } from '../../services/user.service';
+import {
+  updatePacketStatus,
+  markPacketAsDelivered,
+  getUserById,
+  getUserByPacketId,
+} from '../../services/user.service';
 import { GoogleMap, DirectionsRenderer, useJsApiLoader, Marker } from '@react-google-maps/api';
-import { Packet } from '../../types';
+import { Packet, User } from '../../types';
 import packageIcon from '../../assets/1f4e6.svg';
 import { toast } from 'react-toastify'; // Añadido
+import { socket } from '../../socket';
 
 const containerStyle: React.CSSProperties = {
   width: '100%',
@@ -64,7 +70,7 @@ const RouteMap: React.FC<RouteMapProps> = ({ userLocation, packets, onRouteInfo 
     const destinations = packets.map((p) => parseLatLng(p.destination ?? ''));
 
     let waypoints: { location: google.maps.LatLngLiteral | string; stopover: boolean }[] = [];
-    let destination = destinations[destinations.length - 1];
+    const destination = destinations[destinations.length - 1];
 
     if (destinations.length > 1) {
       waypoints = destinations.slice(0, -1).map((loc) => ({
@@ -133,7 +139,9 @@ const RouteMap: React.FC<RouteMapProps> = ({ userLocation, packets, onRouteInfo 
 
       await updatePacketStatus({ ...selectedPacket, status: 'entregado', deliveredAt: new Date() });
       await markPacketAsDelivered(userId, selectedPacket._id!);
-
+      const client: User = await getUserByPacketId(selectedPacket._id!); // Asegurarse de que el usuario se actualice correctamente
+      console.log('Cliente', client);
+      socket.emit('packetDelivered', selectedPacket, client); // Notificar al servidor
       toast.success('¡Paquete entregado correctamente!', {
         position: 'top-right',
         autoClose: 3000,
