@@ -226,3 +226,19 @@ export const getUserByPacketId = async (packetId: string): Promise<User> => {
     throw error;
   }
 };
+
+export const markPacketAsDelivered = async (
+  userId: string,
+  packetId: string
+): Promise<{ message: string; user: User }> => {
+  try {
+    const response = await api.put<{ message: string; user: User }>(
+      `/users/${userId}/mark-delivered`,
+      { packetId } // 👈 enviado en el body
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error marking packet as delivered:', error);
+    throw error;
+  }
+};

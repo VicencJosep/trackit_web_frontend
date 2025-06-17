@@ -44,7 +44,7 @@ const packets: Packet[] = [
   {
     name: "Balón Oficial FIFA",
     description: "Balón de fútbol profesional.",
-    status: "en reparto",
+    status: "almacén",
     createdAt: new Date("2025-02-15"),
     size: 20,
     weight: 0.4,
@@ -53,7 +53,7 @@ const packets: Packet[] = [
   {
     name: "Mochila deportiva",
     description: "Mochila ligera y resistente para entrenamiento.",
-    status: "en reparto",
+    status: "almacén",
     createdAt: new Date("2025-03-01"),
     size: 30,
     weight: 0.6,
