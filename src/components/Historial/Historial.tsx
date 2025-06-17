@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { GetUserPackets } from "../../services/user.service";
 import { Packet } from '../../types';
 import styles from './Historial.module.css';
+import { useTranslation } from "react-i18next";
 
 function getUserIdFromToken(): string | null {
   const token = localStorage.getItem("accessToken");
@@ -22,8 +23,8 @@ function getUserIdFromToken(): string | null {
   }
 }
 
-const formatDate = (date: Date | string | undefined): string => {
-  if (!date) return 'N/A';
+const formatDate = (date: Date | string | undefined, t: any): string => {
+  if (!date) return String(t("historial.noDate"));
   const d = new Date(date);
   return d.toLocaleString(undefined, {
     year: 'numeric', month: 'short', day: 'numeric',
@@ -32,6 +33,7 @@ const formatDate = (date: Date | string | undefined): string => {
 };
 
 const Historial: React.FC = () => {
+  const { t } = useTranslation();
   const [deliveredPackets, setDeliveredPackets] = useState<Packet[]>([]);
 
   useEffect(() => {
@@ -50,23 +52,31 @@ const Historial: React.FC = () => {
 
   return (
     <div className={styles.historialContainer}>
-      <h1>📦 Historial de Entregas</h1>
-      <p>Consulta aquí todos los paquetes que ya han sido entregados.</p>
+      <h1>📦 {String(t("historial.title"))}</h1>
+      <p>{String(t("historial.subtitle"))}</p>
       <div className={styles.packetList}>
-        {deliveredPackets.map((packet: Packet) => (
-          <div key={packet._id} className={styles.packetItem}>
-            <div className={styles.packetHeader}>
-              <div className={styles.packetTitle}>
-                📦 <strong>{packet.name}</strong>
+        {deliveredPackets.length === 0 ? (
+          <p>{String(t("historial.empty"))}</p>
+        ) : (
+          deliveredPackets.map((packet: Packet) => (
+            <div key={packet._id} className={styles.packetItem}>
+              <div className={styles.packetHeader}>
+                <div className={styles.packetTitle}>
+                  📦 <strong>{packet.name}</strong>
+                </div>
+                <p>{packet.description}</p>
               </div>
-              <p>{packet.description}</p>
+              <div className={styles.packetDates}>
+                <div>
+                  🕒 {String(t("historial.createdAt"))}: <span>{formatDate(packet.createdAt, t)}</span>
+                </div>
+                <div>
+                  🚚 {String(t("historial.deliveredAt"))}: <span>{formatDate(packet.deliveredAt, t)}</span>
+                </div>
+              </div>
             </div>
-            <div className={styles.packetDates}>
-              <div>🕒 Creado: <span>{formatDate(packet.createdAt)}</span></div>
-              <div>🚚 Entregado: <span>{formatDate(packet.deliveredAt)}</span></div>
-            </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

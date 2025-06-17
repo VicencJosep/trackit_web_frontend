@@ -87,7 +87,55 @@
     "title": "Paquetes en Almacén",
     "loading": "Cargando paquetes...",
     "empty": "No tienes paquetes en el almacén.",
-    "description": "Descripción"
-  }
-  
+    "description": "Descripción",
+    "weight": "Peso",
+    "size": "Tamaño",
+    "editTitle": "Editar paquete",
+    "destination": "Destino",
+    "deliveredAt": "Fecha de entrega",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "updatedSuccess": "¡Paquete actualizado correctamente!",
+    "invalidDate": "La fecha de entrega no puede ser anterior a la fecha de creación."
+  },
+  "homeDelivery": {
+  "title": "Panel de Repartidor",
+  "subtitle": "Gestiona tus paquetes y optimiza tu ruta de entrega",
+  "inQueue": "En Cola",
+  "estimatedTime": "Tiempo Est.",
+  "distance": "Distancia",
+  "warehouseTitle": "Paquetes en almacén",
+  "queueTitle": "Cola de Entrega",
+  "cancel": "Cancelar",
+  "save": "Guardar",
+  "saving": "Guardando...",
+  "reorder": "Reordenar",
+  "noPackets": "No hay paquetes en cola",
+  "noPacketsDesc": "Los paquetes asignados aparecerán aquí",
+  "next": "Próximo",
+  "notSpecified": "No especificado",
+  "moveUp": "Mover arriba",
+  "moveDown": "Mover abajo",
+  "optimizedRoute": "Ruta Optimizada",
+  "optimizeRoute": "Optimizar Ruta",
+  "routeInfo": "Información de la ruta",
+  "errorRouteMetrics": "Error al calcular métricas de la ruta.",
+  "errorUserNotFound": "Usuario no encontrado.",
+  "errorInvalidData": "No se puede calcular la ruta optimizada debido a datos inválidos.",
+  "optimizedSuccess": "¡Ruta optimizada con éxito!",
+  "errorOptimizingRoute": "Error al optimizar la ruta.",
+  "errorLoadingData": "Error al cargar los datos",
+  "saveOrderSuccess": "¡Orden de paquetes actualizado con éxito!",
+  "errorSaveOrder": "Error al actualizar el orden de paquetes.",
+  "errorRefreshingPackets": "Error al actualizar los paquetes",
+  "loadingDashboard": "Cargando dashboard..."
+},
+  "historial": {
+  "title": "Historial de Entregas",
+  "subtitle": "Consulta aquí todos los paquetes que ya han sido entregados.",
+  "empty": "No hay paquetes entregados.",
+  "createdAt": "Creado",
+  "deliveredAt": "Entregado",
+  "noDate": "N/A"
+}
 }

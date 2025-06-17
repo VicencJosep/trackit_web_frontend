@@ -9,10 +9,12 @@ import PacketsToDeliverBox from "../PacketsToDeliverBox/PacketsToDeliverBox";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import RouteMap from "../MapaRepartidor/RouteMap";
+import { useTranslation } from "react-i18next";
 
 const REACT_APP_GOOGLE_MAPS_API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
 
 const HomeDelivery: React.FC = () => {
+  const { t } = useTranslation();
   const location = useLocation();
   const [user, setUser] = useState<User | null>(location.state?.user ?? null);
   const [packets, setPackets] = useState<Packet[]>([]);
@@ -48,7 +50,7 @@ const HomeDelivery: React.FC = () => {
       );
       const data = await response.json();
 
-      console.log("Respuesta de la API de Google Maps:", data); // Inspeccionar la respuesta
+      console.log("Respuesta de la API de Google Maps:", data);
 
       if (data.rows && data.rows[0] && data.rows[0].elements) {
         const elements = data.rows[0].elements;
@@ -56,22 +58,22 @@ const HomeDelivery: React.FC = () => {
         const totalDistance = elements.reduce(
           (acc: number, el: { distance: { value: number }; duration: { value: number } }) => acc + el.distance.value,
           0
-        ); // Distancia en metros
+        );
         const totalDuration = elements.reduce(
           (acc: number, el: { distance: { value: number }; duration: { value: number } }) => acc + el.duration.value,
           0
-        ); // Duración en segundos
+        );
 
-        setTotalDistance((totalDistance / 1000).toFixed(2) + " km"); // Convertir a kilómetros
+        setTotalDistance((totalDistance / 1000).toFixed(2) + " km");
         setEstimatedTime(
-          `${Math.floor(totalDuration / 3600)}h ${Math.floor((totalDuration % 3600) / 60)}m` // Convertir a horas y minutos
+          `${Math.floor(totalDuration / 3600)}h ${Math.floor((totalDuration % 3600) / 60)}m`
         );
       } else {
         console.error("La respuesta de la API no contiene los datos esperados.");
       }
     } catch (error) {
       console.error("Error al calcular métricas de la ruta:", error);
-      toast.error("Error al calcular métricas de la ruta.", {
+      toast.error(String(t("homeDelivery.errorRouteMetrics")), {
         position: "top-right",
         autoClose: 3000,
       });
@@ -80,7 +82,7 @@ const HomeDelivery: React.FC = () => {
 
   const optimizeRoute = async () => {
     if (!user) {
-      toast.error("Usuario no encontrado.", {
+      toast.error(String(t("homeDelivery.errorUserNotFound")), {
         position: "top-right",
         autoClose: 3000,
       });
@@ -95,12 +97,9 @@ const HomeDelivery: React.FC = () => {
       const origin = user.location ?? "";
       const destinations = route.map((packet) => packet.destination ?? "");
 
-      console.log("Origin:", origin);
-      console.log("Destinations:", destinations);
-
       if (!origin || destinations.length === 0) {
         console.error("Datos de entrada inválidos para la API de Google Maps.");
-        toast.error("No se puede calcular la ruta optimizada debido a datos inválidos.", {
+        toast.error(String(t("homeDelivery.errorInvalidData")), {
           position: "top-right",
           autoClose: 3000,
         });
@@ -109,13 +108,13 @@ const HomeDelivery: React.FC = () => {
 
       await calculateRouteMetrics(origin, destinations);
 
-      toast.success("¡Ruta optimizada con éxito!", {
+      toast.success(String(t("homeDelivery.optimizedSuccess")), {
         position: "top-right",
         autoClose: 3000,
       });
     } catch (error) {
       console.error("Error al optimizar la ruta:", error);
-      toast.error("Error al optimizar la ruta.", {
+      toast.error(String(t("homeDelivery.errorOptimizingRoute")), {
         position: "top-right",
         autoClose: 3000,
       });
@@ -133,7 +132,7 @@ const HomeDelivery: React.FC = () => {
         }
       } catch (error) {
         console.error("Error loading user or packets:", error);
-        toast.error("Error al cargar los datos", {
+        toast.error(String(t("homeDelivery.errorLoadingData")), {
           position: "top-right",
           autoClose: 3000,
         });
@@ -143,6 +142,7 @@ const HomeDelivery: React.FC = () => {
     };
 
     loadData();
+    // eslint-disable-next-line
   }, []);
 
   const handleReorder = (startIndex: number, endIndex: number) => {
@@ -156,7 +156,7 @@ const HomeDelivery: React.FC = () => {
 
   const handleSaveOrder = async () => {
     if (!user) {
-      toast.error("Usuario no encontrado.", {
+      toast.error(String(t("homeDelivery.errorUserNotFound")), {
         position: "top-right",
         autoClose: 3000,
       });
@@ -167,14 +167,14 @@ const HomeDelivery: React.FC = () => {
       setIsSaving(true);
       const queueIds = packets.map((packet) => packet._id || "");
       await updateDeliveryQueue(user.id, queueIds);
-      toast.success("¡Orden de paquetes actualizado con éxito!", {
+      toast.success(String(t("homeDelivery.saveOrderSuccess")), {
         position: "top-right",
         autoClose: 3000,
       });
       setIsEditingOrder(false);
     } catch (error) {
       console.error("Error updating delivery queue:", error);
-      toast.error("Error al actualizar el orden de paquetes.", {
+      toast.error(String(t("homeDelivery.errorSaveOrder")), {
         position: "top-right",
         autoClose: 3000,
       });
@@ -191,7 +191,7 @@ const HomeDelivery: React.FC = () => {
       setPackets(updatedPackets);
     } catch (error) {
       console.error("Error refreshing packets:", error);
-      toast.error("Error al actualizar los paquetes", {
+      toast.error(String(t("homeDelivery.errorRefreshingPackets")), {
         position: "top-right",
         autoClose: 3000,
       });
@@ -208,7 +208,7 @@ const HomeDelivery: React.FC = () => {
     return (
       <div className={styles.loadingContainer}>
         <div className={styles.loadingSpinner}></div>
-        <p className={styles.loadingText}>Cargando dashboard...</p>
+        <p className={styles.loadingText}>{String(t("homeDelivery.loadingDashboard"))}</p>
       </div>
     );
   }
@@ -221,21 +221,21 @@ const HomeDelivery: React.FC = () => {
 
       <header className={styles.header}>
         <div className={styles.headerContent}>
-          <h1 className={styles.title}>Dashboard de Entregas</h1>
-          <p className={styles.subtitle}>Gestiona tus paquetes y optimiza tu ruta de entrega</p>
+          <h1 className={styles.title}>{String(t("homeDelivery.title"))}</h1>
+          <p className={styles.subtitle}>{String(t("homeDelivery.subtitle"))}</p>
         </div>
         <div className={styles.statsContainer}>
           <div className={styles.statCard}>
             <span className={styles.statNumber}>{packets.length}</span>
-            <span className={styles.statLabel}>En Cola</span>
+            <span className={styles.statLabel}>{String(t("homeDelivery.inQueue"))}</span>
           </div>
           <div className={styles.statCard}>
             <span className={styles.statNumber}>{estimatedTime}</span>
-            <span className={styles.statLabel}>Tiempo Est.</span>
+            <span className={styles.statLabel}>{String(t("homeDelivery.estimatedTime"))}</span>
           </div>
           <div className={styles.statCard}>
             <span className={styles.statNumber}>{totalDistance}</span>
-            <span className={styles.statLabel}>Distancia</span>
+            <span className={styles.statLabel}>{String(t("homeDelivery.distance"))}</span>
           </div>
         </div>
       </header>
@@ -244,7 +244,7 @@ const HomeDelivery: React.FC = () => {
         <section className={styles.leftColumn}>
           <div className={styles.sectionHeader}>
             <div className={styles.sectionIcon}>📦</div>
-            <h2 className={styles.sectionTitle}>Paquetes en Almacén</h2>
+            <h2 className={styles.sectionTitle}>{String(t("homeDelivery.warehouseTitle"))}</h2>
           </div>
           <div className={styles.sectionContent}>
             <PacketsList onPacketAdded={refreshPackets} />
@@ -254,7 +254,7 @@ const HomeDelivery: React.FC = () => {
         <section className={styles.rightColumn}>
           <div className={styles.sectionHeader}>
             <div className={styles.sectionIcon}>🚚</div>
-            <h2 className={styles.sectionTitle}>Cola de Entrega</h2>
+            <h2 className={styles.sectionTitle}>{String(t("homeDelivery.queueTitle"))}</h2>
             <div className={styles.queueBadge}>{packets.length}</div>
             {packets.length > 0 && (
               <div className={styles.headerActions}>
@@ -265,14 +265,14 @@ const HomeDelivery: React.FC = () => {
                       onClick={() => setIsEditingOrder(false)}
                       disabled={isSaving}
                     >
-                      ✕ Cancelar
+                      ✕ {String(t("homeDelivery.cancel"))}
                     </button>
                     <button
                       className={`${styles.actionButton} ${styles.saveButton}`}
                       onClick={handleSaveOrder}
                       disabled={isSaving}
                     >
-                      {isSaving ? "⏳ Guardando..." : "💾 Guardar"}
+                      {isSaving ? "⏳ " + String(t("homeDelivery.saving")) : "💾 " + String(t("homeDelivery.save"))}
                     </button>
                   </>
                 ) : (
@@ -280,7 +280,7 @@ const HomeDelivery: React.FC = () => {
                     className={`${styles.actionButton} ${styles.editButton}`}
                     onClick={() => setIsEditingOrder(true)}
                   >
-                    ✏️ Reordenar
+                    ✏️ {String(t("homeDelivery.reorder"))}
                   </button>
                 )}
               </div>
@@ -291,8 +291,8 @@ const HomeDelivery: React.FC = () => {
             {packets.length === 0 ? (
               <div className={styles.emptyState}>
                 <div className={styles.emptyIcon}>📭</div>
-                <p className={styles.emptyTitle}>No hay paquetes en cola</p>
-                <p className={styles.emptyDescription}>Los paquetes asignados aparecerán aquí</p>
+                <p className={styles.emptyTitle}>{String(t("homeDelivery.noPackets"))}</p>
+                <p className={styles.emptyDescription}>{String(t("homeDelivery.noPacketsDesc"))}</p>
               </div>
             ) : (
               <ul className={styles.packetsList}>
@@ -302,7 +302,7 @@ const HomeDelivery: React.FC = () => {
                       <div className={styles.packetIcon}>📦</div>
                       <div className={styles.packetMeta}>
                         <span className={styles.packetPosition}>#{index + 1}</span>
-                        {index === 0 && <span className={styles.priorityBadge}>Próximo</span>}
+                        {index === 0 && <span className={styles.priorityBadge}>{String(t("homeDelivery.next"))}</span>}
                       </div>
                     </div>
 
@@ -311,7 +311,7 @@ const HomeDelivery: React.FC = () => {
                       <div className={styles.packetDetails}>
                         <div className={styles.packetDetail}>
                           <span className={styles.detailIcon}>📍</span>
-                          <span className={styles.detailText}>{packet.destination ?? "No especificado"}</span>
+                          <span className={styles.detailText}>{packet.destination ?? String(t("homeDelivery.notSpecified"))}</span>
                         </div>
                         {packet.description && (
                           <div className={styles.packetDetail}>
@@ -328,7 +328,7 @@ const HomeDelivery: React.FC = () => {
                           className={`${styles.orderButton} ${styles.orderButtonUp}`}
                           onClick={() => handleReorder(index, index - 1)}
                           disabled={index === 0}
-                          title="Mover arriba"
+                          title={String(t("homeDelivery.moveUp"))}
                         >
                           ↑
                         </button>
@@ -336,7 +336,7 @@ const HomeDelivery: React.FC = () => {
                           className={`${styles.orderButton} ${styles.orderButtonDown}`}
                           onClick={() => handleReorder(index, index + 1)}
                           disabled={index === packets.length - 1}
-                          title="Mover abajo"
+                          title={String(t("homeDelivery.moveDown"))}
                         >
                           ↓
                         </button>
@@ -353,12 +353,12 @@ const HomeDelivery: React.FC = () => {
       <section className={styles.bottomSection}>
         <div className={styles.sectionHeader}>
           <div className={styles.sectionIcon}>🗺️</div>
-          <h2 className={styles.sectionTitle}>Ruta Optimizada</h2>
+          <h2 className={styles.sectionTitle}>{String(t("homeDelivery.optimizedRoute"))}</h2>
           <button
             className={`${styles.actionButton} ${styles.optimizeButton}`}
             onClick={optimizeRoute}
           >
-            🎯 Optimizar Ruta
+            🎯 {String(t("homeDelivery.optimizeRoute"))}
           </button>
         </div>
         <div className={styles.routeContent}>
@@ -370,7 +370,6 @@ const HomeDelivery: React.FC = () => {
             onPacketAdded={refreshPackets}
           />
         </div>
-        {/* Mapa de la ruta optimizada */}
         <div style={{ marginTop: 32 }}>
           <RouteMap
             userLocation={user.location ?? ""}
@@ -379,7 +378,6 @@ const HomeDelivery: React.FC = () => {
               setTotalDistance(distance);
               setEstimatedTime(duration);
             }}
-            
           />
         </div>
       </section>
