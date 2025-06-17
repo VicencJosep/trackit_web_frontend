@@ -12,6 +12,7 @@ import Chat from './components/Chat/Chat';
 import React, { useEffect, useState } from 'react';
 import HomeDelivery from './components/HomeDelivery';
 import { socket } from './socket';
+import Historial from './components/Historial/Historial';
 
 
 function App() {
@@ -70,6 +71,7 @@ const [isConnected, setIsConnected] = useState(socket.connected);
             <Route path="/messages" element={<Chat />} />
             <Route path="/homeDelivery" element={<HomeDelivery />} />
             <Route path="/store" element={<Store />} />
+            <Route path="/historial" element={<Historial />} />
               <Route
               path="/digital-awareness"
               element={<DigitalAwareness />}

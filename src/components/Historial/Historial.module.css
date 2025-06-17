@@ -1,0 +1,72 @@
+.historialContainer {
+  padding: 2rem;
+  background: #f5faff;
+  border-radius: 1.5rem;
+  max-width: 900px;
+  margin: 2rem auto;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.historialContainer h1 {
+  font-size: 2.2rem;
+  color: #004085;
+  margin-bottom: 0.5rem;
+}
+
+.historialContainer p {
+  color: #555;
+  font-size: 1rem;
+  margin-bottom: 2rem;
+}
+
+.packetList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.packetItem {
+  background: white;
+  border-left: 6px solid #28a745;
+  padding: 1.5rem;
+  border-radius: 1rem;
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+}
+
+.packetItem:hover {
+  transform: scale(1.01);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.packetHeader {
+  margin-bottom: 1rem;
+}
+
+.packetTitle {
+  font-size: 1.2rem;
+  color: #222;
+  margin-bottom: 0.3rem;
+}
+
+.packetHeader p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.packetDates {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.packetDates span {
+  font-weight: bold;
+  color: #000;
+}

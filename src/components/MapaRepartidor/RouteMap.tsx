@@ -137,7 +137,7 @@ const RouteMap: React.FC<RouteMapProps> = ({ userLocation, packets, onRouteInfo 
     try {
       console.log("Entregando paquete:", selectedPacket._id, "por el usuario:", userId);
 
-await updatePacketStatus({ ...selectedPacket, status: "entregado" });
+      await updatePacketStatus({ ...selectedPacket, status: "entregado", deliveredAt : new Date() });
       await markPacketAsDelivered(userId, selectedPacket._id!);
 
       toast.success("¡Paquete entregado correctamente!", {

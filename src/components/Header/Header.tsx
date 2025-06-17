@@ -1,7 +1,7 @@
 import { useState, useEffect} from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Header.module.css";
-import { User, Home, ShoppingCart, MessageSquare, Bike, LogOut, Accessibility } from "lucide-react";
+import { User, Home, ShoppingCart, MessageSquare, Bike, LogOut, Accessibility, Clock } from "lucide-react";
 import UserProfile from "../UserProfile";
 import { fetchUserData } from "../../services/user.service";
 import { Message, User as UserType } from "../../types/index";
@@ -190,6 +190,13 @@ const Header: React.FC<Props> = ({ disconnect }) => {
                   >
                     <Accessibility size={16} />
                     {String(t("header.accessibility"))}
+                  </button>
+                  <button
+                    onClick={() => navigate("/historial")}
+                    className={styles.dropdownItem}
+                  >
+                    <Clock size={16} style={{ marginRight: 8 }} />
+                    Historial
                   </button>
                   <button onClick={handleLogout} className={styles.logoutButton}>
                     <LogOut size={16} />
