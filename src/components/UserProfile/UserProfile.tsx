@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Mail, Phone, XCircle, MapPin } from "lucide-react"; // Añadido MapPin para el icono de ubicación
-import styles from "./UserProfile.module.css";
-import { User } from "../../types/index";
-import { updateUser, deleteUser } from "../../services/user.service";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Mail, Phone, XCircle, MapPin } from 'lucide-react'; // Añadido MapPin para el icono de ubicación
+import styles from './UserProfile.module.css';
+import { User } from '../../types/index';
+import { updateUser, deleteUser } from '../../services/user.service';
 
 interface UserProfileProps {
   user: User;
@@ -21,44 +21,44 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onClose }) => {
 
   const handleEdit = async () => {
     if (!formData.id) {
-      console.error("No se puede actualizar: ID de usuario no disponible");
+      console.error('No se puede actualizar: ID de usuario no disponible');
       return;
     }
 
     try {
-      console.log("Actualizando perfil del usuario:", formData);
+      console.log('Actualizando perfil del usuario:', formData);
       await updateUser(formData.id, formData);
-      console.log("Perfil actualizado con éxito");
+      console.log('Perfil actualizado con éxito');
 
       // Eliminar tokens y redirigir al login
-      localStorage.removeItem("accessToken");
-      localStorage.removeItem("refreshToken");
+      localStorage.removeItem('accessToken');
+      localStorage.removeItem('refreshToken');
       onClose(); // Cierra la pestaña del perfil
-      navigate("/login");
+      navigate('/login');
     } catch (error) {
-      console.error("Error al actualizar el perfil:", error);
+      console.error('Error al actualizar el perfil:', error);
     }
   };
 
   const handleDelete = async () => {
     if (!user.id) {
-      console.error("No se puede eliminar: ID de usuario no disponible");
+      console.error('No se puede eliminar: ID de usuario no disponible');
       return;
     }
 
-    const confirmDelete = window.confirm("¿Estás seguro de que deseas eliminar tu cuenta?");
+    const confirmDelete = window.confirm('¿Estás seguro de que deseas eliminar tu cuenta?');
     if (confirmDelete) {
       try {
-        console.log("Eliminando cuenta del usuario:", user.id);
+        console.log('Eliminando cuenta del usuario:', user.id);
         await deleteUser(user.id);
 
         // Eliminar tokens, cerrar el perfil y redirigir al login
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
         onClose(); // Cierra la pestaña del perfil
-        navigate("/login");
+        navigate('/login');
       } catch (error) {
-        console.error("Error al eliminar la cuenta:", error);
+        console.error('Error al eliminar la cuenta:', error);
       }
     }
   };
@@ -75,12 +75,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onClose }) => {
         <div className={styles.body}>
           <label>
             <strong>Nombre:</strong>
-            <input
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              disabled={!editing}
-            />
+            <input name="name" value={formData.name} onChange={handleChange} disabled={!editing} />
           </label>
           <label>
             <Mail size={16} /> <strong>Email:</strong>
@@ -104,7 +99,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onClose }) => {
             <MapPin size={16} /> <strong>Ubicación:</strong> {/* Nueva sección para ubicación */}
             <input
               name="location"
-              value={formData.location || ""}
+              value={formData.location || ''}
               onChange={handleChange}
               disabled={!editing}
               placeholder="Introduce tu ubicación"

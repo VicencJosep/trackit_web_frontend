@@ -3,7 +3,7 @@ import {
   assignPacketToDelivery,
   getAllPackets,
   getUserByPacketId,
-  updatePacketStatus
+  updatePacketStatus,
 } from '../../services/user.service';
 import styles from './PacketsList.module.css';
 import { Packet, User } from '../../types';
@@ -17,7 +17,7 @@ function parseJwt(token: string) {
       atob(base64)
         .split('')
         .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
-        .join('')
+        .join(''),
     );
 
     return JSON.parse(jsonPayload);
@@ -41,7 +41,7 @@ const PacketsList: React.FC<PacketsListProps> = ({ onPacketAdded }) => {
       try {
         const allPackets = await getAllPackets();
         // Filtrar solo los que estén en almacén
-        const filtered = allPackets.filter(packet => packet.status === 'almacén');
+        const filtered = allPackets.filter((packet) => packet.status === 'almacén');
         setPackets(filtered);
       } catch (err) {
         setError('Error cargando los paquetes.');
@@ -71,7 +71,7 @@ const PacketsList: React.FC<PacketsListProps> = ({ onPacketAdded }) => {
 
     try {
       await assignPacketToDelivery(userId, packetId);
-      const packetToUpdate = packets.find(p => p._id === packetId);
+      const packetToUpdate = packets.find((p) => p._id === packetId);
 
       if (!packetToUpdate) {
         setError('Paquete no encontrado en la lista.');
@@ -79,12 +79,12 @@ const PacketsList: React.FC<PacketsListProps> = ({ onPacketAdded }) => {
       }
 
       // Actualizar status a "en reparto"
-      await updatePacketStatus({ ...packetToUpdate, status: 'en reparto',deliveryId: userId });
+      await updatePacketStatus({ ...packetToUpdate, status: 'en reparto', deliveryId: userId });
       const client: User = await getUserByPacketId(packetId); // Asegurarse de que el usuario se actualice correctamente
       socket.emit('packetAssigned', packetToUpdate, client); // Notificar al servidor
 
       // Eliminar de la lista los que se han asignado
-      setPackets(prev => prev.filter(p => p._id !== packetId));
+      setPackets((prev) => prev.filter((p) => p._id !== packetId));
 
       if (onPacketAdded) {
         onPacketAdded(); // Llama a la función para actualizar la lista en HomeDelivery
@@ -103,12 +103,12 @@ const PacketsList: React.FC<PacketsListProps> = ({ onPacketAdded }) => {
         <p>No hay paquetes disponibles en almacén.</p>
       ) : (
         <ul className={styles.list}>
-          {packets.map(packet => (
+          {packets.map((packet) => (
             <li key={packet._id} className={styles.item}>
               <span>
                 <strong>Nombre:</strong> {packet.name} <br />
                 <strong>Descripción:</strong> {packet.description} <br />
-                <strong>Destino:</strong> {packet.destination ?? "No especificado"}
+                <strong>Destino:</strong> {packet.destination ?? 'No especificado'}
               </span>
               <button onClick={() => handleAssign(packet._id!)}>Añadir a la cola</button>
             </li>

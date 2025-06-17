@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchContacts, fetchMessages } from '../../services/message.service';
 import { Message, User } from '../../types';
 import styles from './ContactList.module.css';
-import { useTranslation } from "react-i18next"; // Añade esto
+import { useTranslation } from 'react-i18next'; // Añade esto
 import { socket } from '../../socket';
 
 interface ContactListProps {
@@ -33,24 +33,28 @@ const ContactList: React.FC<ContactListProps> = ({ currentUserId, onMessagesFetc
   const handleOpenChat = async (contact: User) => {
     if (contact.id) {
       const data = await fetchMessages(currentUserId, contact.id);
-      socket.emit('messages_seen');  
+      socket.emit('messages_seen');
       onMessagesFetched(data, contact);
     } else {
       console.error('Contact ID is undefined');
     }
   };
   if (loading) {
-    return <div className={styles.loading}>{String(t("contactList.loading"))}</div>;
+    return <div className={styles.loading}>{String(t('contactList.loading'))}</div>;
   }
 
   return (
     <div className={styles.sidebar}>
       <div className={styles.header}>
-        <h2 className={styles.title}>{String(t("contactList.title"))}</h2>
+        <h2 className={styles.title}>{String(t('contactList.title'))}</h2>
       </div>
       <ul className={styles.contactList}>
         {contacts.map((contact) => (
-          <li key={contact.id} className={styles.contactItem} onClick={() => contact.id && handleOpenChat(contact)}>
+          <li
+            key={contact.id}
+            className={styles.contactItem}
+            onClick={() => contact.id && handleOpenChat(contact)}
+          >
             <div className={styles.avatar}>{contact.name[0]}</div>
             <span className={styles.name}>{contact.name}</span>
           </li>
@@ -61,4 +65,3 @@ const ContactList: React.FC<ContactListProps> = ({ currentUserId, onMessagesFetc
 };
 
 export default ContactList;
-

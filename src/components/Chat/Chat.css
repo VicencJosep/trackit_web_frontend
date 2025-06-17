@@ -33,7 +33,6 @@ body {
   height: 100%; /* Ocupa toda la altura del contenedor padre */
   width: 100%; /* Limita el ancho máximo */
   overflow: hidden; /* Evita scrollbars innecesarios */
-
 }
 
 .chat-box {
@@ -49,7 +48,9 @@ body {
 
 .chat-body {
   flex: none; /* Evita que crezca dinámicamente */
-  height: calc(100vh - 150px); /* Ajusta la altura restando el espacio ocupado por el header y el footer */
+  height: calc(
+    100vh - 150px
+  ); /* Ajusta la altura restando el espacio ocupado por el header y el footer */
   overflow-y: auto; /* Habilita el scroll vertical si el contenido excede el espacio */
   padding: 10px;
   background-color: #fef9f4;

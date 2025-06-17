@@ -19,7 +19,7 @@ api.interceptors.request.use(
     }
     return config;
   },
-  (error: AxiosError) => Promise.reject(error)
+  (error: AxiosError) => Promise.reject(error),
 );
 
 // Interceptor para refrescar el token si da 401
@@ -37,10 +37,9 @@ api.interceptors.response.use(
         }
 
         // Usar la variable de entorno para la URL del refresh
-        const res = await axios.post(
-          `${process.env.REACT_APP_BACKEND_URL}/api/auth/refresh`,
-          { refreshToken }
-        );
+        const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/refresh`, {
+          refreshToken,
+        });
 
         const { accessToken } = res.data as { accessToken: string };
 
@@ -59,7 +58,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;

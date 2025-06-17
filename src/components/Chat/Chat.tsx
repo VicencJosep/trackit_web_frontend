@@ -2,33 +2,30 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './Chat.css';
 import { useLocation } from 'react-router-dom';
-import { Message, User } from "../../types/index"; // Importamos el tipo User
+import { Message, User } from '../../types/index'; // Importamos el tipo User
 import ContactList from '../ContactList/ContactList';
 import { socket } from '../../socket';
 import { fetchMessages } from '../../services/message.service';
 
 const Chat: React.FC = () => {
   const location = useLocation();
-  const user = location.state?.user as User; // Accede al usuario pasado por navigate  
+  const user = location.state?.user as User; // Accede al usuario pasado por navigate
   const delivery = location.state?.contact as User; // Accede al contacto pasado por navigate
   const [currentMessage, setCurrentMessage] = useState('');
   const [messageList, setMessageList] = useState<Message[]>([]);
   const [showChat, setShowChat] = useState(false);
-  const [contact, setContact] = useState<User|null>(null);
+  const [contact, setContact] = useState<User | null>(null);
   const chatBodyRef = useRef<HTMLDivElement>(null);
   const [roomId, setRoomId] = useState<string | null>(null);
-
-
 
   useEffect(() => {
     const fetchAndSetMessages = async () => {
       if (delivery) {
         setContact(delivery);
-        setShowChat(true);   
+        setShowChat(true);
         const data = await fetchMessages(user.id || '', delivery._id || '');
-        setMessageList(data);   
-      }
-      else{
+        setMessageList(data);
+      } else {
         console.error('No se encontró el contacto de entrega en el estado de ubicación');
       }
     };
@@ -39,17 +36,16 @@ const Chat: React.FC = () => {
       console.log('Nuevo contact:', contact);
     }
   }, [contact]);
-  
+
   const handleMessages = (newMessages: Message[], contact: User) => {
     console.log('Mensajes recibidos:', newMessages);
     setMessageList(newMessages);
     setContact(contact);
     setShowChat(true);
-
   };
   useEffect(() => {
     if (messageList.length > 0) {
-      setRoomId(messageList[0].roomId); // Usa `newMessages` directamente      
+      setRoomId(messageList[0].roomId); // Usa `newMessages` directamente
     } else {
       console.error('No se encontraron mensajes para establecer el roomId');
     }
@@ -57,7 +53,7 @@ const Chat: React.FC = () => {
   useEffect(() => {
     const handleReceiveMessage = (data: Message) => {
       console.log('[Cliente] Mensaje recibido:', data);
-      setMessageList(prev => [...prev, data]);
+      setMessageList((prev) => [...prev, data]);
     };
 
     socket.on('receive_message', handleReceiveMessage);
@@ -68,7 +64,6 @@ const Chat: React.FC = () => {
   }, []);
 
   useEffect(() => {
-
     socket.on('status', (data) => {
       console.debug('Estado recibido:', data);
       if (data.status === 'unauthorized') {
@@ -80,7 +75,6 @@ const Chat: React.FC = () => {
       console.log('Limpiando socket');
       // socketRef.current?.disconnect();
     };
-    
   }, []);
 
   useEffect(() => {
@@ -88,7 +82,7 @@ const Chat: React.FC = () => {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
     }
   }, [messageList]);
-  
+
   const sendMessage = async () => {
     if (currentMessage !== '') {
       const messageData: Message = {
@@ -131,9 +125,7 @@ const Chat: React.FC = () => {
   }, [roomId]);
   return (
     <div className="chat-layout">
-      {user.id && 
-        <ContactList currentUserId={user.id} onMessagesFetched={handleMessages}/>
-      }
+      {user.id && <ContactList currentUserId={user.id} onMessagesFetched={handleMessages} />}
       <div className="chat-container">
         {!showChat ? (
           <div className="chat-placeholder">Selecciona un contacto</div>
@@ -150,9 +142,14 @@ const Chat: React.FC = () => {
                     <p>{msg.content}</p>
                     <div className="meta">
                       <span>
-                          {msg.senderId === user.id ? user.name : contact?.name || 'Unknown'}
+                        {msg.senderId === user.id ? user.name : contact?.name || 'Unknown'}
                       </span>
-                      <span>{new Date(msg.created).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                      <span>
+                        {new Date(msg.created).toLocaleTimeString([], {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -164,7 +161,8 @@ const Chat: React.FC = () => {
                 placeholder="Escribe tu mensaje..."
                 value={currentMessage}
                 onChange={(e) => setCurrentMessage(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && sendMessage()} />
+                onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+              />
               <button onClick={sendMessage}>Enviar</button>
             </div>
           </div>
@@ -172,7 +170,6 @@ const Chat: React.FC = () => {
       </div>
     </div>
   );
-
 };
 
 export default Chat;

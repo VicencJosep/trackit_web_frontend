@@ -1,5 +1,5 @@
 {
-    "language": {
+  "language": {
     "label": "Language",
     "desc": "Select your preferred language.",
     "spanish": "Spanish",
@@ -54,7 +54,7 @@
     "logout": "Logout",
     "home": "Home",
     "chat": "Chat",
-     "delivery": "Delivery Info",
+    "delivery": "Delivery Info",
     "subtitle": "Messaging that never loses its way"
   },
   "store": {
@@ -73,13 +73,13 @@
     "accept": "Accept",
     "cancel": "Cancel"
   },
-   "delivery": {
+  "delivery": {
     "title": "Packages Out for Delivery",
     "loading": "Loading packages...",
     "empty": "You have no packages out for delivery.",
     "description": "Description"
   },
-   "contactList": {
+  "contactList": {
     "title": "Contacts",
     "loading": "Loading contacts..."
   },
@@ -99,44 +99,43 @@
     "invalidDate": "The delivery date cannot be before the creation date."
   },
   "homeDelivery": {
-  "title": "Delivery Dashboard",
-  "subtitle": "Manage your packages and optimize your delivery route",
-  "inQueue": "In Queue",
-  "estimatedTime": "Est. Time",
-  "distance": "Distance",
-  "warehouseTitle": "Packages in warehouse",
-  "queueTitle": "Delivery Queue",
-  "cancel": "Cancel",
-  "save": "Save",
-  "saving": "Saving...",
-  "reorder": "Reorder",
-  "noPackets": "No packages in queue",
-  "noPacketsDesc": "Assigned packages will appear here",
-  "next": "Next",
-  "notSpecified": "Not specified",
-  "moveUp": "Move up",
-  "moveDown": "Move down",
-  "optimizedRoute": "Optimized Route",
-  "optimizeRoute": "Optimize Route",
-  "routeInfo": "Route information",
-  "errorRouteMetrics": "Error calculating route metrics.",
-  "errorUserNotFound": "User not found.",
-  "errorInvalidData": "Cannot calculate optimized route due to invalid data.",
-  "optimizedSuccess": "Route optimized successfully!",
-  "errorOptimizingRoute": "Error optimizing route.",
-  "errorLoadingData": "Error loading data",
-  "saveOrderSuccess": "Package order updated successfully!",
-  "errorSaveOrder": "Error updating package order.",
-  "errorRefreshingPackets": "Error refreshing packages",
-  "loadingDashboard": "Loading dashboard..."
-},
-"historial": {
-  "title": "Delivery History",
-  "subtitle": "Check here all the packages that have already been delivered.",
-  "empty": "No delivered packages.",
-  "createdAt": "Created",
-  "deliveredAt": "Delivered",
-  "noDate": "N/A"
-}
-  
+    "title": "Delivery Dashboard",
+    "subtitle": "Manage your packages and optimize your delivery route",
+    "inQueue": "In Queue",
+    "estimatedTime": "Est. Time",
+    "distance": "Distance",
+    "warehouseTitle": "Packages in warehouse",
+    "queueTitle": "Delivery Queue",
+    "cancel": "Cancel",
+    "save": "Save",
+    "saving": "Saving...",
+    "reorder": "Reorder",
+    "noPackets": "No packages in queue",
+    "noPacketsDesc": "Assigned packages will appear here",
+    "next": "Next",
+    "notSpecified": "Not specified",
+    "moveUp": "Move up",
+    "moveDown": "Move down",
+    "optimizedRoute": "Optimized Route",
+    "optimizeRoute": "Optimize Route",
+    "routeInfo": "Route information",
+    "errorRouteMetrics": "Error calculating route metrics.",
+    "errorUserNotFound": "User not found.",
+    "errorInvalidData": "Cannot calculate optimized route due to invalid data.",
+    "optimizedSuccess": "Route optimized successfully!",
+    "errorOptimizingRoute": "Error optimizing route.",
+    "errorLoadingData": "Error loading data",
+    "saveOrderSuccess": "Package order updated successfully!",
+    "errorSaveOrder": "Error updating package order.",
+    "errorRefreshingPackets": "Error refreshing packages",
+    "loadingDashboard": "Loading dashboard..."
+  },
+  "historial": {
+    "title": "Delivery History",
+    "subtitle": "Check here all the packages that have already been delivered.",
+    "empty": "No delivered packages.",
+    "createdAt": "Created",
+    "deliveredAt": "Delivered",
+    "noDate": "N/A"
+  }
 }

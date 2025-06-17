@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import styles from './Box.module.css';
-import { getAssignedPackets, GetOptimizedRoute, updateDeliveryQueue } from '../../services/user.service';
+import {
+  getAssignedPackets,
+  GetOptimizedRoute,
+  updateDeliveryQueue,
+} from '../../services/user.service';
 import { Packet } from '../../types';
-import { useTranslation } from "react-i18next"; // Añade esto
-
+import { useTranslation } from 'react-i18next'; // Añade esto
 
 interface PacketsToDeliverBoxProps {
   user: {
@@ -48,38 +51,38 @@ const PacketsToDeliverBox: React.FC<PacketsToDeliverBoxProps> = ({ user, onPacke
     alert(`Has seleccionado el paquete: ${pkg.name} (ID: ${pkg._id})`);
   };
 
- return (
-  <div className={styles.mainWrapper} style={{ display: 'flex', gap: 32 }}>
-    {/* Contenedor de ruta optimizada (derecha) */}
-    <div className={styles.optimizedRouteSection} style={{ flex: 1 }}>
-      {(!loading && optimizedRoute.length > 0) && (
-        <>
-          {/* Se elimina el título redundante */}
-          <ol className={styles.routeList}>
-            {optimizedRoute.map((pkg, idx) => (
-              <li
-                key={pkg._id}
-                className={styles.packageCard}
-                onClick={() => handlePackageClick(pkg)}
-                style={{ marginBottom: 16 }}
-              >
-                <div>
-                  <strong>#{idx + 1}</strong> - <span>{pkg.destination}</span>
-                </div>
-                <div>
-                  <span className={styles.packageTitle}>{pkg.name}</span>
-                </div>
-                <div className={styles.packageInfo}>
-                  {String(t("warehouse.description"))}: {pkg.description}
-                </div>
-              </li>
-            ))}
-          </ol>
-        </>
-      )}
+  return (
+    <div className={styles.mainWrapper} style={{ display: 'flex', gap: 32 }}>
+      {/* Contenedor de ruta optimizada (derecha) */}
+      <div className={styles.optimizedRouteSection} style={{ flex: 1 }}>
+        {!loading && optimizedRoute.length > 0 && (
+          <>
+            {/* Se elimina el título redundante */}
+            <ol className={styles.routeList}>
+              {optimizedRoute.map((pkg, idx) => (
+                <li
+                  key={pkg._id}
+                  className={styles.packageCard}
+                  onClick={() => handlePackageClick(pkg)}
+                  style={{ marginBottom: 16 }}
+                >
+                  <div>
+                    <strong>#{idx + 1}</strong> - <span>{pkg.destination}</span>
+                  </div>
+                  <div>
+                    <span className={styles.packageTitle}>{pkg.name}</span>
+                  </div>
+                  <div className={styles.packageInfo}>
+                    {String(t('warehouse.description'))}: {pkg.description}
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </>
+        )}
+      </div>
     </div>
-  </div>
-);};
+  );
+};
 
 export default PacketsToDeliverBox;
-

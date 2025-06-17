@@ -1,1 +1,1 @@
-export {default} from './DigitalAwareness';
+export { default } from './DigitalAwareness';

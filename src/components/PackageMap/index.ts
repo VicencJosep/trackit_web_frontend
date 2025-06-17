@@ -1,1 +1,1 @@
-export {default} from './PackageMap';
+export { default } from './PackageMap';
